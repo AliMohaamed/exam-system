@@ -1,0 +1,26 @@
+.card {
+    background: white;
+    border-radius: 16px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
+    padding: 20px;
+    width: 500px;
+    height: 250px;
+    font-size: 18px;
+}
+
+.header {
+    display: flex;
+    justify-content: space-between;
+    font-family: sans-serif;
+}
+
+.label {
+    color: #8b8787;
+    text-transform: capitalize;
+    margin-bottom: 80px;
+}
+
+.value {
+    font-weight: bold;
+    color: #333;
+}

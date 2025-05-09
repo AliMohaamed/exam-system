@@ -1,0 +1,12 @@
+section {
+    width: 90%;
+    margin: auto;
+    h5{
+        font-size: 20px;
+        font-weight: 700;
+    }
+    p{
+        font-size: 14px;
+        color: rgb(180, 178, 178);
+    }
+}

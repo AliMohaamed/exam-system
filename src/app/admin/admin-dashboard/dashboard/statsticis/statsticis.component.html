@@ -1,0 +1,9 @@
+<div class="card">
+    <div class="header">
+        <span class="label">{{ label }}</span>
+        <span class="value">{{ value }}</span>
+    </div>
+    <apx-chart [series]="chartOptions.series" [chart]="chartOptions.chart" [plotOptions]="chartOptions.plotOptions"
+        [xaxis]="chartOptions.xaxis" [fill]="chartOptions.fill" [colors]="chartOptions.colors">
+    </apx-chart>
+</div>

@@ -1,9 +1,10 @@
 import { Component } from '@angular/core';
-import { RouterOutlet } from '@angular/router';
+import { AdminDashboardComponent } from "./admin/admin-dashboard/admin-dashboard.component";
+import { NgApexchartsModule } from "ng-apexcharts";
 
 @Component({
   selector: 'app-root',
-  imports: [RouterOutlet],
+  imports: [AdminDashboardComponent,NgApexchartsModule],
   templateUrl: './app.component.html',
   styleUrl: './app.component.css'
 })

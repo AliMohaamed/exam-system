@@ -1,0 +1,14 @@
+header {
+    width: 90%;
+    margin: auto;
+
+    img {
+        height: 50px;
+        width: 50px;
+        border-radius: 50%;
+    }
+
+    i{
+        font-size: 25px;
+    }
+}
