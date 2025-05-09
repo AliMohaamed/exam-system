@@ -1,0 +1,118 @@
+
+<div class="container">
+    <div class="login-card">
+        <div class="login-content">
+            <h1>Lets Register Account</h1>
+            <p class="welcome-text">Hello user , you have</p>
+            <p class="welcome-text mb-30">a greatful journey</p>
+
+            <form [formGroup]="productForm" (ngSubmit)="onSubmit()">
+                <div class="login-form">
+
+                    <div class="input-group">
+                        <input type="text" name="fnmae" formControlName="fname" autocomplete="off"
+                            placeholder="First Name" />
+                        
+                        @if(getFname?.touched && getFname?.invalid){
+                            @if(getFname?.hasError('required')){
+                                <p class="paner">
+                                    First name is required
+                                </p>
+                            }
+                            @else if (getFname?.hasError('pattern')) {
+                                <p class="paner">
+                                    Name must contain only English letters and spaces, between 2 and 50 characters.
+                                </p>
+                            }
+                        }
+                    </div>
+
+                    <div class="input-group">
+                        <input type="text" name="lnmae" formControlName="lname" autocomplete="off"
+                            placeholder="Last Name" />
+                        
+                        @if(getLname?.touched && getLname?.invalid){
+                            @if(getLname?.hasError('required')){
+                                <p class="paner">
+                                    Last name is required
+                                </p>
+                            }
+                            @else if (getLname?.hasError('pattern')) {
+                                <p class="paner">
+                                    Name must contain only English letters and spaces, between 2 and 50 characters.
+                                </p>
+                            }
+                        }
+                    </div>
+
+                    <div class="input-group">
+                        <input type="text" name="phone" formControlName="phone" autocomplete="off"
+                            placeholder="Phone" />
+                        
+                        @if(getPhone?.touched && getPhone?.invalid){
+                            @if(getPhone?.hasError('required')){
+                                <p class="paner">
+                                    Phone is required
+                                </p>
+                            }
+                            @else if (getPhone?.hasError('pattern')) {
+                                <p class="paner">
+                                    Phone number must be a valid Egyptian number starting with 010, 011, 012, or 015 and contain 11 digits.
+                                </p>
+                            }
+                        }
+                    </div>
+
+                    <div class="input-group">
+                        <input type="email" name="email" formControlName="email" autocomplete="off"
+                            placeholder="Email" />
+                        
+                        @if(getEmail?.touched && getEmail?.invalid){
+                            @if(getEmail?.hasError('required')){
+                                <p class="paner">
+                                    Email is required
+                                </p>
+                            }
+                            @else if (getEmail?.hasError('invalidEmail')) {
+                                <p class="paner">
+                                    Invalid email format
+                                </p>
+                            }
+                        }
+                    </div>
+
+                    <div style="margin-bottom: 0px;" class="input-group">
+                        <input [type]="hidePassword ? 'password' : 'text'"
+                            name="password" formControlName="password"
+                            placeholder="Password" />
+
+                        <span class="password-toggle"
+                            (click)="togglePasswordVisibility()">
+                            <i class="fa"
+                                [ngClass]="hidePassword ? 'fa-eye' : 'fa-eye-slash'"></i>
+                        </span>
+                    </div>
+                    @if(getPassword?.touched && getPassword?.invalid){
+                            @if(getPassword?.hasError('required')){
+                                <p class="paner">
+                                    Password is required
+                                </p>
+                            }
+                            @else if (getPassword?.hasError('pattern')) {
+                                <p class="paner">
+                                    Password must be at least 8 characters, include uppercase, lowercase, number, and special character
+                                </p>
+                            }
+                    }
+
+                    <button type="submit" class="sign-up-btn">Sign Up</button>
+                </div>
+            </form>
+
+
+            <div class="register-link">
+                <p>Already have an account? <a (click)="Login()">Login</a></p>
+            </div>
+        </div>
+    </div>
+</div>

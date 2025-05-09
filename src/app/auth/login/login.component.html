@@ -1,0 +1,83 @@
+
+<div class="container">
+    <div class="login-card">
+        <div class="login-content">
+            <h1>Lets Sign you in</h1>
+            <p class="welcome-text">Welcome Back ,</p>
+            <p class="welcome-text mb-30">You have been missed</p>
+
+            <form [formGroup]="productForm" (ngSubmit)="onSubmit()">
+                <div class="login-form">
+                    <div class="input-group">
+                        <input type="email" name="email" formControlName="email" autocomplete="off"
+                            placeholder="Email" />
+                        
+                        @if(getEmail?.touched && getEmail?.invalid){
+                            @if(getEmail?.hasError('required')){
+                                <p class="paner">
+                                    Email is required
+                                </p>
+                            }
+                            @else if (getEmail?.hasError('invalidEmail')) {
+                                <p class="paner">
+                                    Invalid email format
+                                </p>
+                            }
+                        }
+                    </div>
+
+                    <div style="margin-bottom: 0px;" class="input-group">
+                        <input [type]="hidePassword ? 'password' : 'text'"
+                            name="password" formControlName="password"
+                            placeholder="Password" />
+
+                        <span class="password-toggle"
+                            (click)="togglePasswordVisibility()">
+                            <i class="fa"
+                                [ngClass]="hidePassword ? 'fa-eye' : 'fa-eye-slash'"></i>
+                        </span>
+                    </div>
+                    @if(getPassword?.touched && getPassword?.invalid){
+                            @if(getPassword?.hasError('required')){
+                                <p class="paner">
+                                    Password is required
+                                </p>
+                            }
+                            @else if (getPassword?.hasError('pattern')) {
+                                <p class="paner">
+                                    Password must be at least 8 characters, include uppercase, lowercase, number, and special character
+                                </p>
+                            }
+                    }
+
+                    <div class="forgot-password">
+                        <a (click)="forgotPassword()">Forgot Password?</a>
+                    </div>
+
+                    <button type="submit" class="sign-in-btn">Sign in</button>
+                </div>
+            </form>
+
+            <div class="divider">
+                <span>or</span>
+            </div>
+
+            <div class="social-login">
+                <button class="social-btn google">
+                    <i class="fa-brands fa-google"></i>
+                </button>
+                <button class="social-btn facebook">
+                    <i class="fab fa-facebook-f"></i>
+                </button>
+                <button class="social-btn apple">
+                    <i class="fab fa-apple"></i>
+                </button>
+            </div>
+
+            <div class="register-link">
+                <p>Don't have an account? <a (click)="registerNow()">Register
+                        Now</a></p>
+            </div>
+        </div>
+    </div>
+</div>
