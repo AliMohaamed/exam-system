@@ -2,9 +2,9 @@ import { Component, Input, OnInit } from '@angular/core';
 import {
   ApexAxisChartSeries,
   ApexChart,
+  ApexFill,
   ApexPlotOptions,
   ApexXAxis,
-  ApexFill,
   NgApexchartsModule
 } from 'ng-apexcharts';
 

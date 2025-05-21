@@ -15,18 +15,23 @@
 
 .side-data {
     margin-top: 50px;
-    color: white;
-    font-size: 16px;
     height: 78%;
-    p {
+    a {
         font-family: 'Poppins';
         font-weight: 400;
         line-height: 24px;
         height: 69.83px;
         margin-bottom: 0;
-        i{
+        cursor: pointer;
+        color: white;
+        font-size: 16px;
+        text-decoration: none;
+        i {
             font-size: 25px;
         }
     }
+}
 
+.side-data a:hover,.active-link {
+    background-color: #b3afe242;
 }

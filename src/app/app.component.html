@@ -1,1 +1,9 @@
-<app-admin-dashboard></app-admin-dashboard>
+<div class="d-flex">
+  <app-sidebar></app-sidebar>
+  <div class="container">
+    <app-nav-top></app-nav-top>
+    <main class="content p-3" style="flex-grow: 1;">
+      <router-outlet></router-outlet>
+    </main>
+  </div>
+</div>
