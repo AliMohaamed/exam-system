@@ -24,3 +24,20 @@
     font-weight: bold;
     color: #333;
 }
+@media (max-width:840px) {
+    .card {
+    width: 400px;
+}
+}
+
+@media (max-width:465px) {
+    .card {
+    width: 300px;
+}
+}
+
+@media (max-width:350px) {
+    .card {
+    width: 200px;
+}
+}

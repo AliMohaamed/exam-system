@@ -35,7 +35,7 @@ export class StatsticisComponent implements OnInit {
     this.chartOptions = {
       series: [
         {
-          name: 'Series 1',
+          name: '',
           data: [10, 25, 20, 25, 40, 35, 40]
         }
       ],

@@ -1,0 +1,44 @@
+.form {
+    border: 1px solid #4A3AFF;
+    margin-top: 30px;
+    width: 400px;
+
+    h4 {
+        color: #4A3AFF;
+    }
+}
+
+form {
+    label {
+        color: rgb(99, 94, 94);
+    }
+
+    input {
+        border: 1px solid rgb(192, 189, 189);
+    }
+
+    select option:hover {
+        background-color: #4A3AFF;
+    }
+
+    .buttons {
+        button {
+            width: 80px;
+        }
+
+        .add {
+            background-color: #4A3AFF;
+        }
+    }
+}
+
+form select:focus,form input:focus {
+    box-shadow: 0 0 3px 1px #4A3AFF;
+    border: 1px solid #4A3AFF;
+    outline: none;
+}
+
+small{
+    color: red;
+    margin: 8px 0px;
+}

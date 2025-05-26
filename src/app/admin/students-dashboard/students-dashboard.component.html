@@ -1,33 +1,49 @@
-<section>
-    <h4 class="w-75 mx-auto mt-4 mb-5">Students</h4>
-    <table class="table text-center w-75 m-auto shadow-lg rounded-4 overflow-hidden">
-        <thead>
-            <tr>
-                <th scope="col" class="pt-5 mx-2">Id</th>
-                <th scope="col" class="pt-5 mx-2">Name</th>
-                <th scope="col" class="pt-5 mx-2">Exam</th>
-                <th scope="col" class="pt-5 mx-2">Degree</th>
-                <th scope="col" class="pt-5 mx-2" style="width: 100px; text-align: center;">Actions</th>
-            </tr>
-        </thead>
-        <tbody>
-            @for (student of students; track $index) {
-            <tr>
-                <td class="py-3 mx-2">{{student.id}}</td>
-                <td class="py-3 mx-2">{{student.name}}</td>
-                <td class="py-3 mx-2">{{student.exam}}</td>
-                <td class="py-3 mx-2">{{student.degree}}</td>
-                <td class="py-3 mx-2" class="text-center">
-                    <button class="btn btn-sm btn-primary me-2" title="Edit">
-                        <i class="bi bi-pencil"></i>
-                    </button>
-                    <button class="btn btn-sm btn-danger me-2" title="Delete" (click)="deleteStudent(student.id)">
-                        <i class="bi bi-trash"></i>
-                    </button>
-                </td>
-            </tr>
-            }
-        </tbody>
-    </table>
+@if(showMessage){
+<app-title [text]="'Student deleted successfully!'"></app-title>
+}
 
-</section>
+@if (isLoading) {
+    <app-loading />
+}
+@else{
+    <section class="container">
+        <h4 class="mx-4 mt-4 mb-5" style="color: #4A3AFF;">Students</h4>
+        <table class="table text-center m-auto shadow-lg rounded-4 overflow-hidden">
+            <thead>
+                <tr>
+                    <th scope="col-3" class="pt-5">Name</th>
+                    <th scope="col-2" class="pt-5">Level</th>
+                    <th scope="col-3" class="pt-5">Exams</th>
+                    <th scope="col-2" class="pt-5">Degrees</th>
+                    <th scope="col-2" class="pt-5" style="width: 100px; text-align: center;">Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                @for (student of students; track $index) {
+                <tr>
+                    <td class="py-3 col-3">{{student.name}}</td>
+                    <td class="py-3 col-2">{{student.level}}</td>
+                    <td class="py-3 col-3">{{student.exam}}</td>
+                    <td class="py-3 col-2">{{student.degree}}</td>
+                    <td class="py-3 col-2 text-center">
+                        <button class="btn btn-sm btn-warning me-2" title="view" [routerLink]="['/students', student._id]">
+                            <i class="bi bi-eye"></i>
+                        </button>
+                        <button class="btn btn-sm btn-primary me-2" title="Edit"
+                            [routerLink]="['/students/edit', student._id]">
+                            <i class="bi bi-pencil"></i>
+                        </button>
+                        <button class="btn btn-sm btn-danger me-2" (click)="deleteStudent(student._id)" title="Delete">
+                            <i class="bi bi-trash"></i>
+                        </button>
+                    </td>
+                </tr>
+                }
+            </tbody>
+        </table>
+        <button class="m-4 add-student">
+            <i class="bi bi-plus fs-5 text-light"></i>
+            <span class="ms-2" [routerLink]="['/students/edit/0']">Add new student</span>
+        </button>
+    </section>
+}

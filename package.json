@@ -23,6 +23,7 @@
     "apexcharts": "^4.7.0",
     "bootstrap": "^5.3.6",
     "bootstrap-icons": "^1.12.1",
+    "esbuild": "^0.25.4",
     "express": "^4.18.2",
     "ng-apexcharts": "^1.15.0",
     "rxjs": "~7.8.0",

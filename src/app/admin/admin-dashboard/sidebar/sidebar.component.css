@@ -16,6 +16,7 @@
 .side-data {
     margin-top: 50px;
     height: 78%;
+
     a {
         font-family: 'Poppins';
         font-weight: 400;
@@ -26,12 +27,43 @@
         color: white;
         font-size: 16px;
         text-decoration: none;
+        width: 100%;
+
         i {
             font-size: 25px;
         }
     }
 }
 
-.side-data a:hover,.active-link {
+.side-data a:hover,
+.active-link {
     background-color: #b3afe242;
+}
+
+@media (max-width: 768px) {
+    .side-nav {
+        width: 100vw;
+        height: auto;
+    }
+
+    .side-data {
+        height: auto;
+        flex-direction: row;
+        flex-wrap: wrap;
+    }
+
+
+    .side-data a {
+        display: flex;
+        padding: 10px 15px;
+        height: auto;
+        text-align: center;
+        white-space: nowrap;
+        margin: 5px;
+        width: 160px;
+    }
+
+    .logo {
+        display: none;
+    }
 }

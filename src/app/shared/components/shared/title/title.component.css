@@ -1,0 +1,32 @@
+p {
+    background-color: rgb(26, 167, 26);
+    color: white;
+    position: fixed;
+    padding: 5px 30px;
+    right: 0;
+    top: 20%;
+    z-index: 999;
+    animation: fadeInOut 2s ease-in-out;
+}
+
+@keyframes fadeInOut {
+    0% {
+        opacity: 0;
+        transform: translateX(10%);
+    }
+
+    10% {
+        opacity: 1;
+        transform: translateX(0);
+    }
+
+    90% {
+        opacity: 1;
+        transform: translateX(0);
+    }
+
+    100% {
+        opacity: 0;
+        transform: translateX(10%);
+    }
+}
