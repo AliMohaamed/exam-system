@@ -1,0 +1,25 @@
+@if (isLoading) {
+    <app-loading/>
+}
+@else {
+    <section class="d-flex justify-content-center" style="margin-top: 100px;">
+<div class="card">
+    <div class="top d-flex py-4 px-4 text-light">
+        <img [src]="student?.profileImage?.secure_url" alt="student image" width="70px" height="70px">
+        <div class="ms-3 mt-2">
+            <h5>{{student?.name}}</h5>
+            <p class="level">{{student?.level}}</p>
+        </div>
+    </div>
+    <div class="body p-4 fw-medium">
+        <p class="d-flex justify-content-between"><span class="label">Email: </span><span class="value">{{student?.email}}</span></p>
+        <hr>
+        <p class="d-flex justify-content-between"><span class="label">Exams who took: </span><span class="value">{{student?.exams}}</span></p>
+        <hr>
+        <p class="d-flex justify-content-between"><span class="label">Degree of Exams: </span><span class="value">{{student?.degree}}</span></p>
+    
+    </div>
+</div>
+</section>
+
+}
