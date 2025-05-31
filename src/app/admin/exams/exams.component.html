@@ -1,0 +1,573 @@
+ <app-toast-alert
+  *ngIf="showToast"
+  [message]="toastMessage"
+  [type]="toastType"
+  [duration]="3000">
+</app-toast-alert>
+ 
+ @if (isLoading) {
+<!-- <app-loading /> -->
+ <app-loading [delay]="10000"></app-loading>
+} @else{
+<section class="container container1">
+  <!-- <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 20px;">
+    <h4 style="color: #4a3aff; font-size: 25px; font-weight: bold;" >All Exams</h4>
+    <button class="m-4 add-student" (click)="showAddExamForm = true">
+      <i class="bi bi-plus fs-5 text-light"></i>
+      <span class="ms-2">Add New Exam</span>
+    </button>
+  </div>
+  <table class="table text-center m-auto shadow-lg rounded-4 overflow-hidden">
+    <thead>
+      <tr>
+        <th scope="col-3" class="pt-5">subject</th>
+        <th scope="col-2" class="pt-5">description</th>
+        <th scope="col-3" class="pt-5">level</th>
+        <th scope="col-2" class="pt-5">duration</th>
+        <th scope="col-2" class="pt-5" style="width: 100px; text-align: center">
+          Actions
+        </th>
+      </tr>
+    </thead>
+    <tbody>
+      @for (exam of exams; track $index) {
+      <tr>
+        <td class="py-3 col-3">{{ exam.subject }}</td>
+        <td class="py-3 col-2">{{ exam.description }}</td>
+        <td class="py-3 col-3">{{ exam.level }}</td>
+        <td class="py-3 col-2">{{ exam.duration }}</td>
+        <td class="py-3 col-2 text-center">
+          <button class="btn btn-sm btn-warning me-2" title="view" (click)="openViewExam(exam)">
+            <i class="bi bi-eye"></i>
+          </button>
+          <button class="btn btn-sm btn-primary me-2" title="Edit" (click)="openEditForm(exam)">
+            <i class="bi bi-pencil"></i>
+          </button>
+          <button class="btn btn-sm btn-danger me-2" (click)="deleteExam(exam._id)" title="Delete">
+            <i class="bi bi-trash"></i>
+          </button>
+        </td>
+      </tr>
+      }
+    </tbody>
+  </table> -->
+
+  <div class="bg-particles">
+    <div class="particle"></div>
+    <div class="particle"></div>
+    <div class="particle"></div>
+    <div class="particle"></div>
+    <div class="particle"></div>
+    <div class="particle"></div>
+    <div class="particle"></div>
+    <div class="particle"></div>
+    <div class="particle"></div>
+  </div>
+
+  <div class="container">
+    <div class="header">
+      <h1 class="title">All Exams</h1>
+      <button class="add-btn" (click)="showAddExamForm = true">
+        ✨ Add New Exam
+      </button>
+    </div>
+
+    <div class="exam-grid">
+      @for (exam of exams; track $index) {
+      <div class="exam-card">
+        <div class="card-content">
+          <div>
+            <div class="subject">{{ exam.subject }}</div>
+          </div>
+          <div class="description">{{ exam.description }}</div>
+          <div class="level" [ngClass]="getLevelClass(exam.level)">{{ exam.level }}</div>
+          <div class="duration">{{ exam.duration }} min</div>
+          <div class="actions">
+            <button
+              class="action-btn view-btn"
+              title="view"
+              (click)="openViewExam(exam)"
+            >
+              👁️
+            </button>
+            <button
+              class="action-btn edit-btn"
+              title="Edit"
+              (click)="openEditForm(exam)"
+            >
+              ✏️
+            </button>
+            <button
+              class="action-btn delete-btn"
+              (click)="deleteExam(exam._id)"
+              title="Delete"
+            >
+              🗑️
+            </button>
+          </div>
+        </div>
+      </div>
+      }
+    </div>
+  </div>
+
+  <!-- Pagination Controls -->
+  <nav *ngIf="totalPages > 1" class="pagination-container">
+    <ul class="pagination">
+      <!-- Previous -->
+      <li>
+        <button
+          class="pagination-button"
+          [disabled]="currentPage === 1"
+          (click)="goToPage(currentPage - 1)"
+        >
+          &#8592; Prev
+        </button>
+      </li>
+
+      <!-- Page Numbers -->
+      <li *ngFor="let page of [].constructor(totalPages); let i = index">
+        <button
+          class="pagination-button"
+          [class.active]="currentPage === i + 1"
+          (click)="goToPage(i + 1)"
+        >
+          {{ i + 1 }}
+        </button>
+      </li>
+
+      <!-- Next -->
+      <li>
+        <button
+          class="pagination-button"
+          [disabled]="currentPage === totalPages"
+          (click)="goToPage(currentPage + 1)"
+        >
+          Next &#8594;
+        </button>
+      </li>
+    </ul>
+  </nav>
+
+  @if (showAddExamForm) {
+  <app-add-exam-form
+    (closeModal)="showAddExamForm = false"
+    (submitExam)="onAddExam($event)"
+  />
+  }
+</section>
+} @if (showEditExamForm && selectedExam) {
+<app-edit-exam-form
+  [exam]="selectedExam"
+  (closeModal)="showEditExamForm = false"
+  (submitExam)="onEditExam($event)"
+/>
+} @if (showViewExamModal && selectedExam) {
+<div class="modal-overlay">
+  <div class="modal-content rounded-4 shadow" style="max-width: 1100px">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+      <div class="model-header">
+        <h4 style="font-weight: bold;" class="m-0">Exam Details: {{ selectedExam.subject }}</h4>
+        <p>Manage your exam questions</p>
+      </div>
+      <button class="btn-close" (click)="showViewExamModal = false"></button>
+    </div>
+
+    <div class="mb-4">
+      <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 30px;">
+        <h5>Questions</h5>
+        <button class="btn btn-primary btnaddQues" (click)="showAddQuestionForm = true">
+          <i class="bi bi-plus"></i>Add Question
+        </button>
+      </div>
+      @if (selectedExam.questions && selectedExam.questions.length > 0) {
+      <div class="question-list">
+        @for (question of selectedExam.questions; track $index) {
+        <div class="question-item mb-3 p-4 border">
+          <div class="question-header1"
+          >
+            <h6>{{ question.questionText }}</h6>
+            <div class="questionBtn">
+              <button
+                class="btn btn-primary btn-sm btn5"
+                (click)="editQuestion(question, $index)"
+              >
+                <i class="bi bi-pencil"></i>
+              </button>
+              <button
+                style="margin-left: 10px"
+                class="btn btn-danger btn-sm btn5"
+                (click)="deleteQuestion(question._id)"
+              >
+                <i class="bi bi-trash"></i>
+              </button>
+            </div>
+          </div>
+          <p class="type-Questions">
+            <span class="tt">Type: {{ question.questionType }}</span>
+            <span>Points: {{ question.points }}</span>
+            <span class="dd">Difficulty: {{ question.difficulty }}</span>
+          </p>
+          @if (question.questionType === 'multiple-choice') {
+          <div class="options">
+            @for (option of question.options; track $index) {
+            <div class="form-check">
+              <input
+                class="form-check-input"
+                type="radio"
+                disabled
+                [checked]="option.isCorrect"
+              />
+              <label class="form-check-label">{{ option.text }}</label>
+            </div>
+            }
+          </div>
+          } @if (question.questionType === 'fill-blank') {
+          <div class="correct-answer">
+            <i class="bi bi-check-circle" style="color: #198754; margin-right: 11px;"></i> Correct Answer: {{ question.correctText }}
+          </div>
+          } @if (question.questionType === 'true-false') {
+          <div class="correct-answer">
+            
+            <i class="bi bi-check-circle" style="color: #198754; margin-right: 11px;"></i> Correct Answer: {{ question.correctAnswer ? "True" : "False" }}
+            
+          </div>
+          }
+        </div>
+
+        }
+
+        <div class="nav-model">
+          <nav *ngIf="totalPages > 1" class="mt-4">
+            <ul class="pagination justify-content-center">
+              <li class="page-item" [class.disabled]="currentPage === 1">
+                <button
+                  class="page-link"
+                  (click)="GotoPage(currentPage - 1)"
+                  [disabled]="currentPage === 1"
+                >
+                  Previous
+                </button>
+              </li>
+              <li
+                class="page-item"
+                *ngFor="let page of [].constructor(totalPages); let i = index"
+                [class.active]="currentPage === i + 1"
+              >
+                <button class="page-link" (click)="GotoPage(i + 1)">
+                  {{ i + 1 }}
+                </button>
+              </li>
+              <li class="page-item" [class.disabled]="currentPage === totalPages">
+                <button
+                  class="page-link"
+                  (click)="GotoPage(currentPage + 1)"
+                  [disabled]="currentPage === totalPages"
+                >
+                  Next
+                </button>
+              </li>
+            </ul>
+          </nav>
+        </div>
+      </div>
+      } @else {
+      <div class="alert alert-info">No questions available for this exam</div>
+      }
+    </div>
+
+
+    @if (showAddQuestionForm) {
+    <div class="addQuestions">
+      <div class="addQuestionsContent p-4 rounded-4 shadow">
+      <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
+        <h4 style="font-weight: bold;">Add New Question</h4>
+        <button class="btn-close" (click)="showAddQuestionForm = false"></button>
+      </div>
+      <form #questionForm="ngForm" (ngSubmit)="addQuestion()">
+        <div class="mb-3">
+          <label class="form-label">Question Text</label>
+          <input
+            type="text"
+            class="form-control"
+            [(ngModel)]="newQuestion.text"
+            name="questionText"
+            required
+          />
+        </div>
+
+        <div class="mb-3">
+          <label class="form-label">Question Type</label>
+          <select
+            class="form-select"
+            [(ngModel)]="newQuestion.type"
+            name="questionType"
+            (change)="onQuestionTypeChange()"
+          >
+            <option value="multiple-choice">Multiple Choice</option>
+            <option value="fill-blank">Fill in the Blank</option>
+            <option value="true-false">True/False</option>
+          </select>
+        </div>
+
+        @if (newQuestion.type === 'multiple-choice') {
+        <div class="mb-3">
+          <label class="form-label">Options</label>
+          @for (option of newQuestion.options; track $index) {
+          <div class="d-flex align-items-center mb-2">
+            <input
+              type="radio"
+              name="correctOption"
+              [(ngModel)]="newQuestion.correctOption"
+              [value]="option.text"
+            />
+            <input
+              type="text"
+              class="form-control ms-2"
+              [(ngModel)]="option.text"
+              [name]="'optionText' + $index"
+              required
+            />
+            <button
+              class="btn btn-sm btn-danger ms-2"
+              (click)="removeOption($index)"
+            >
+              <i class="bi bi-trash"></i>
+            </button>
+          </div>
+          }
+          <button class="btn btn-sm btn-secondary" (click)="addOption()">
+            Add Option
+          </button>
+        </div>
+        } @if (newQuestion.type === 'fill-blank') {
+        <div class="mb-3">
+          <label class="form-label">Correct Answer</label>
+          <input
+            type="text"
+            class="form-control"
+            [(ngModel)]="newQuestion.correctText"
+            name="correctText"
+            required
+            placeholder="Enter the correct answer"
+          />
+        </div>
+        } @if (newQuestion.type === 'true-false') {
+        <div class="mb-3">
+          <label class="form-label">Correct Answer</label>
+          <div class="form-check">
+            <input
+              class="form-check-input"
+              type="radio"
+              name="trueFalse"
+              [(ngModel)]="newQuestion.correctAnswer"
+              value="true"
+            />
+            <label class="form-check-label">True</label>
+          </div>
+          <div class="form-check">
+            <input
+              class="form-check-input"
+              type="radio"
+              name="trueFalse"
+              [(ngModel)]="newQuestion.correctAnswer"
+              value="false"
+            />
+            <label class="form-check-label">False</label>
+          </div>
+        </div>
+        }
+
+        <div class="row mb-3">
+          <div class="col">
+            <label class="form-label">Points</label>
+            <input
+              type="number"
+              class="form-control"
+              [(ngModel)]="newQuestion.points"
+              name="points"
+              min="1"
+            />
+          </div>
+          <div class="col">
+            <label class="form-label">Difficulty</label>
+            <select
+              class="form-select"
+              [(ngModel)]="newQuestion.difficulty"
+              name="difficulty"
+            >
+              <option value="easy">Easy</option>
+              <option value="medium">Medium</option>
+              <option value="hard">Hard</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="d-flex justify-content-end gap-2">
+          <button
+            type="button"
+            class="btn btn-secondary"
+            (click)="showAddQuestionForm = false"
+          >
+            Cancel
+          </button>
+          <button type="submit" class="btn btn-primary">
+            Add Question
+          </button>
+        </div>
+      </form>
+    </div>
+    </div>
+    }
+    
+  </div>
+</div>
+} @if (showEditQuestionForm) {
+<div class="editQuestionNgForm">
+  <div class="editQuestionNgFormContent p-4 rounded-4 shadow">
+    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
+      <h4 style="font-weight: bold;">Edit Question</h4>
+      <button class="btn-close" (click)="cancelEditQuestion()"></button>
+    </div>
+    <form #editForm="ngForm">
+      <div class="mb-3">
+        <label class="form-label">Question Text</label>
+        <input
+          type="text"
+          class="form-control"
+          [(ngModel)]="questionToEdit.questionText"
+          name="editQuestionText"
+          required
+        />
+      </div>
+
+      <div class="mb-3">
+        <label class="form-label">Question Type</label>
+        <select
+          disabled="true"
+          class="form-select"
+          [(ngModel)]="questionToEdit.questionType"
+          name="editQuestionType"
+          (change)="onEditQuestionTypeChange()"
+        >
+          <option value="multiple-choice">Multiple Choice</option>
+          <option value="fill-blank">Fill in the Blank</option>
+          <option value="true-false">True/False</option>
+        </select>
+      </div>
+
+      @if (questionToEdit.questionType === 'multiple-choice') {
+      <div class="mb-3">
+        <label class="form-label">Options</label>
+        @for (option of questionToEdit.options; track $index) {
+        <div class="d-flex align-items-center mb-2">
+          <input
+            type="radio"
+            name="editCorrectOption"
+            [(ngModel)]="questionToEdit.correctOption"
+            [value]="option.text"
+          />
+          <input
+            type="text"
+            class="form-control ms-2"
+            [(ngModel)]="option.text"
+            [name]="'editOptionText' + $index"
+          />
+          <button
+            type="button"
+            class="btn btn-sm btn-danger ms-2"
+            (click)="questionToEdit.options.splice($index, 1)"
+          >
+            Remove
+          </button>
+        </div>
+        }
+        <button
+          type="button"
+          class="btn btn-sm btn-secondary"
+          (click)="questionToEdit.options.push({ text: '', isCorrect: false })"
+        >
+          Add Option
+        </button>
+      </div>
+      } @if (questionToEdit.questionType === 'fill-blank') {
+      <div class="mb-3">
+        <label class="form-label">Correct Answer</label>
+        <input
+          type="text"
+          class="form-control"
+          [(ngModel)]="questionToEdit.correctText"
+          name="editCorrectText"
+        />
+      </div>
+      } @if (questionToEdit.questionType === 'true-false') {
+      <div class="mb-3">
+        <label class="form-label">Correct Answer</label>
+        <div class="form-check">
+          <input
+            class="form-check-input"
+            type="radio"
+            name="editTrueFalse"
+            [(ngModel)]="questionToEdit.correctAnswer"
+            [value]="true"
+          />
+          <label class="form-check-label">True</label>
+        </div>
+        <div class="form-check">
+          <input
+            class="form-check-input"
+            type="radio"
+            name="editTrueFalse"
+            [(ngModel)]="questionToEdit.correctAnswer"
+            [value]="false"
+          />
+          <label class="form-check-label">False</label>
+        </div>
+      </div>
+      }
+
+      <div class="row mb-3">
+        <div class="col">
+          <label class="form-label">Points</label>
+          <input
+            type="number"
+            class="form-control"
+            [(ngModel)]="questionToEdit.points"
+            name="editPoints"
+            min="1"
+          />
+        </div>
+        <div class="col">
+          <label class="form-label">Difficulty</label>
+          <select
+            class="form-select"
+            [(ngModel)]="questionToEdit.difficulty"
+            name="editDifficulty"
+          >
+            <option value="easy">Easy</option>
+            <option value="medium">Medium</option>
+            <option value="hard">Hard</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="d-flex justify-content-end gap-2">
+        <button
+          type="button"
+          class="btn btn-secondary"
+          (click)="cancelEditQuestion()"
+        >
+          Cancel
+        </button>
+        <button
+          type="button"
+          class="btn btn-primary"
+          (click)="saveEditedQuestion()"
+        >
+          Save
+        </button>
+      </div>
+    </form>
+  </div>
+</div>
+}

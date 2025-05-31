@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Student } from '../../../models/student';
 import { StudentsService } from '../../../services/students.service';
 import { ActivatedRoute } from '@angular/router';
-import { LoadingComponent } from "../../../shared/components/loading/loading.component";
+import { LoadingComponent } from "../../../shared/loading/loading.component";
 
 @Component({
   selector: 'app-students-details',
