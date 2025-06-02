@@ -1,0 +1,185 @@
+<div class="container py-4">
+  <h2 class="text-center mb-4">
+    <ng-container *ngIf="!selectedExamDetails">My Exam History</ng-container>
+    <ng-container *ngIf="selectedExamDetails">Exam Details</ng-container>
+  </h2>
+
+  <!-- Loading States -->
+  <div *ngIf="isLoading || isLoadingDetails" class="text-center py-5">
+    <div class="spinner-border text-primary" role="status">
+      <span class="visually-hidden">Loading...</span>
+    </div>
+    <p class="mt-3">
+      {{ isLoadingDetails ? 'Loading exam details...' : 'Loading your exam history...' }}
+    </p>
+  </div>
+
+  <!-- Error State -->
+  <div *ngIf="error" class="alert alert-danger" role="alert">
+    <i class="bi bi-exclamation-triangle me-2"></i>
+    {{ error }}
+  </div>
+
+  <!-- Exam List View -->
+  <div *ngIf="!isLoading && !error && !selectedExamDetails && examResults.length > 0" class="row g-4">
+    <div *ngFor="let result of examResults" class="col-md-6">
+      <div class="card exam-result-card h-100" [class.passed]="result.isPassed">
+        <div class="card-body">
+          <div class="result-header">
+            <h3 class="card-title">
+              {{ result.exam.subject || "Untitled Exam" }}
+            </h3>
+            <span
+              class="badge"
+              [class.bg-success]="result.isPassed"
+              [class.bg-danger]="!result.isPassed"
+            >
+              {{ result.isPassed ? "PASSED" : "FAILED" }}
+            </span>
+          </div>
+
+          <div class="score-circle">
+            <div class="percentage">
+              {{ result.percentage | number : "1.0-1" }}%
+            </div>
+            <div class="score">{{ result.totalScore }} points</div>
+          </div>
+
+          <div class="stats-grid">
+            <div class="stat-item">
+              <i class="bi bi-clock"></i>
+              <div class="stat-content">
+                <div class="stat-label">Time Spent</div>
+                <div class="stat-value">
+                  {{ getFormattedTime(result.timeSpent || 0) }}
+                </div>
+              </div>
+            </div>
+
+            <div class="stat-item">
+              <i class="bi bi-check-circle"></i>
+              <div class="stat-content">
+                <div class="stat-label">Correct Answers</div>
+                <div class="stat-value">
+                  {{ getCorrectAnswersRatio(result) }}
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="answers-preview mt-4">
+            <h6>Answer Details</h6>
+            <div class="answers-list">
+              <div
+                *ngFor="let answer of result.answers || []"
+                class="answer-item"
+              >
+                <span class="answer-status" [class.correct]="answer.isCorrect">
+                  <i
+                    class="bi"
+                    [class.bi-check-circle-fill]="answer.isCorrect"
+                    [class.bi-x-circle-fill]="!answer.isCorrect"
+                  ></i>
+                </span>
+                <span class="points">+{{ answer.pointsEarned }}</span>
+                <span class="time">{{
+                  getFormattedDate(answer.answeredAt)
+                }}</span>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="card-footer bg-transparent border-0 text-center">
+          <button class="btn btn-primary" (click)="viewExamDetails(result.attemptId)">
+            <i class="bi bi-search me-2"></i>
+            View Details
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Detailed Exam View -->
+  <div *ngIf="selectedExamDetails" class="row justify-content-center">
+    <div class="col-md-8">
+      <div class="card">
+        <div class="card-body">
+          <button class="btn btn-link mb-4" (click)="backToList()">
+            <i class="bi bi-arrow-left me-2"></i>
+            Back to List
+          </button>
+
+          <h3 class="mb-4">{{ selectedExamDetails.exam.subject }}</h3>
+          
+          <div class="exam-details">
+            <div class="row mb-4">
+              <div class="col-md-6">
+                <div class="detail-item">
+                  <span class="label">Duration:</span>
+                  <span class="value">{{ selectedExamDetails.exam.duration }} minutes</span>
+                </div>
+              </div>
+              <div class="col-md-6">
+                <div class="detail-item">
+                  <span class="label">Time Spent:</span>
+                  <span class="value">{{ getFormattedTime(selectedExamDetails.timeSpent) }}</span>
+                </div>
+              </div>
+            </div>
+
+            <div class="result-summary p-4 mb-4 rounded"
+                 [class.bg-success-subtle]="selectedExamDetails.isPassed"
+                 [class.bg-danger-subtle]="!selectedExamDetails.isPassed">
+              <div class="row align-items-center">
+                <div class="col-md-4 text-center">
+                  <div class="display-4 fw-bold">{{ selectedExamDetails.percentage }}%</div>
+                  <div class="mt-2">Final Score</div>
+                </div>
+                <div class="col-md-4 text-center">
+                  <div class="display-4 fw-bold">{{ selectedExamDetails.totalScore }}</div>
+                  <div class="mt-2">Total Points</div>
+                </div>
+                <div class="col-md-4 text-center">
+                  <div class="badge fs-5"
+                       [class.bg-success]="selectedExamDetails.isPassed"
+                       [class.bg-danger]="!selectedExamDetails.isPassed">
+                    {{ selectedExamDetails.isPassed ? 'PASSED' : 'FAILED' }}
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Answer Details -->
+            <div class="answers-section" *ngIf="selectedExamDetails.answers?.length">
+              <h4 class="mb-3">Answer Details</h4>
+              <div class="answers-list">
+                <div
+                  *ngFor="let answer of selectedExamDetails.answers"
+                  class="answer-item"
+                >
+                  <span class="answer-status" [class.correct]="answer.isCorrect">
+                    <i
+                      class="bi"
+                      [class.bi-check-circle-fill]="answer.isCorrect"
+                      [class.bi-x-circle-fill]="!answer.isCorrect"
+                    ></i>
+                  </span>
+                  <span class="points">+{{ answer.pointsEarned }}</span>
+                  <span class="time">{{
+                    getFormattedDate(answer.answeredAt)
+                  }}</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- No Results State -->
+  <div *ngIf="!isLoading && !error && examResults.length === 0" class="text-center py-5">
+    <i class="bi bi-journal-x display-4 text-muted"></i>
+    <p class="mt-3 text-muted">No exam history found.</p>
+  </div>
+</div>
