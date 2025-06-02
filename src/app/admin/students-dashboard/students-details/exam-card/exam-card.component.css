@@ -1,0 +1,59 @@
+.exam {
+    background-color: #f9fafb;
+}
+
+.card-left {
+    font-size: 13px;
+
+    .level {
+        background-color: #8f34ea39;
+        padding: 2px 12px;
+        color: #8f34ea;
+    }
+
+    .duration {
+        background-color: #5245e639;
+        color: #5245e6;
+        padding: 2px 12px;
+    }
+}
+
+.exam-data {
+    font-size: 14px;
+    gap: 100px;
+}
+
+.score {
+    color: #5245e6;
+    font-weight: 500;
+    margin-bottom: 5px;
+    padding: 5px;
+    font-size: 14px;
+}
+
+.show {
+    color: #8f34ea;
+    font-size: 15px;
+    text-decoration: none;
+}
+
+.exam-details,
+.title {
+    h5 {
+        font-size: 15px;
+    }
+
+    p {
+        font-size: 14px;
+        color: rgb(94, 94, 95);
+
+        span {
+            font-weight: 700;
+        }
+    }
+}
+
+.answers {
+    font-size: 14px;
+    color: rgb(94, 94, 95);
+}

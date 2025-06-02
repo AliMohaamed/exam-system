@@ -1,0 +1,51 @@
+@for (attempt of student?.attempts; track $index) {
+<div class="exam my-4 p-3 rounded-3">
+    <div class="d-flex justify-content-between">
+        <h4 class="fw-bold">{{attempt.exam.subject}}</h4>
+        <div class="card-left">
+            <span class="text-capitalize me-3 d-inline-block level rounded-4">{{student?.level}}</span>
+            <span class="duration d-inline-block rounded-4">{{attempt.exam.duration}}mins</span>
+        </div>
+    </div>
+    <p class="text-secondary">{{attempt.exam.description}}</p>
+    <div class="d-flex exam-data container">
+        <p><i class="bi bi-calendar me-2"></i> <span> {{ attempt.startTime | date:'MMMM d, y, h:mm a' }}</span></p>
+        <p><i class="bi bi-clock me-2"></i> <span>Time Spent: {{ formatTime(attempt.timeSpent) }}</span></p>
+        <p class="text-danger"><i class="bi bi-award me-2"></i> <span class="me-1">Score: {{attempt.totalScore}}</span>
+            <span>({{attempt.percentage|percent}})</span>
+        </p>
+    </div>
+    <p class="score">Score: {{attempt.percentage/100| percent:'1.1-1'}}</p>
+    <div class="progress" role="progressbar" aria-label="Danger example" aria-valuenow="{attempt.percentage}"
+        aria-valuemin="0" aria-valuemax="100" style="height: 10px;">
+        <div class="progress-bar text-bg-danger" [style.width.%]="attempt.percentage"></div>
+    </div>
+
+    <button class="btn btn-link show mt-2 fw-semibold ms-0" (click)="toggleDetails($index)">
+        {{ showDetails[$index] ? 'Hide Details' : 'Show Details' }}
+        <i class="bi" [ngClass]="showDetails[$index] ? 'bi-chevron-up' : 'bi-chevron-down'"></i>
+    </button>
+
+    <div *ngIf="showDetails[$index]" class="mt-3 exam-details">
+        <h5 class="mb-3">Exam Details</h5>
+        <p><span>Created by:</span> {{ attempt.exam.createdBy.name }}</p>
+        <p><span>Questions Answered:</span> {{ attempt.answers.length}}</p>
+        <p><span>Correct Answers:</span> {{getCorrectAnswersCount(attempt)}}</p>
+
+        <h6 class="mt-4 title">Answer Summary</h6>
+        @for (q of attempt.answers; track $index) {
+        <div class="bg-light rounded-3 px-3 my-3 answers">
+            <div class="d-flex justify-content-between align-items-center">
+                <div>
+                    <i class="bi bi-circle-fill text-success me-2" style="font-size: 0.6rem;"></i>
+                    <span class="mb-0 text-secondary">Answered: {{ q.answer }}</span>
+                </div>
+                <span class="text-success fw-semibold">+{{ q.pointsEarned }} points</span>
+            </div>
+            <hr [hidden]="q !== q[q.length - 1]" />
+        </div>
+        }
+    </div>
+
+</div>
+}

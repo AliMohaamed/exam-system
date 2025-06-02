@@ -3,16 +3,25 @@
     margin: auto;
 }
 
-.add-student{
+.add-student {
     padding: 6px;
     border: 1px solid hsl(245, 100%, 61%);
     background-color: white;
     border-radius: 5px;
 }
-.add-student i{
+
+.add-student i {
     background-color: hsl(245, 100%, 61%);
     font-size: 18px;
-    font-weight:bolder;
+    font-weight: bolder;
     padding: 0px 3px;
     border-radius: 50%;
+}
+
+.examsOfStudent{
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    width: 150px;
+    display: inline-block;
 }

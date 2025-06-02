@@ -1,12 +1,13 @@
 import { Component } from '@angular/core';
 import { StudentsService } from '../../services/students.service';
 import { RouterModule, Router } from '@angular/router';
-import { TitleComponent } from "../../shared/components/shared/title/title.component";
+import { TitleComponent } from "../../shared/components/title/title.component";
 import { LoadingComponent } from "../../shared/components/loading/loading.component";
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-students-dashboard',
-  imports: [RouterModule, TitleComponent, LoadingComponent],
+  imports: [RouterModule, TitleComponent, LoadingComponent, CommonModule],
   templateUrl: './students-dashboard.component.html',
   styleUrl: './students-dashboard.component.css'
 })
@@ -28,7 +29,8 @@ export class StudentsDashboardComponent {
         this.isLoading = false
         this.students = data.data.students;
         this.numberOfStudents = data.data.results;
-        console.log('Students:', this.students);
+        console.log('Students:',this.students[8].attempts[1])
+        console.log(this.students[8].attempts[1].exam.subject);
       },
       error: (err) => {
         this.isLoading = false
