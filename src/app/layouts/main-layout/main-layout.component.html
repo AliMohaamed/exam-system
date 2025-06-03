@@ -1,0 +1,18 @@
+<div class="d-flex flex-row position-relative">
+  <!-- Sidebar -->
+  <div
+    *ngIf="showSidebar"
+    class="side-nav"
+    (click)="onSidebarClick($event)"
+  >
+    <app-sidebar></app-sidebar>
+  </div>
+
+  <!-- Main content -->
+  <div style="flex-grow: 1;" >
+    <app-nav-top (toggleSidebar)="toggleSidebar()"></app-nav-top>
+    <main class="" (click)="onPageClick()">
+      <router-outlet></router-outlet>
+    </main>
+  </div>
+</div>
