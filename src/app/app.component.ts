@@ -8,8 +8,9 @@ import { AuthLayoutComponent } from "./layouts/auth-layout/auth-layout.component
 
 @Component({
   selector: 'app-root',
-  imports: [RouterModule],
+  imports: [CommonModule,RouterModule],
 templateUrl: './app.component.html',
+
   styleUrl: './app.component.css'
 })
 export class AppComponent {

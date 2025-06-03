@@ -1,0 +1,156 @@
+.exam-result-card {
+  border: none;
+  border-radius: 1rem;
+  box-shadow: 0 0.5rem 1.5rem rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s ease;
+}
+
+.exam-result-card:hover {
+  transform: translateY(-5px);
+}
+
+.exam-result-card.passed {
+  border-top: 5px solid #28a745;
+}
+
+.exam-result-card:not(.passed) {
+  border-top: 5px solid #dc3545;
+}
+
+.result-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1.5rem;
+}
+
+.score-circle {
+  width: 150px;
+  height: 150px;
+  border-radius: 50%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  margin: 1.5rem auto;
+  background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+}
+
+.percentage {
+  font-size: 2rem;
+  font-weight: bold;
+  color: #212529;
+}
+
+.score {
+  font-size: 0.9rem;
+  color: #6c757d;
+}
+
+.stats-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1rem;
+  margin: 1.5rem 0;
+}
+
+.stat-item {
+  padding: 1rem;
+  background: #f8f9fa;
+  border-radius: 0.5rem;
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.stat-item i {
+  font-size: 1.5rem;
+  color: #0d6efd;
+}
+
+.stat-label {
+  font-size: 0.8rem;
+  color: #6c757d;
+}
+
+.stat-value {
+  font-size: 1.1rem;
+  font-weight: 500;
+  color: #212529;
+}
+
+.answers-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.answer-item {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  padding: 0.5rem;
+  background: #f8f9fa;
+  border-radius: 0.5rem;
+  font-size: 0.9rem;
+}
+
+.answer-status {
+  display: flex;
+  align-items: center;
+}
+
+.answer-status.correct {
+  color: #28a745;
+}
+
+.answer-status:not(.correct) {
+  color: #dc3545;
+}
+
+.points {
+  color: #0d6efd;
+  font-weight: 500;
+}
+
+.time {
+  color: #6c757d;
+  margin-left: auto;
+  font-size: 0.8rem;
+}
+
+.detail-item {
+  margin-bottom: 1rem;
+}
+
+.detail-item .label {
+  display: block;
+  font-size: 0.875rem;
+  color: #6c757d;
+  margin-bottom: 0.25rem;
+}
+
+.detail-item .value {
+  font-size: 1.1rem;
+  font-weight: 500;
+}
+
+.result-summary {
+  background-color: #f8f9fa;
+  border-radius: 1rem;
+  box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.075);
+}
+
+.bg-success-subtle {
+  background-color: rgba(25, 135, 84, 0.1);
+}
+
+.bg-danger-subtle {
+  background-color: rgba(220, 53, 69, 0.1);
+}
+
+@media (max-width: 768px) {
+  .stats-grid {
+    grid-template-columns: 1fr;
+  }
+}
