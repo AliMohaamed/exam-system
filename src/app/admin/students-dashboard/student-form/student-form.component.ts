@@ -4,8 +4,10 @@ import { ActivatedRoute } from '@angular/router';
 import { StudentsService } from '../../../services/students.service';
 import { RouterModule, Router } from '@angular/router';
 import { Student } from '../../../models/student';
+
 import { TitleComponent } from "../../../shared/components/title/title.component";
-import { LoadingComponent } from "../../../shared/components/loading/loading.component";
+import { LoadingComponent } from "../../../shared/loading/loading.component";
+
 
 @Component({
   selector: 'app-student-form',

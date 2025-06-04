@@ -1,11 +1,24 @@
 section {
     width: 90%;
     margin: auto;
-    h5{
+
+    .title {
+        font-size: 2rem;
+        font-weight: 800;
+        background: linear-gradient(45deg, #3b82f6, #616060);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+        color: transparent;
+        text-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+    }
+
+    h5 {
         font-size: 20px;
         font-weight: 700;
     }
-    p{
+
+    p {
         font-size: 14px;
         color: rgb(180, 178, 178);
     }

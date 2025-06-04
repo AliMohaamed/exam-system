@@ -3,18 +3,45 @@ import { AdminDashboardComponent } from './admin/admin-dashboard/admin-dashboard
 import { StudentsDashboardComponent } from './admin/students-dashboard/students-dashboard.component';
 import { StudentsDetailsComponent } from './admin/students-dashboard/students-details/students-details.component';
 import { StudentFormComponent } from './admin/students-dashboard/student-form/student-form.component';
+import { ExamsComponent } from './admin/exams/exams.component';
+import { LoginComponent } from './auth/login/login.component';
+import { SignUpComponent } from './auth/sign-up/sign-up.component';
+import { ForgotPasswordComponent } from './auth/forgot-password/forgot-password.component';
+import { OtpVerificationComponent } from './auth/otp-verification/otp-verification.component';
+import { CreateNewPasswordComponent } from './auth/create-new-password/create-new-password.component';
+import { ConfirmPasswordComponent } from './auth/confirm-password/confirm-password.component';
+import { MainLayoutComponent } from './layouts/main-layout/main-layout.component';
+import { AuthLayoutComponent } from './layouts/auth-layout/auth-layout.component';
+import { ReportsComponent } from './admin/reports/reports.component';
 
 export const routes: Routes = [
-    { path: '', redirectTo: '/admin-dashboard', pathMatch: 'full' },
-    { path: 'admin-dashboard', component: AdminDashboardComponent },
-    // { path: 'exams', component:  },
-    { path: 'students', component: StudentsDashboardComponent },
-    {path:'students/:id',component:StudentsDetailsComponent},
-    {path:'students/edit/:id',component:StudentFormComponent},
-    // { path: 'reports', component:  },
-    // { path: 'payment', component: },
-    // { path: 'settings', component: },
-    // { path: 'sign-out', component: },
+  { path: '', redirectTo: '/auth/login', pathMatch: 'full' },
 
-    { path: '**', redirectTo: '' }
+  {
+    path: '',
+    component: MainLayoutComponent,
+    children: [
+      { path: 'admin-dashboard', component: AdminDashboardComponent },
+      { path: 'exams', component: ExamsComponent },
+      { path: 'students', component: StudentsDashboardComponent },
+      { path: 'students/:id', component: StudentsDetailsComponent },
+      { path: 'students/edit/:id', component: StudentFormComponent },
+      { path: 'reports', component: ReportsComponent},
+      // TODO: Add routes like /reports, /payment, etc.
+    ]
+  },
+  {
+    path: 'auth',
+    component: AuthLayoutComponent,
+    children: [
+      { path: 'login', component: LoginComponent },
+      { path: 'register', component: SignUpComponent },
+      { path: 'forgot', component: ForgotPasswordComponent },
+      { path: 'otp', component: OtpVerificationComponent },
+      { path: 'createPasssword', component: CreateNewPasswordComponent },
+      { path: 'confirmEmail/:activationCode', component: ConfirmPasswordComponent }
+    ]
+  },
+
+  { path: '**', redirectTo: '' }
 ];

@@ -1,9 +1,15 @@
 .card {
-    width: 350px;
+    width: 350px !important;
     border-radius: 14px;
     overflow: hidden;
     box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
     transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+@media (max-width:1200px) {
+    .card{
+        width: 1000px !important;
+    }
 }
 
 .card:hover {

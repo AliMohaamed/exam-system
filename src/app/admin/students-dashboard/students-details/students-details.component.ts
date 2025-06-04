@@ -3,10 +3,10 @@ import { Student } from '../../../models/student';
 import { StudentsService } from '../../../services/students.service';
 import { ActivatedRoute } from '@angular/router';
 import { StudentCardComponent } from "./student-card/student-card.component";
-import { LoadingComponent } from "../../../shared/components/loading/loading.component";
 import { SmallCardComponent } from "../../../shared/components/small-card/small-card.component";
 import { CommonModule } from '@angular/common';
 import { ExamCardComponent } from "./exam-card/exam-card.component";
+import { LoadingComponent } from '../../../shared/loading/loading.component';
 
 @Component({
   selector: 'app-students-details',
@@ -48,7 +48,8 @@ export class StudentsDetailsComponent {
             this.totalMinutes = Math.floor(this.sumOfTime);
             this.totalSeconds = Math.round((this.sumOfTime - this.totalMinutes) * 60);
             if (this.student?.attempts?.length && this.student.attempts.length > 0) {
-              this.avgTime = Math.round(this.sumOfTime / this.student?.attempts?.length)
+              this.avgTime = +(this.sumOfTime / this.student?.attempts?.length).toFixed(2);
+
               this.averageScore = this.sumOfPercentage / (this.student.attempts.length * 100);
               const sortedAttempts = [...this.student.attempts].sort((a, b) => {
                 return new Date(b.startTime).getTime() - new Date(a.startTime).getTime();

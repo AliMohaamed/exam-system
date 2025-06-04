@@ -1,0 +1,136 @@
+
+<div class="container1">
+    <div class="login-card">
+        <div class="login-content">
+            <h1>Lets Register Account</h1>
+            <p class="welcome-text">Hello user , you have</p>
+            <p class="welcome-text mb-30">a greatful journey</p>
+
+            <form [formGroup]="productForm" (ngSubmit)="onSubmit()">
+                <div class="login-form">
+
+                    <div class="input-group">
+                        <input type="text" name="fnmae" formControlName="fname"
+                            autocomplete="off"
+                            placeholder="Full Name" />
+
+                        @if(getFname?.touched && getFname?.invalid){
+                        @if(getFname?.hasError('required')){
+                        <p class="paner">
+                            Name is required
+                        </p>
+                        }
+                        @else if (getFname?.hasError('pattern')) {
+                        <p class="paner">
+                            Name must contain only English letters and spaces.
+                        </p>
+                        }
+                        }
+                    </div>
+
+
+                    <div class="input-group">
+                        <input type="email" name="email" formControlName="email"
+                            autocomplete="off"
+                            placeholder="Email" />
+
+                        @if(getEmail?.touched && getEmail?.invalid){
+                        @if(getEmail?.hasError('required')){
+                        <p class="paner">
+                            Email is required
+                        </p>
+                        }
+                        @else if (getEmail?.hasError('invalidEmail')) {
+                        <p class="paner">
+                            Invalid email format
+                        </p>
+                        }
+                        }
+                    </div>
+
+                    <div class="input-group">
+                        
+                        <select formControlName="level" name="lavel">
+                            <option value="" disabled selected>Select Level</option>
+                            <option value="beginner">beginner</option>
+                            <option value="intermediate">intermediate</option>
+                            <option value="advanced">advanced</option>
+                            
+                        </select>
+
+                        @if(getLevel?.touched && getLevel?.invalid){
+                        @if(getLevel?.hasError('required')){
+                        <p class="paner">
+                            Level is required
+                        </p>
+                        }
+                        }
+                    </div>
+
+                    <div class="input-group">
+                        <input [type]="hidePassword ? 'password' : 'text'"
+                            name="password" formControlName="password"
+                            placeholder="Password" />
+
+                        <span class="password-toggle"
+                            (click)="togglePasswordVisibility()">
+                            <i style="font-size: large; font-weight: bold;" class="bi" [ngClass]="hidePassword ? 'bi-eye' : 'bi-eye-slash'"></i>
+                        </span>
+                    </div>
+                    @if(getPassword?.touched && getPassword?.invalid){
+                    @if(getPassword?.hasError('required')){
+                    <p class="paner">
+                        Password is required
+                    </p>
+                    }
+                    @else if (getPassword?.hasError('pattern')) {
+                    <p class="paner">
+                        Password must be at least 8 characters, include
+                        uppercase, lowercase, number, and special character
+                    </p>
+                    }
+                    }
+
+                    <div style="margin-bottom: 0px;" class="input-group">
+                        <input [type]="hidePassword ? 'password' : 'text'"
+                            name="ConfirmPassword"
+                            formControlName="ConfirmPassword"
+                            placeholder="Confirm Password" />
+
+                        <span class="password-toggle"
+                            (click)="togglePasswordVisibility()">
+                            <i style="font-size: large; font-weight: bold;" class="bi" [ngClass]="hidePassword ? 'bi-eye' : 'bi-eye-slash'"></i>
+                        </span>
+                    </div>
+                    @if(getConfirmPassword?.touched &&
+                    getConfirmPassword?.invalid){
+                    @if(getConfirmPassword?.hasError('required')){
+                    <p class="paner">
+                        Confirm Password is required
+                    </p>
+                    }
+                    @else if (getConfirmPassword?.hasError('pattern')) {
+                    <p class="paner">
+                        Password must be at least 8 characters, include
+                        uppercase, lowercase, number, and special character
+                    </p>
+                    }
+                    }
+
+                    <button type="submit" class="sign-up-btn">Sign Up</button>
+                </div>
+            </form>
+
+            <div class="register-link">
+                <p>Already have an account? <a (click)="Login()">Login</a></p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<app-toast-alert
+  *ngIf="showToast"
+  [message]="toastMessage"
+  [type]="toastType"
+  [duration]="3000">
+</app-toast-alert>

@@ -1,0 +1,94 @@
+
+
+<div class="modal-overlay">
+  <div class="modal-content p-4 rounded-4 shadow">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+      <h4 class="m-0" style="color: #4a3aff">Add New Exam</h4>
+      <button class="btn-close" (click)="onClose()"></button>
+    </div>
+    
+    <form (ngSubmit)="examForm.form.valid && onSubmit()" #examForm="ngForm" class="exam-form">
+      <div class="mb-3">
+        <label for="subject" class="form-label">Subject</label>
+        <input 
+          type="text" 
+          class="form-control" 
+          id="subject" 
+          name="subject" 
+          [(ngModel)]="newExam.subject" 
+          #subject="ngModel"
+          required
+          [class.is-invalid]="subject.invalid && (subject.dirty || subject.touched)">
+        <div class="invalid-feedback" *ngIf="subject.invalid && (subject.dirty || subject.touched)">
+          Subject is required
+        </div>
+      </div>
+
+      <div class="mb-3">
+        <label for="description" class="form-label">Description</label>
+        <textarea 
+          class="form-control" 
+          id="description" 
+          name="description" 
+          [(ngModel)]="newExam.description" 
+          #description="ngModel"
+          rows="3" 
+          [class.is-invalid]="description.invalid && (description.dirty || description.touched)">
+        </textarea>
+        <div class="invalid-feedback" *ngIf="description.invalid && (description.dirty || description.touched)">
+          Description is required
+        </div>
+      </div>
+
+      <div class="row mb-3">
+        <div class="col">
+          <label for="level" class="form-label">Level</label>
+          <select 
+            class="form-select" 
+            id="level" 
+            name="level" 
+            [(ngModel)]="newExam.level" 
+            #level="ngModel"
+            required
+            [class.is-invalid]="level.invalid && (level.dirty || level.touched)">
+            <option value="">Select Level</option>
+            <option value="beginner">Beginner</option>
+            <option value="intermediate">Intermediate</option>
+            <option value="advanced">Advanced</option>
+          </select>
+          <div class="invalid-feedback" *ngIf="level.invalid && (level.dirty || level.touched)">
+            Please select a level
+          </div>
+        </div>
+        <div class="col">
+          <label for="duration" class="form-label">Duration (minutes)</label>
+          <input 
+            type="number" 
+            class="form-control" 
+            id="duration" 
+            name="duration" 
+            [(ngModel)]="newExam.duration" 
+            #duration="ngModel"
+            required
+            min="1"
+            [class.is-invalid]="duration.invalid && (duration.dirty || duration.touched)">
+          <div class="invalid-feedback" *ngIf="duration.invalid && (duration.dirty || duration.touched)">
+            <div *ngIf="duration.errors?.['required']">Duration is required</div>
+            <div *ngIf="duration.errors?.['min']">Duration must be greater than 0</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="d-flex justify-content-end gap-2 mt-4">
+        <button type="button" class="btn btn-secondary" (click)="onClose()">Cancel</button>
+        <button 
+          type="submit" 
+          class="btn btn-primary"
+          [disabled]="!examForm.form.valid">
+          Add Exam
+        </button>
+      </div>
+    </form>
+  </div>
+</div>
+

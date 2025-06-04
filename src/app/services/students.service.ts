@@ -17,8 +17,8 @@ export class StudentsService {
   }
 
   // Get all students
-  getAllStudentData(): Observable<any> {
-    return this.http.get(this.baseUrl, { headers: this.getHeaders() });
+  getAllStudentData(page: number = 1): Observable<any> {
+    return this.http.get(`${this.baseUrl}?page=${page}`, { headers: this.getHeaders() });
   }
 
   //Get student by id

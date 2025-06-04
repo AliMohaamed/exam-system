@@ -1,9 +1,10 @@
 import { Component } from '@angular/core';
 import { RouterModule } from '@angular/router';
+import { HideSidebarOnClickDirective } from '../../../shared/directives/hide-sidebar-on-click.directive';
 
 @Component({
   selector: 'app-sidebar',
-  imports: [RouterModule],
+  imports: [RouterModule, HideSidebarOnClickDirective],
   templateUrl: './sidebar.component.html',
   styleUrl: './sidebar.component.css'
 })

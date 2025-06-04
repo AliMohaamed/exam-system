@@ -1,5 +1,5 @@
-<section class="d-flex ">
-    <div class="card">
+<section class="d-flex mt-2 container mx-auto">
+    <div class="card w-100">
         <div class="top text-center py-4 px-4 text-light">
             <img [src]="student?.profileImage?.secure_url" alt="student image" width="100px" height="100px">
             <div class="ms-3 mt-2">
@@ -18,16 +18,25 @@
             <hr>
             <div>
                 <p class="stats">Stats</p>
-                <div class="d-flex justify-content-between">
-                    <app-small-card icon="book" label="Exams Taken" [value]="student?.attempts?.length ?? 0" [customStyle]="{ backgroundColor: '#f9fafb', padding:'10px', minWidth: '145px'}" customClass="fs-4 fw-medium">
-                    </app-small-card>
+                <div class="d-flex justify-content-between gap-3 gap-xl-2">
+                    <div class="w-50">
+                        <app-small-card icon="book" label="Exams Taken" [value]="student?.attempts?.length ?? 0"
+                            [customStyle]="{ backgroundColor: '#f9fafb', padding:'10px',}" customClass="fs-4 fw-medium">
+                        </app-small-card>
+                    </div>
 
-                    <app-small-card icon="award" label="Avg.Score" [value]="(averageScore | number:'1.2-2') ?? '0.00'" [customStyle]="{ backgroundColor: '#f9fafb' , padding:'10px' , minWidth: '145px'}" customClass="fs-4 fw-medium">
-                    </app-small-card>
+                    <div class="w-50">
+                        <app-small-card icon="award" label="Avg.Score"
+                            [value]="(averageScore | number:'1.2-2') ?? '0.00'"
+                            [customStyle]="{ backgroundColor: '#f9fafb' , padding:'10px' , }"
+                            customClass="fs-4 fw-medium">
+                        </app-small-card>
+                    </div>
                 </div>
 
-                <app-small-card icon="clock" label="Total Time Spent"
-                    [value]="totalMinutes + 'm ' + totalSeconds + 's'" [customStyle]="{ backgroundColor: '#f9fafb' , padding:'10px' , minWidth: '145px'}" customClass="fs-4 fw-medium">
+                <app-small-card icon="clock" label="Total Time Spent" [value]="totalMinutes + 'm ' + totalSeconds + 's'"
+                    [customStyle]="{ backgroundColor: '#f9fafb' , padding:'10px' , minWidth: '145px'}"
+                    customClass="fs-4 fw-medium">
                 </app-small-card>
 
                 <!-- <div class="card-details d-flex justify-content-between">

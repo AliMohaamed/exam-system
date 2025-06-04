@@ -1,0 +1,78 @@
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: rgba(0, 0, 0, 0.712);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+}
+
+.modal-content {
+  background: #fff;
+  border-radius: 18px;
+  box-shadow: 0 8px 32px rgba(0,0,0,0.18);
+  padding: 40px 32px 32px 32px;
+  width: 400px;
+  max-width: 90%;
+  text-align: center;
+  position: relative;
+  animation: fadeIn 0.4s;
+}
+
+.icon-circle {
+  width: 64px;
+  height: 64px;
+  background: #4a4cf6;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto 18px auto;
+  position: relative;
+  box-shadow: 0 2px 12px rgba(74,76,246,0.15);
+}
+
+.checkmark {
+  color: #fff;
+  font-size: 2.2rem;
+  font-weight: bold;
+}
+
+h2 {
+  font-size: 1.35rem;
+  font-weight: 700;
+  margin: 18px 0 8px 0;
+  color: #222;
+}
+
+.desc {
+  color: #666;
+  font-size: 1rem;
+  margin-bottom: 22px;
+}
+
+.sign-in-btn {
+  background: #4a4cf6;
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  padding: 12px 28px;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  box-shadow: 0 2px 8px rgba(74,76,246,0.10);
+  transition: background 0.2s;
+}
+
+.sign-in-btn:hover {
+  background: #3739b7;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: scale(0.95); }
+  to { opacity: 1; transform: scale(1); }
+} 

@@ -1,0 +1,105 @@
+@if (isLoading) {
+<app-loading />
+}
+@else if (noResultsFound && !isLoading) {
+<app-not-found></app-not-found>
+}
+@else{
+<section class="container con my-5">
+    <div class="d-flex justify-content-between flex-wrap gap-2">
+        <div style="width: 24%;">
+            <app-small-card icon="layout-text-window-reverse" label="Total Attempts" [value]="attempts+'/'+data"
+                [customStyle]="{ backgroundColor: '#f9fafb',padding:'10px 25px',fontSize:'14px'}"
+                customClass="fw-medium mt-3" customClass2="fw-medium"
+                [customStyle2]="{fontSize:'19px',marginTop:'15px'}">
+            </app-small-card>
+        </div>
+        <div style="width: 24%;">
+            <app-small-card icon="star-fill" label="Average Scores" [value]="avgScore/100 |percent:'1.0-2'"
+                [customStyle]="{ backgroundColor: '#f9fafb',padding:'10px 25px',fontSize:'14px'}"
+                customClass="fw-medium mt-3" customClass2="fw-medium"
+                [customStyle2]="{fontSize:'19px',marginTop:'15px'}">
+            </app-small-card>
+        </div>
+        <div style="width: 24%;">
+            <app-small-card icon="people-fill" label="Student Numbers" [value]="totalStudents"
+                [customStyle]="{ backgroundColor: '#f9fafb',padding:'10px 25px',fontSize:'14px'}"
+                customClass="fw-medium mt-3" customClass2="fw-medium"
+                [customStyle2]="{fontSize:'19px',marginTop:'15px'}">
+            </app-small-card>
+        </div>
+        <div style="width: 24%;">
+            <app-small-card icon="journal-text" label="Exams Numbers" [value]="totalExams"
+                [customStyle]="{ backgroundColor: '#f9fafb',padding:'10px 25px',fontSize:'14px'}"
+                customClass="fw-medium mt-3" customClass2="fw-medium"
+                [customStyle2]="{fontSize:'19px',marginTop:'15px'}">
+            </app-small-card>
+        </div>
+    </div>
+
+    <div class="container mt-4">
+        <div class="d-flex justify-content-between align-items-center my-3">
+            <div class="header">
+                <h1 class="title">All Attempts</h1>
+            </div>
+            <button class="add-btn" (click)="downloadExcel()">
+                <i class="bi bi-download"></i> Download
+            </button>
+        </div>
+        <div class="exam-grid mx-auto">
+            <div class="exam-card text-light card-title">
+                <div class="card-content d-flex px-4 fs-5 fw-medium" style="color: #f5f8fadb;width: 95%;">
+                    <div class="col-2">Name</div>
+                    <div class="col-3 ps-2">Subject</div>
+                    <div class="col-3 ps-4">Date&Time</div>
+                    <div class="col-2">Percentage</div>
+                    <div class="col-2">Status</div>
+                </div>
+            </div>
+
+            @for (attempt of Results; track $index) {
+            <div class="exam-card text-light">
+                <div class="card-content d-flex px-4 card-des" style="width: 95%;">
+                    <div class="col-2 name">{{attempt.student.name}}</div>
+                    <div class="col-3 examsOfStudent">{{attempt.exam.subject}}</div>
+                    <div class="col-3 date examsOfStudent">{{ attempt.startTime | date:'medium' }}</div>
+                    <div class="col-2 ps-4">{{attempt.percentage/100 | percent:'1.0-1' }}</div>
+                    <div class="col-2 pe-4">
+                        <span class="success" *ngIf="attempt.isPassed">Success</span>
+                        <span class="fail" *ngIf="!attempt.isPassed">Fail</span>
+                    </div>
+                </div>
+            </div>
+            }
+        </div>
+    </div>
+
+    <!-- pagination-->
+    <nav class="d-flex justify-content-center my-4">
+        <ul class="pagination gap-2">
+            <!-- Previous -->
+            <li class="page-item" [class.disabled]="currentPage === 1">
+                <button class="page-link px-4 py-2" (click)="changePage(currentPage - 1)">
+                    ← Prev
+                </button>
+            </li>
+
+            <!-- Page Numbers -->
+            @for (page of pagesArray; track $index){
+            <li class="page-item" [class.active]="currentPage === page">
+                <button class="page-link px-3 py-2" (click)="changePage(page)" [ngClass]="{'bg-primary text-white border-0 rounded-3': currentPage === page,'border rounded-3': currentPage !== page
+        }">
+                    {{ page }}
+                </button>
+            </li>
+            }
+            <!-- Next -->
+            <li class="page-item" [class.disabled]="currentPage === totalPages">
+                <button class="page-link px-4 py-2" (click)="changePage(currentPage + 1)">
+                    Next →
+                </button>
+            </li>
+        </ul>
+    </nav>
+</section>
+}
