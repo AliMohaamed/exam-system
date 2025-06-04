@@ -89,7 +89,14 @@ export class LoginComponent {
             console.log('Login successful', response);
             this.showToastMessage('Login successful!', 'success');
             this.productForm.reset();
-            this.router.navigate(['/admin-dashboard']);
+            if(response.user.role === 'admin') {
+              this.router.navigate(['/admin-dashboard']);
+            } else if(response.user.role === 'student') {
+              this.router.navigate(['/student-dashboard']);
+            }
+            else {
+              this.router.navigate(['/']);
+            }
           },
           (error) => {
             console.error('Login failed', error);

@@ -5,14 +5,16 @@ import { Router } from '@angular/router';
 import { ExamService } from '../../core/services/exam.service';
 import { StudentExam, Question } from '../../core/models/student-exam.interface';
 import { ExamResultData } from '../../core/models/exam-result.interface';
+import { LoadingComponent } from "../../shared/loading/loading.component";
 
 @Component({
   selector: 'app-exam',
   standalone: true,
   imports: [
     CommonModule,
-    FormsModule
-  ],
+    FormsModule,
+    LoadingComponent
+],
   templateUrl: './exam.component.html',
   styleUrls: ['./exam.component.css']
 })
@@ -64,7 +66,7 @@ export class ExamComponent implements OnInit, OnDestroy {
       return;
     }
 
-    const message = 'Once you start the exam, you must complete it. If you close the browser or navigate away, the exam will be submitted automatically. Are you ready to begin?';
+    const message = 'Once you start, leaving the page will auto-submit the exam. Ready to begin?';
 
     if (window.confirm(message)) {
       this.isLoading = true;
@@ -196,7 +198,7 @@ export class ExamComponent implements OnInit, OnDestroy {
   @HostListener('window:beforeunload', ['$event'])
   onBeforeUnload(event: BeforeUnloadEvent) {
     if (this.isExamStarted && !this.showResult) {
-      const message = 'Warning: If you leave or refresh the page, your exam will be submitted with current answers and you cannot retake it. Are you sure?';
+      const message = 'Warning: Leaving or refreshing will submit your exam and you cant retake it. Proceed?';
       event.returnValue = message;
       return message;
     }
@@ -206,7 +208,7 @@ export class ExamComponent implements OnInit, OnDestroy {
   @HostListener('window:popstate', ['$event'])
   onPopState(event: PopStateEvent) {
     if (this.isExamStarted && !this.showResult) {
-      if (window.confirm('Warning: If you leave now, your exam will be submitted with current answers and you cannot retake it. Do you want to continue?')) {
+      if (window.confirm('Warning: Leaving now will submit your exam and you can’t retake it. Continue?')) {
         this.submitExam();
       } else {
         history.pushState(null, '', window.location.href);
@@ -217,7 +219,7 @@ export class ExamComponent implements OnInit, OnDestroy {
   // Add method to handle navigation attempts
   canDeactivate(): boolean {
     if (this.isExamStarted && !this.showResult) {
-      if (window.confirm('Warning: If you leave now, your exam will be submitted with current answers and you cannot retake it. Do you want to continue?')) {
+      if (window.confirm('Warning: Leaving now will submit your exam and you can’t retake it. Continue?')) {
         this.submitExam();
         return true;
       }

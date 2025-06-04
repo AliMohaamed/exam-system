@@ -1,56 +1,52 @@
-<div class="container py-4">
-  <!-- Start Screen -->
-  <div
-    *ngIf="!isExamStarted && !isLoading && !showResult"
-    class="row justify-content-center"
-  >
-    <div class="col-md-8">
-      <div class="card exam-card">
-        <div class="card-body text-center">
-          <div class="exam-icon mb-4">
-            <i class="bi bi-journal-text"></i>
-          </div>
-          <h2 class="card-title mb-4">{{ examDetails?.subject }}</h2>
-          <p class="card-text text-muted" *ngIf="examDetails?.description">
-            {{ examDetails?.description }}
-          </p>
+<div class="mt-4">
 
-          <div class="exam-stats">
-            <div class="stat-item">
-              <i class="bi bi-clock"></i>
-              <span>{{ examDetails?.duration }} minutes</span>
-            </div>
-            <div class="stat-item">
-              <i class="bi bi-lightning"></i>
-              <span>{{ examDetails?.level }}</span>
-            </div>
-            <div class="stat-item">
-              <i class="bi bi-question-circle"></i>
-              <span>{{ examDetails?.totalQuestions }} Questions</span>
-            </div>
-            <div class="stat-item">
-              <i class="bi bi-trophy"></i>
-              <span>{{ examDetails?.totalPoints }} Points</span>
-            </div>
-          </div>
-
-          <button class="btn btn-primary btn-lg mt-4" (click)="startExam()">
-            <i class="bi bi-play-circle me-2"></i>
-            Start Exam
-          </button>
+   <div class="container1" *ngIf="!isExamStarted && !isLoading && !showResult">
+        <div class="floating-elements">
+            <div class="floating-element"></div>
+            <div class="floating-element"></div>
+            <div class="floating-element"></div>
         </div>
-      </div>
+
+        <div class="icon"></div>
+        
+        <h1>{{ examDetails?.subject }}</h1>
+        <p class="subtitle" *ngIf="examDetails?.description">{{ examDetails?.description }}</p>
+        
+        <div class="stats-grid">
+            <div class="stat-card">
+                <div class="stat-icon">⏱️</div>
+                <div class="stat-value">{{ examDetails?.duration }}</div>
+                <div class="stat-label">minutes</div>
+            </div>
+            
+            <div class="stat-card">
+                <div class="stat-icon">⚡</div>
+                <div class="stat-value">{{examDetails?.level}}</div>
+                <div class="stat-label">level</div>
+            </div>
+            
+            <div class="stat-card">
+                <div class="stat-icon">❓</div>
+                <div class="stat-value">{{examDetails?.totalQuestions}}</div>
+                <div class="stat-label">Questions</div>
+            </div>
+            
+            <div class="stat-card">
+                <div class="stat-icon">🏆</div>
+                <div class="stat-value">{{examDetails?.totalPoints}}</div>
+                <div class="stat-label">Points</div>
+            </div>
+        </div>
+        
+        <button class="start-button" (click)="startExam()">
+            <span class="play-icon">▶</span>
+            Start Exam
+        </button>
     </div>
-  </div>
 
   <!-- Loading State -->
   <div *ngIf="isLoading" class="text-center py-5">
-    <div class="loader">
-      <div class="spinner-border text-primary" role="status">
-        <span class="visually-hidden">Loading...</span>
-      </div>
-      <p class="mt-3 text-muted">Preparing your exam...</p>
-    </div>
+    <app-loading [delay]="10000"></app-loading>
   </div>
 
   <!-- Exam Questions -->
