@@ -2,11 +2,12 @@ import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ExamService } from '../../../core/services/exam.service';
 import { ExamResult } from '../../../core/models/exam-result.interface';
+import { LoadingComponent } from "../../../shared/loading/loading.component";
 
 @Component({
   selector: 'app-student-exams',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, LoadingComponent],
   templateUrl: './student-exams.component.html',
   styleUrls: ['./student-exams.component.css']
 })
@@ -16,6 +17,7 @@ export class StudentExamsComponent implements OnInit {
   error: string | null = null;
   selectedExamDetails: any = null;
   isLoadingDetails = false;
+  showExams = true;
 
   constructor(private examService: ExamService) {}
 
@@ -77,6 +79,7 @@ export class StudentExamsComponent implements OnInit {
 
   viewExamDetails(attemptId: string) {
     this.isLoadingDetails = true;
+    this.showExams = false;
     this.examService.getExamAttemptDetails(attemptId).subscribe({
       next: (response) => {
         if (response.success) {
@@ -96,5 +99,6 @@ export class StudentExamsComponent implements OnInit {
 
   backToList() {
     this.selectedExamDetails = null;
+    this.showExams = true;
   }
 }

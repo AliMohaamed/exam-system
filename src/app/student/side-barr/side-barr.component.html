@@ -1,0 +1,29 @@
+
+<section class="side-nav rounded-end-5">
+    <div class="d-flex justify-content-center pt-5">
+        <p class="logo">logo</p>
+    </div>
+    <div class="side-data mt-4 d-flex flex-column justify-content-between">
+        <nav class="d-flex flex-column">
+            <a [routerLink]="['/student-dashboard']" routerLinkActive="active-link"
+                class="d-flex align-items-center px-4 ps-m-5" appHideSidebarOnClick>
+                <i class="bi bi-house-door me-3"></i> Dashboard
+            </a>
+            <a [routerLink]="['/student-exams']" routerLinkActive="active-link" class="d-flex align-items-center px-4 ps-m-5" appHideSidebarOnClick>
+                <i class="bi bi-people-fill me-3"></i> My Exams
+            </a>
+            <a routerLinkActive="active-link" class="d-flex align-items-center px-4 ps-m-5" appHideSidebarOnClick>
+                <i class="bi bi-book me-3"></i> Profile
+            </a>
+        </nav>
+
+        <div class="settings d-flex flex-column">
+            <a [routerLink]="['/settings']" routerLinkActive="active-link" class="d-flex align-items-center px-4 ps-m-5" appHideSidebarOnClick>
+                <i class="bi bi-gear me-3"></i> Settings
+            </a>
+            <a [routerLink]="['/sign-out']" routerLinkActive="active-link" class="d-flex align-items-center px-4 ps-m-5 mb-md-3" appHideSidebarOnClick>
+                <i class="bi bi-box-arrow-left me-3"></i> Sign Out
+            </a>
+        </div>
+    </div>
+</section>
