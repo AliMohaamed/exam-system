@@ -23,7 +23,7 @@
             <!-- <a [routerLink]="['/settings']" routerLinkActive="active-link" class="d-flex align-items-center px-4 ps-m-5" appHideSidebarOnClick>
                 <i class="bi bi-gear me-3"></i> Settings
             </a> -->
-            <a [routerLink]="['/sign-out']" routerLinkActive="active-link" class="d-flex align-items-center px-4 ps-m-5 mb-md-3" appHideSidebarOnClick>
+            <a (click)="logout()" routerLinkActive="active-link" class="d-flex align-items-center px-4 ps-m-5 mb-md-3" appHideSidebarOnClick>
                 <i class="bi bi-box-arrow-left me-3"></i> Sign Out
             </a>
         </div>

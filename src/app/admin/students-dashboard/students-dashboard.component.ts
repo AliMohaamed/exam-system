@@ -29,6 +29,20 @@ export class StudentsDashboardComponent {
   private searchSubscription!: Subscription;
   constructor(private studentService: StudentsService, private router: Router, private searchService: SearchService, private route: ActivatedRoute) { }
 
+  getLevelClass(level: string): string {
+  switch (level) {
+    case 'beginner':
+      return 'beginner';
+    case 'intermediate':
+      return 'intermediate';
+    case 'advanced':
+      return 'advanced';
+    default:
+      return '';
+  }
+}
+
+
 ngOnInit() {
   this.route.queryParams.subscribe(params => {
     const page = +params['page'] || 1;

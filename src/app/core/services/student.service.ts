@@ -12,7 +12,8 @@ export class StudentService {
   constructor(private http: HttpClient) {}
 
   private getHeaders(): HttpHeaders {
-    const token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY4M2RmZTk1OGMzOTFmY2Q0YjEzNGZmMiIsImVtYWlsIjoiaGFzc2FuQGdtYWlsLmNvbSIsInJvbGUiOiJzdHVkZW50IiwiaWF0IjoxNzQ4ODkzMzc3LCJleHAiOjE3NDkwNjYxNzd9.KoKelNayklKXbZY6Ixru9W8CeX0gzLrGvB2utcKosUg';
+    // const token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY4M2RmZTk1OGMzOTFmY2Q0YjEzNGZmMiIsImVtYWlsIjoiaGFzc2FuQGdtYWlsLmNvbSIsInJvbGUiOiJzdHVkZW50IiwiaWF0IjoxNzQ4ODkzMzc3LCJleHAiOjE3NDkwNjYxNzd9.KoKelNayklKXbZY6Ixru9W8CeX0gzLrGvB2utcKosUg';
+    const token = localStorage.getItem('token');
     return new HttpHeaders().set('Authorization', `Bearer ${token}`);
   }
 

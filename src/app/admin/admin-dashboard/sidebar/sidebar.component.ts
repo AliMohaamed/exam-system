@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { RouterModule } from '@angular/router';
+import { Router, RouterModule } from '@angular/router';
 import { HideSidebarOnClickDirective } from '../../../shared/directives/hide-sidebar-on-click.directive';
 
 @Component({
@@ -9,6 +9,9 @@ import { HideSidebarOnClickDirective } from '../../../shared/directives/hide-sid
   styleUrl: './sidebar.component.css'
 })
 export class SidebarComponent {
+
+  constructor(private router: Router) { }
+
   dashboardLinks: { icon: string; text: string }[] = [
     { icon: "bi bi-house-door", text: "Dashboard" },
     { icon: "bi bi-people-fill", text: "Exams" },
@@ -16,4 +19,10 @@ export class SidebarComponent {
     { icon: "bi bi-file-earmark-text", text: "Reports" },
     { icon: "bi bi-paypal", text: "Payment" },
   ];
+
+
+  logout() {
+    localStorage.removeItem('token');
+    this.router.navigate(['/auth/login']);
+  }
 }

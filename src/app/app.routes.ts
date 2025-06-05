@@ -18,6 +18,8 @@ import { StudentDashboardComponent } from './student/dashboard/student-dashboard
 import { ExamComponent } from './exams/exam/exam.component';
 import { ExamGuard } from './core/guards/exam.guard';
 import { StudentExamsComponent } from './student/dashboard/student-exams/student-exams.component';
+import { AuthGuard } from './core/guards/auth.guard';
+import { RoleGuard } from './core/guards/role.guard';
 
 
 export const routes: Routes = [
@@ -26,6 +28,9 @@ export const routes: Routes = [
   {
     path: '',
     component: MainLayoutComponent,
+    canActivate: [AuthGuard, RoleGuard],
+    canActivateChild: [AuthGuard, RoleGuard],
+    data: { roles: ['admin'] },
     children: [
       { path: 'admin-dashboard', component: AdminDashboardComponent },
       { path: 'exams', component: ExamsComponent },
@@ -51,6 +56,9 @@ export const routes: Routes = [
   {
     path: '',
     component: StudentLayoutComponent,
+    canActivate: [AuthGuard, RoleGuard],
+    canActivateChild: [AuthGuard, RoleGuard],
+    data: { roles: ['student'] },
     children: [
       {path: 'student-dashboard', component: StudentDashboardComponent},
       {path: 'exams/:id', component: ExamComponent, canDeactivate: [ExamGuard]},

@@ -89,6 +89,14 @@ export class LoginComponent {
             console.log('Login successful', response);
             this.showToastMessage('Login successful!', 'success');
             this.productForm.reset();
+
+            const user = {
+              name: response.user.name,
+              role: response.user.role // 'admin' أو 'student'
+            };
+
+            localStorage.setItem('user', JSON.stringify(user));
+
             if(response.user.role === 'admin') {
               this.router.navigate(['/admin-dashboard']);
             } else if(response.user.role === 'student') {

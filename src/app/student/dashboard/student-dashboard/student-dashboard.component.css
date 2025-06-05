@@ -6,6 +6,37 @@
   transform: translateY(-5px);
 }
 
+
+.header {
+            text-align: center;
+            margin-bottom: 50px;
+            position: relative;
+        }
+
+        .title {
+            font-size: 2.8rem;
+            font-weight: 800;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 50%, #f093fb 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 30px;
+            position: relative;
+            animation: titleGlow 4s ease-in-out infinite alternate;
+        }
+
+        @keyframes titleGlow {
+            0% { 
+                filter: drop-shadow(0 0 10px rgba(102, 126, 234, 0.3));
+                transform: scale(1);
+            }
+            100% { 
+                filter: drop-shadow(0 0 20px rgba(118, 75, 162, 0.5));
+                transform: scale(1.02);
+            }
+        }
+
+
 .card-title {
   color: #2c3e50;
 }

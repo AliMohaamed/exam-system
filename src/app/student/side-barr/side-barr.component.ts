@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { RouterModule } from '@angular/router';
+import { Router, RouterModule } from '@angular/router';
 import { HideSidebarDirective } from '../../shared/directives/hide-sidebar.directive';
 
 
@@ -10,6 +10,8 @@ import { HideSidebarDirective } from '../../shared/directives/hide-sidebar.direc
   styleUrl: './side-barr.component.css'
 })
 export class SideBarrComponent {
+
+  constructor(private router: Router) { }
   // dashboardLinks: { icon: string; text: string }[] = [
   //   { icon: "bi bi-house-door", text: "Dashboard" },
   //   { icon: "bi bi-people-fill", text: "Exams" },
@@ -17,4 +19,11 @@ export class SideBarrComponent {
   //   { icon: "bi bi-file-earmark-text", text: "Reports" },
   //   { icon: "bi bi-paypal", text: "Payment" },
   // ];
+
+
+  logout() {
+  localStorage.removeItem('token');
+  this.router.navigate(['/auth/login']);
+}
+
 }
