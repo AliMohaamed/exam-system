@@ -1,0 +1,257 @@
+<div class="mt-4">
+
+   <div class="container1" *ngIf="!isExamStarted && !isLoading && !showResult">
+        <div class="floating-elements">
+            <div class="floating-element"></div>
+            <div class="floating-element"></div>
+            <div class="floating-element"></div>
+        </div>
+
+        <div class="icon"></div>
+        
+        <h1>{{ examDetails?.subject }}</h1>
+        <p class="subtitle" *ngIf="examDetails?.description">{{ examDetails?.description }}</p>
+        
+        <div class="stats-grid">
+            <div class="stat-card">
+                <div class="stat-icon">⏱️</div>
+                <div class="stat-value">{{ examDetails?.duration }}</div>
+                <div class="stat-label">minutes</div>
+            </div>
+            
+            <div class="stat-card">
+                <div class="stat-icon">⚡</div>
+                <div class="stat-value">{{examDetails?.level}}</div>
+                <div class="stat-label">level</div>
+            </div>
+            
+            <div class="stat-card">
+                <div class="stat-icon">❓</div>
+                <div class="stat-value">{{examDetails?.totalQuestions}}</div>
+                <div class="stat-label">Questions</div>
+            </div>
+            
+            <div class="stat-card">
+                <div class="stat-icon">🏆</div>
+                <div class="stat-value">{{examDetails?.totalPoints}}</div>
+                <div class="stat-label">Points</div>
+            </div>
+        </div>
+        
+        <button class="start-button" (click)="startExam()">
+            <span class="play-icon">▶</span>
+            Start Exam
+        </button>
+    </div>
+
+  <!-- Loading State -->
+  <div *ngIf="isLoading" class="text-center py-5">
+    <app-loading [delay]="10000"></app-loading>
+  </div>
+
+  <!-- Exam Questions -->
+  <div
+    *ngIf="isExamStarted && questions.length > 0 && !showResult"
+    class="row justify-content-center"
+  >
+    <div class="col-md-8">
+      <div class="card question-card">
+        <div class="card-header bg-transparent">
+          <div class="d-flex justify-content-between align-items-center">
+            <div class="progress-info">
+              <h6 class="mb-0">
+                Question {{ currentQuestionIndex + 1 }}/{{ questions.length }}
+              </h6>
+              <div class="progress mt-2" style="height: 6px">
+                <div
+                  class="progress-bar"
+                  [style.width]="
+                    ((currentQuestionIndex + 1) / questions.length) * 100 + '%'
+                  "
+                ></div>
+              </div>
+            </div>
+            <div class="timer" [ngClass]="{ 'text-danger': timeLeft <= 300 }">
+              <i class="bi bi-clock me-2"></i>
+              {{ timer }}
+            </div>
+          </div>
+        </div>
+
+        <div class="card-body">
+          <p class="question-text">
+            {{ questions[currentQuestionIndex].questionText }}
+          </p>
+
+          <ng-container
+            [ngSwitch]="questions[currentQuestionIndex].questionType"
+          >
+            <!-- Multiple Choice -->
+            <div *ngSwitchCase="'multiple-choice'" class="options-grid">
+              <div
+                *ngFor="let option of questions[currentQuestionIndex].options"
+                class="option-card"
+                [class.selected]="
+                  answers[questions[currentQuestionIndex]._id] === option.text
+                "
+                (click)="
+                  submitAnswer(questions[currentQuestionIndex]._id, option.text)
+                "
+              >
+                <div class="option-content">{{ option.text }}</div>
+              </div>
+            </div>
+
+            <!-- True/False -->
+            <div *ngSwitchCase="'true-false'" class="true-false-grid">
+              <div
+                class="option-card"
+                [class.selected]="
+                  answers[questions[currentQuestionIndex]._id] === true
+                "
+                (click)="
+                  submitAnswer(questions[currentQuestionIndex]._id, true)
+                "
+              >
+                <div class="option-content">True</div>
+              </div>
+              <div
+                class="option-card"
+                [class.selected]="
+                  answers[questions[currentQuestionIndex]._id] === false
+                "
+                (click)="
+                  submitAnswer(questions[currentQuestionIndex]._id, false)
+                "
+              >
+                <div class="option-content">False</div>
+              </div>
+            </div>
+
+            <!-- Fill in the blank -->
+            <div *ngSwitchCase="'fill-blank'" class="fill-blank-container">
+              <input
+                type="text"
+                class="form-control"
+                [ngModel]="answers[questions[currentQuestionIndex]._id]"
+                (ngModelChange)="
+                  submitAnswer(questions[currentQuestionIndex]._id, $event)
+                "
+                placeholder="Type your answer here..."
+              />
+            </div>
+          </ng-container>
+        </div>
+
+        <div class="card-footer bg-transparent">
+          <div class="d-flex justify-content-between align-items-center">
+            <button
+              class="btn btn-outline-primary"
+              (click)="previousQuestion()"
+              [disabled]="currentQuestionIndex === 0"
+            >
+              <i class="bi bi-arrow-left me-2"></i>
+              Previous
+            </button>
+
+            <button
+              *ngIf="currentQuestionIndex < questions.length - 1"
+              class="btn btn-primary"
+              (click)="nextQuestion()"
+            >
+              Next
+              <i class="bi bi-arrow-right ms-2"></i>
+            </button>
+
+            <button
+              *ngIf="currentQuestionIndex === questions.length - 1"
+              class="btn btn-success"
+              (click)="submitExam()"
+            >
+              <i class="bi bi-check2-circle me-2"></i>
+              Submit Exam
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Result Screen -->
+  <div *ngIf="showResult && examResult" class="row justify-content-center">
+    <div class="col-md-8">
+      <div class="card result-card">
+        <div class="card-body">
+          <div class="text-center mb-4">
+            <div
+              class="result-circle"
+              [class.passed]="examResult.isPassed"
+              [class.failed]="!examResult.isPassed"
+            >
+              <div class="percentage">{{ examResult.percentage }}%</div>
+              <div class="status">
+                {{ examResult.isPassed ? "PASSED" : "FAILED" }}
+              </div>
+            </div>
+          </div>
+
+          <div class="result-stats">
+            <div class="stat-item">
+              <i class="bi bi-trophy"></i>
+              <div class="stat-content">
+                <div class="stat-label">Total Score</div>
+                <div class="stat-value">{{ examResult.totalScore }}</div>
+              </div>
+            </div>
+
+            <div class="stat-item">
+              <i class="bi bi-clock"></i>
+              <div class="stat-content">
+                <div class="stat-label">Time Spent</div>
+                <div class="stat-value">{{ getTimeSpentFormatted() }}</div>
+              </div>
+            </div>
+          </div>
+
+          <div class="answers-section mt-5">
+            <h3>Your Answers</h3>
+            <div class="answers-list">
+              <div
+                *ngFor="let answer of examResult.answers"
+                class="answer-item"
+                [class.correct]="answer.isCorrect"
+                [class.incorrect]="!answer.isCorrect"
+              >
+                <div class="answer-header">
+                  <span
+                    class="badge"
+                    [class.bg-success]="answer.isCorrect"
+                    [class.bg-danger]="!answer.isCorrect"
+                  >
+                    {{ answer.isCorrect ? "Correct" : "Incorrect" }}
+                  </span>
+                  <span class="points">
+                    {{ answer.pointsEarned }}/1 points
+                  </span>
+                </div>
+                <div class="answer-content">
+                  <p>{{ answer.questionText }}</p>
+                  <div class="answer-text">
+                    Your answer: <strong>{{ answer.answer }}</strong>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="text-center mt-5">
+            <button class="btn btn-primary" (click)="backToDashboard()">
+              <i class="bi bi-house me-2"></i>
+              Back to Dashboard
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

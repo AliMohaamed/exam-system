@@ -1,0 +1,24 @@
+<table class="table table-bordered table-striped">
+  <thead>
+    <tr>
+      <th *ngFor="let col of columns">{{ col }}</th>
+      <th>Actions</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let row of data">
+      <td *ngFor="let col of columns">{{ row[col.toLowerCase()] }}</td>
+      <td>
+        <button class="btn btn-sm btn-primary me-2" (click)="OnView(row)">
+          View
+        </button>
+        <button class="btn btn-sm btn-primary me-2" (click)="onEdit(row)">
+          Edit
+        </button>
+        <button class="btn btn-sm btn-danger" (click)="onDelete(row)">
+          Delete
+        </button>
+      </td>
+    </tr>
+  </tbody>
+</table>
