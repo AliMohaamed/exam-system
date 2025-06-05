@@ -19,6 +19,7 @@ export class DashboardComponent {
   numberOfExams: number = 0;
   isLoadingStudents: boolean = true;
   isLoadingExams: boolean = true;
+  studentName?:String;
 
   constructor(private studentService: StudentsService, private examService: ExamService, private router: Router) { }
 
@@ -27,6 +28,7 @@ export class DashboardComponent {
       next: (res: any) => {
         this.isLoadingStudents = false
         this.numberOfStudents = parseInt(res.data.results);
+        this.studentName=res.data.students.name
         console.log('Students:', this.numberOfStudents);
         console.log(res.data.students)
       },

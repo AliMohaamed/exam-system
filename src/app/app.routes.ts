@@ -12,11 +12,13 @@ import { CreateNewPasswordComponent } from './auth/create-new-password/create-ne
 import { ConfirmPasswordComponent } from './auth/confirm-password/confirm-password.component';
 import { MainLayoutComponent } from './layouts/main-layout/main-layout.component';
 import { AuthLayoutComponent } from './layouts/auth-layout/auth-layout.component';
+import { ReportsComponent } from './admin/reports/reports.component';
 import { StudentLayoutComponent } from './layouts/student-layout/student-layout.component';
 import { StudentDashboardComponent } from './student/dashboard/student-dashboard/student-dashboard.component';
 import { ExamComponent } from './exams/exam/exam.component';
 import { ExamGuard } from './core/guards/exam.guard';
 import { StudentExamsComponent } from './student/dashboard/student-exams/student-exams.component';
+
 
 export const routes: Routes = [
   { path: '', redirectTo: '/auth/login', pathMatch: 'full' },
@@ -30,6 +32,7 @@ export const routes: Routes = [
       { path: 'students', component: StudentsDashboardComponent },
       { path: 'students/:id', component: StudentsDetailsComponent },
       { path: 'students/edit/:id', component: StudentFormComponent },
+      { path: 'reports', component: ReportsComponent},
       // TODO: Add routes like /reports, /payment, etc.
     ]
   },

@@ -6,15 +6,14 @@ import { Observable } from 'rxjs';
   providedIn: 'root',
 })
 export class ExamService {
-  baseUrl: string = 'https://exam-app-expressjs.vercel.app/api/v1/exam';
+  baseUrl: string = "https://exam-app-expressjs.vercel.app/api/v1/exam";
   constructor(private http: HttpClient) {}
 
   private getHeaders(): HttpHeaders {
     const token = localStorage.getItem('token');
     // const token= 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY4MmU4ZGQ4NTI0ODIyNjFlODM2MzQwMSIsImVtYWlsIjoiYWRtaW5AZ21haWwuY29tIiwicm9sZSI6ImFkbWluIiwiaWF0IjoxNzQ4NzA2MjQ5LCJleHAiOjE3NDg4NzkwNDl9.7Pn1_uo5KPafEp8GzpS6xkJ_-sprCF_SrLTiEGM_07s'
     return new HttpHeaders({
-       
-      Authorization: `Bearer ${token}`,
+      Authorization: `Bearer ${token}`
     });
   }
 

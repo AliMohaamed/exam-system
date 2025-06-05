@@ -1,7 +1,6 @@
 import { Component } from '@angular/core';
 import { RouterModule, Router } from '@angular/router';
-import { TitleComponent } from '../../shared/components/shared/title/title.component';
-// import { LoadingComponent } from '../../shared/components/loading/loading.component';
+import { TitleComponent } from '../../shared/components/title/title.component';
 import { ExamService } from '../../services/exam.service';
 import { AddExamFormComponent } from './add-exam-form/add-exam-form.component';
 import { CommonModule } from '@angular/common';
@@ -12,6 +11,7 @@ import { ToastAlertComponent } from "../../shared/toast-alert/toast-alert.compon
 import { Subscription } from 'rxjs';
 import { SearchService } from '../../services/search.service';
 import {LoadingComponent} from '../../shared/loading/loading.component';
+import { ExamCardComponent } from "../students-dashboard/students-details/exam-card/exam-card.component";
 
 @Component({
   selector: 'app-exams',
@@ -23,7 +23,8 @@ import {LoadingComponent} from '../../shared/loading/loading.component';
     EditExamFormComponent,
     FormsModule,
     ToastAlertComponent,
-    LoadingComponent
+    LoadingComponent,
+    ExamCardComponent,
 ],
   templateUrl: './exams.component.html',
   styleUrl: './exams.component.css',

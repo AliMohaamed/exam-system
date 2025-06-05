@@ -21,7 +21,7 @@ button{
     opacity: 0;
 }
 button i{
-    color: white;
+    color:#5345e6;
     font-size: 30px;
     font-weight: bold;
 }
@@ -32,13 +32,11 @@ button i{
     border-radius: 30px;
     padding-left: 20px;
     font-size: 17px;
-    border: 2px solid white;
+    border: 2px solid #5345e6;
     outline: none;
     background-color: rgba(255, 255, 255, 0.2);
-    color: white;
 }
 input::placeholder{
-    color: white;
     opacity: 0.8;
 }
 

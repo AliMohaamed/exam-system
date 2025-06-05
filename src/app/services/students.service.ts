@@ -6,7 +6,7 @@ import { Observable } from 'rxjs';
   providedIn: 'root'
 })
 export class StudentsService {
-  baseUrl: string = "https://exam-app-expressjs.vercel.app/api/student"
+  baseUrl: string = "https://exam-app-expressjs.vercel.app/api/v1/student"
   constructor(private http: HttpClient) { }
 
   private getHeaders(): HttpHeaders {
@@ -17,8 +17,8 @@ export class StudentsService {
   }
 
   // Get all students
-  getAllStudentData(): Observable<any> {
-    return this.http.get(this.baseUrl, { headers: this.getHeaders() });
+  getAllStudentData(page: number = 1): Observable<any> {
+    return this.http.get(`${this.baseUrl}?page=${page}`, { headers: this.getHeaders() });
   }
 
   //Get student by id

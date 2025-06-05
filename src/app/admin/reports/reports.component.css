@@ -1,0 +1,43 @@
+.con {
+    width: 95%;
+}
+
+.card-des div {
+    font-size: 17px;
+    font-weight: 400;
+}
+
+.card-des .name {
+    font-weight: 500;
+}
+
+.card-des .date {
+    font-size: 15px;
+}
+
+@media (max-width:995px) {
+    .examsOfStudent {
+        width: 170px;
+    }
+    .con{
+        width: 98% !important;
+        margin: auto;
+    }
+}
+
+.examsOfStudent {
+    min-width: 150px;
+}
+
+.fail {
+    background-color: #f03e3e;
+    padding: 0px 18px 2px;
+    border-radius: 14px;
+}
+
+.success {
+    background-color: #51cf66;
+    padding: 0px 15px 2px;
+    border-radius: 14px;
+    margin-left: -15px;
+}

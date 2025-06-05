@@ -1,5 +1,7 @@
 import { Component, EventEmitter, Output } from '@angular/core';
 import { SearchService } from '../../../services/search.service';
+import { Router } from '@angular/router';
+
 
 @Component({
   selector: 'app-nav-top',
@@ -8,16 +10,51 @@ import { SearchService } from '../../../services/search.service';
   styleUrl: './nav-top.component.css',
 })
 export class NavTopComponent {
+  searchTerm: string = '';
+  searchResults: any[] = [];
   @Output() toggleSidebar = new EventEmitter<void>();
 
-  constructor(private searchService: SearchService) {}
+  constructor(private searchService: SearchService, private router: Router) { }
+
+
+  onSearchResults() {
+    if (this.searchTerm.trim()) {
+      this.searchService.searchResults(this.searchTerm).subscribe({
+        next: (results) => this.searchResults = results.data.attempts,
+        error: (err) => console.error(err)
+      });
+    }
+  }
 
   onToggleSidebar() {
     this.toggleSidebar.emit();
   }
 
   onSearchInput(event: Event) {
-    const term = (event.target as HTMLInputElement).value;
-    this.searchService.setSearchTerm(term);
+    const input = event.target as HTMLInputElement;
+    const value = input.value;
+    this.searchService.setSearchTerm(value);
+
+    if (value.trim()) {
+      this.router.navigate([], {
+        queryParams: { q: value },
+        queryParamsHandling: 'merge'
+      });
+    } else {
+      this.router.navigate([], {
+        queryParams: { q: null },
+        queryParamsHandling: 'merge'
+      });
+    }
+  }
+
+
+  onSearchStudents() {
+    if (this.searchTerm.trim()) {
+      this.searchService.searchStudents(this.searchTerm).subscribe({
+        next: (results) => this.searchResults = results.data,
+        error: (err) => console.error(err)
+      });
+    }
   }
 }

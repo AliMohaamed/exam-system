@@ -3,16 +3,76 @@
     margin: auto;
 }
 
-.add-student{
+.add-student {
     padding: 6px;
     border: 1px solid hsl(245, 100%, 61%);
     background-color: white;
     border-radius: 5px;
 }
-.add-student i{
+
+.add-student i {
     background-color: hsl(245, 100%, 61%);
     font-size: 18px;
-    font-weight:bolder;
+    font-weight: bolder;
     padding: 0px 3px;
     border-radius: 50%;
+}
+
+.cont2 {
+    width: 95%;
+}
+
+.btn-icon {
+    padding: 0.3rem 0.5rem;
+    border-radius: 50%;
+    border: none;
+    font-size: 1rem;
+    transition: background-color 0.2s ease-in-out;
+}
+
+/* Blue button */
+.btn-blue {
+    background-color: #cce4ff;
+    /* مشابه لـ blue-100 */
+    color: #0d6efd;
+}
+
+.btn-blue:hover {
+    background-color: #99c9ff;
+    /* مشابه لـ blue-200 */
+}
+
+/* Purple button */
+.btn-purple {
+    background-color: #e5d5ff;
+    color: #6f42c1;
+}
+
+.btn-purple:hover {
+    background-color: #d1bfff;
+}
+
+/* Red button */
+.btn-red {
+    background-color: #f8d7da;
+    color: #dc3545;
+}
+
+.btn-red:hover {
+    background-color: #f5b8bd;
+}
+
+
+.card-des div {
+    font-size: 17px;
+    font-weight: 400;
+}
+
+.card-des .name {
+    font-weight: 500;
+}
+
+
+.examsOfStudent {
+    width: 190px;
 }

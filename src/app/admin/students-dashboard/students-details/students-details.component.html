@@ -1,25 +1,37 @@
 @if (isLoading) {
-    <app-loading/>
+<app-loading />
 }
 @else {
-    <section class="d-flex justify-content-center" style="margin-top: 100px;">
-<div class="card">
-    <div class="top d-flex py-4 px-4 text-light">
-        <img [src]="student?.profileImage?.secure_url" alt="student image" width="70px" height="70px">
-        <div class="ms-3 mt-2">
-            <h5>{{student?.name}}</h5>
-            <p class="level">{{student?.level}}</p>
+<section class="d-flex left-side mt-4 container mx-auto flex-wrap flex-xl-nowrap">
+    <app-student-card [averageScore]="averageScore" [totalMinutes]="totalMinutes" [totalSeconds]="totalSeconds"
+        [hasAttempts]="hasAttempts" [student]="student" [isLoading]="isLoading" />
+    <div class="container ps-4 mt-1 mx-auto">
+        <h3>Exam Attempts</h3>
+        <div class="d-flex mt-4 gap-2">
+            <div style="width: 33%;">
+                <app-small-card icon="calendar4-week" label="Latest Exam" [value]="latestExam?.exam?.subject"
+                    [customStyle]="{ backgroundColor: '#f9fafb',padding:'10px 25px',fontSize:'14px'}"
+                    customClass="fw-medium mt-3" customClass2="fw-medium"
+                    [customStyle2]="{fontSize:'19px',marginTop:'15px'}">
+                </app-small-card>
+            </div>
+            <div style="width: 33%;">
+                <app-small-card icon="award" label="Best Score"
+                    [value]="bestScore ? (bestScore | percent:'1.0-1') : '0.00%'"
+                    [customStyle]="{ backgroundColor: '#f9fafb',padding:'10px 25px',fontSize:'14px'}"
+                    customClass="fw-medium mt-3" customClass2="fw-medium"
+                    [customStyle2]="{fontSize:'19px',marginTop:'15px'}">
+                </app-small-card>
+            </div>
+            <div style="width: 33%;">
+                <app-small-card icon="clock" label="Avg. Completion Time" [value]="avgTime+' mins'"
+                    [customStyle]="{ backgroundColor: '#f9fafb',padding:'10px 25px',fontSize:'14px'}"
+                    customClass="fw-medium mt-3" customClass2="fw-medium"
+                    [customStyle2]="{fontSize:'19px',marginTop:'15px'}">
+                </app-small-card>
+            </div>
         </div>
+        <app-exam-card [student]="student"></app-exam-card>
     </div>
-    <div class="body p-4 fw-medium">
-        <p class="d-flex justify-content-between"><span class="label">Email: </span><span class="value">{{student?.email}}</span></p>
-        <hr>
-        <p class="d-flex justify-content-between"><span class="label">Exams who took: </span><span class="value">{{student?.exams}}</span></p>
-        <hr>
-        <p class="d-flex justify-content-between"><span class="label">Degree of Exams: </span><span class="value">{{student?.degree}}</span></p>
-    
-    </div>
-</div>
 </section>
-
 }

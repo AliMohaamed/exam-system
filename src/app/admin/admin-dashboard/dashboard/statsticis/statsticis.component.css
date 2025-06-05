@@ -4,7 +4,7 @@
     box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
     padding: 20px;
     width: 500px;
-    height: 250px;
+    height: 270px;
     font-size: 18px;
 }
 
@@ -23,21 +23,34 @@
 .value {
     font-weight: bold;
     color: #333;
+    margin-bottom: 70px;
 }
+
+.title {
+    font-size: 3rem;
+    font-weight: 800;
+    background: linear-gradient(45deg, #3b82f6, #616060);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    color: transparent;
+    text-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+}
+
 @media (max-width:840px) {
     .card {
-    width: 400px;
-}
+        width: 400px;
+    }
 }
 
 @media (max-width:465px) {
     .card {
-    width: 300px;
-}
+        width: 300px;
+    }
 }
 
 @media (max-width:350px) {
     .card {
-    width: 200px;
-}
+        width: 200px;
+    }
 }
