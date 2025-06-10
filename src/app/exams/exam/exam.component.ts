@@ -66,7 +66,7 @@ export class ExamComponent implements OnInit, OnDestroy {
       return;
     }
 
-    const message = 'Once you start, leaving the page will auto-submit the exam. Ready to begin?';
+    const message = 'Once started, leaving auto-submits. Start now?';
 
     if (window.confirm(message)) {
       this.isLoading = true;
@@ -198,7 +198,7 @@ export class ExamComponent implements OnInit, OnDestroy {
   @HostListener('window:beforeunload', ['$event'])
   onBeforeUnload(event: BeforeUnloadEvent) {
     if (this.isExamStarted && !this.showResult) {
-      const message = 'Warning: Leaving or refreshing will submit your exam and you cant retake it. Proceed?';
+      const message = 'auto submit. No retake. Continue?';
       event.returnValue = message;
       return message;
     }
@@ -208,7 +208,7 @@ export class ExamComponent implements OnInit, OnDestroy {
   @HostListener('window:popstate', ['$event'])
   onPopState(event: PopStateEvent) {
     if (this.isExamStarted && !this.showResult) {
-      if (window.confirm('Warning: Leaving now will submit your exam and you can’t retake it. Continue?')) {
+      if (window.confirm('auto submit. No retake. Continue?')) {
         this.submitExam();
       } else {
         history.pushState(null, '', window.location.href);
@@ -219,7 +219,7 @@ export class ExamComponent implements OnInit, OnDestroy {
   // Add method to handle navigation attempts
   canDeactivate(): boolean {
     if (this.isExamStarted && !this.showResult) {
-      if (window.confirm('Warning: Leaving now will submit your exam and you can’t retake it. Continue?')) {
+      if (window.confirm('auto submit. No retake. Continue?')) {
         this.submitExam();
         return true;
       }

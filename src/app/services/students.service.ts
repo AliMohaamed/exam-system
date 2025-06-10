@@ -46,4 +46,8 @@ export class StudentsService {
       headers: this.getHeaders()
     });
   }
+  getStudentDetails(): Observable<any> {
+     return this.http.get(`${this.baseUrl}/profile`, { headers: this.getHeaders() })
+   }
 }
+

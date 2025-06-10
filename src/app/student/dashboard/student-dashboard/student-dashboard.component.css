@@ -26,12 +26,12 @@
         }
 
         @keyframes titleGlow {
-            0% { 
-                filter: drop-shadow(0 0 10px rgba(102, 126, 234, 0.3));
+            0% {
+                /* filter: drop-shadow(0 0 10px rgba(102, 126, 234, 0.3)); */
                 transform: scale(1);
             }
-            100% { 
-                filter: drop-shadow(0 0 20px rgba(118, 75, 162, 0.5));
+            100% {
+                /* filter: drop-shadow(0 0 20px rgba(118, 75, 162, 0.5)); */
                 transform: scale(1.02);
             }
         }

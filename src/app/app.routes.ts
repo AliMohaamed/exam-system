@@ -2,6 +2,7 @@ import { Routes } from '@angular/router';
 import { AdminDashboardComponent } from './admin/admin-dashboard/admin-dashboard.component';
 import { StudentsDashboardComponent } from './admin/students-dashboard/students-dashboard.component';
 import { StudentsDetailsComponent } from './admin/students-dashboard/students-details/students-details.component';
+import { StudentDetailsComponent } from './student/students-details/students-details.component';
 import { StudentFormComponent } from './admin/students-dashboard/student-form/student-form.component';
 import { ExamsComponent } from './admin/exams/exams.component';
 import { LoginComponent } from './auth/login/login.component';
@@ -62,7 +63,8 @@ export const routes: Routes = [
     children: [
       {path: 'student-dashboard', component: StudentDashboardComponent},
       {path: 'exams/:id', component: ExamComponent, canDeactivate: [ExamGuard]},
-      {path: 'student-exams', component: StudentExamsComponent}
+      {path: 'student-exams', component: StudentExamsComponent},
+      {path: 'student-details', component: StudentDetailsComponent}  // Make sure this uses the correct component
     ]
   },
 
