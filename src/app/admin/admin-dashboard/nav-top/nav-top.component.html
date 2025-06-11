@@ -1,10 +1,22 @@
 <header class="d-flex align-items-center justify-content-between mt-3">
-    <button  (click)="onToggleSidebar()">
-        <i class="bi bi-list"></i>
-    </button>
-    <input type="text" class="form-control w-50 inputSearch mt-2" placeholder="Search..." (change)="onSearchInput($event);onSearchStudents(); onSearchResults()" />
-    <div class="d-flex justify-content-end align-items-center">
-        <i style="color: white;" class="bi bi-bell me-3"></i>
-        <img src="https://th.bing.com/th/id/OIP.5MxizVjWEaUlIbsM0AiAGgHaFj?rs=1&pid=ImgDetMain" alt="Admin image">
-    </div>
+  <button (click)="onToggleSidebar()">
+    <i class="bi bi-list"></i>
+  </button>
+  <!-- If Student don't exist search -->
+  @if(role !== 'student') {
+
+  <input
+    type="text"
+    class="form-control w-50 inputSearch mt-2"
+    placeholder="Search..."
+    (change)="onSearchInput($event); onSearchStudents(); onSearchResults()"
+  />
+  <div class="d-flex justify-content-end align-items-center">
+    <i style="color: white" class="bi bi-bell me-3"></i>
+    <img
+      src="https://th.bing.com/th/id/OIP.5MxizVjWEaUlIbsM0AiAGgHaFj?rs=1&pid=ImgDetMain"
+      alt="Admin image"
+    />
+  </div>
+  }
 </header>

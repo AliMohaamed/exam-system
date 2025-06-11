@@ -1,6 +1,7 @@
 <section class="side-nav rounded-end-5">
-  <div class="d-flex justify-content-center pt-5">
-    <p class="logo"><i class="bi bi-clipboard-check me-2"></i>TestPilot</p>
+  <div class="d-flex px-4 pt-5">
+    <img src="Testara Logo.png" alt="logo" class="me-2" class="logo-img" />
+    <span class="logo">Testara</span>
   </div>
   <div class="side-data mt-4 d-flex flex-column justify-content-between">
     <nav class="d-flex flex-column">
@@ -33,15 +34,7 @@
 
     <div class="settings d-flex flex-column">
       <a
-        [routerLink]="['/settings']"
-        routerLinkActive="active-link"
-        class="d-flex align-items-center px-4 ps-m-5"
-        appHideSidebarOnClick
-      >
-        <i class="bi bi-gear me-3"></i> Settings
-      </a>
-      <a
-        (click)="logout()"
+        (click)="showLogoutConfirmation()"
         routerLinkActive="active-link"
         class="d-flex align-items-center px-4 ps-m-5 mb-md-3"
         appHideSidebarOnClick
@@ -51,3 +44,11 @@
     </div>
   </div>
 </section>
+
+<app-confirm-dialog
+  [show]="showConfirmDialog"
+  title="Confirm Sign Out"
+  message="Are you sure you want to sign out?"
+  (confirm)="onLogoutConfirm()"
+  (cancel)="onLogoutCancel()"
+></app-confirm-dialog>

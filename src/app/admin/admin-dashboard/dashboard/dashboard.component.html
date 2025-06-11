@@ -1,14 +1,109 @@
 @if (isLoadingStudents || isLoadingExams) {
-    <app-loading/>
-}
-@else {
-    <section class="container mx-auto mt-5">
-    <h5 class="title">Dashboard</h5>
-    <p>Welcome back</p>
-    <div class="d-flex justify-content-center flex-wrap" style="margin-top: 100px;">
-        <app-statsticis class="me-4 mb-5" label="Exams" [value]="numberOfExams" color="rgb(57, 171, 196)"></app-statsticis>
-        <app-statsticis label="Students" class="mb-5" [value]="numberOfStudents" color="rgb(115, 57, 196)"></app-statsticis>
+<app-loading />
+} @else {
+<div class="dashboard-container">
+  <!-- Welcome Section -->
+  <section class="welcome-section">
+    <div class="welcome-content">
+      <h1>{{ getGreeting() }}, Admin!</h1>
+      <p class="subtitle">Here's what's happening with your Testara today.</p>
     </div>
+    <div class="quick-actions">
+      <button class="action-btn" (click)="navigateTo('/students')">
+        <i class="fas fa-user-plus"></i>
+        Go to Student
+      </button>
+      <button class="action-btn" (click)="navigateTo('/exams')">
+        <i class="fas fa-file-alt"></i>
+        Go to Exam
+      </button>
+    </div>
+  </section>
 
-</section>
+  <!-- Statistics Cards -->
+  <section class="stats-section">
+    <div class="stats-grid">
+      <app-statsticis
+        label="Total Exams"
+        [value]="numberOfExams"
+        color="rgb(57, 171, 196)"
+        icon="fa-file-alt"
+      >
+      </app-statsticis>
+
+      <app-statsticis
+        label="Total Students"
+        [value]="numberOfStudents"
+        color="rgb(115, 57, 196)"
+        icon="fa-users"
+      >
+      </app-statsticis>
+
+    </div>
+  </section>
+
+  <!-- Recent Activity Section -->
+  <section class="recent-activity">
+    <div class="activity-grid">
+      <!-- Recent Exams -->
+      <div class="activity-card">
+        <div class="card-header">
+          <h3><i class="fas fa-clock"></i> Recent Exams</h3>
+          <button class="view-all" (click)="navigateTo('/exams')">
+            View All
+          </button>
+        </div>
+        <div class="card-content">
+          @if (recentExams.length > 0) { @for (exam of recentExams; track
+          exam._id) {
+          <div class="activity-item">
+            <div class="activity-info">
+              <h4>{{ exam.subject || "Untitled Exam" }}</h4>
+              <p>{{ formatDate(exam.createdAt) }}</p>
+            </div>
+            <div class="exam-status">
+              @if (exam.status) {
+              <span class="status-badge" [class]="exam.status.toLowerCase()">
+                {{ exam.status }}
+              </span>
+              } @if (exam.score !== undefined) {
+              <span class="score-badge"> {{ exam.score }}% </span>
+              }
+            </div>
+          </div>
+          } } @else {
+          <div class="no-data">
+            <i class="fas fa-file-alt"></i>
+            <p>No recent exams</p>
+          </div>
+          }
+        </div>
+      </div>
+
+      <!-- Recent Students -->
+      <div class="activity-card">
+        <div class="card-header">
+          <h3><i class="fas fa-user-graduate"></i> Recent Students</h3>
+          <button class="view-all" (click)="navigateTo('/students')">
+            View All
+          </button>
+        </div>
+        <div class="card-content">
+          @if (recentStudents.length > 0) { @for (student of recentStudents;
+          track student._id) {
+          <div class="activity-item">
+            <div class="activity-info">
+              <h4>{{ student.name }}</h4>
+              <p>{{ student.email }}</p>
+            </div>
+            <span class="level-badge">{{ student.level }}</span>
+          </div>
+          } } @else {
+          <p class="no-data">No recent students</p>
+          }
+        </div>
+      </div>
+    </div>
+  </section>
+</div>
 }

@@ -12,7 +12,7 @@
         <p><i class="bi bi-calendar me-2"></i> <span> {{ attempt.startTime | date:'MMMM d, y, h:mm a' }}</span></p>
         <p><i class="bi bi-clock me-2"></i> <span>Time Spent: {{ formatTime(attempt.timeSpent) }}</span></p>
         <p class="text-danger"><i class="bi bi-award me-2"></i> <span class="me-1">Score: {{attempt.totalScore}}</span>
-            <span>({{attempt.percentage|percent}})</span>
+            <span>({{attempt.percentage / 100|percent}})</span>
         </p>
     </div>
     <p class="score">Score: {{attempt.percentage/100| percent:'1.1-1'}}</p>

@@ -10,10 +10,11 @@ import {
 import { Router } from '@angular/router';
 import { AuthService } from '../auth.service';
 import { ToastAlertComponent } from '../../shared/toast-alert/toast-alert.component';
+import { LoadingComponent } from '../../shared/loading/loading.component';
 
 @Component({
   selector: 'app-login',
-  imports: [ReactiveFormsModule, CommonModule, HttpClientModule, ToastAlertComponent],
+  imports: [ReactiveFormsModule, CommonModule, HttpClientModule, ToastAlertComponent, LoadingComponent],
   templateUrl: './login.component.html',
   styleUrl: './login.component.css',
 })
@@ -23,6 +24,7 @@ export class LoginComponent {
   toastMessage = '';
   toastType: 'success' | 'error' | 'warning' | 'info' = 'info';
   showToast = false;
+  isLoading = false;
 
   showToastMessage(message: string, type: 'success' | 'error' | 'warning' | 'info' = 'info') {
     this.showToast = false;
@@ -30,7 +32,7 @@ export class LoginComponent {
       this.toastMessage = message;
       this.toastType = type;
       this.showToast = true;
-    }, 50);
+    }, 100);
   }
 
   hidePassword = true;
@@ -80,7 +82,7 @@ export class LoginComponent {
       this.productForm.markAllAsTouched();
       return;
     } else {
-      
+      this.isLoading = true;
       const email = this.productForm.get('email')?.value;
       const password = this.productForm.get('password')?.value;
       if (typeof email === 'string' && typeof password === 'string') {
@@ -89,7 +91,8 @@ export class LoginComponent {
             console.log('Login successful', response);
             this.showToastMessage('Login successful!', 'success');
             this.productForm.reset();
-
+            this.isLoading = false;
+            
             const user = {
               name: response.user.name,
               role: response.user.role // 'admin' أو 'student'
@@ -108,12 +111,15 @@ export class LoginComponent {
           },
           (error) => {
             console.error('Login failed', error);
-            this.showToastMessage('Invaild your Email or Password', 'error');
+            const errorMessage = error.error?.message || 'Invalid email or password';   
+            this.showToastMessage(errorMessage, 'error');
+            this.isLoading = false;
+          },
+          () => {
+            this.isLoading = false;
           }
         );
       }
-      
     }
-
   }
 }

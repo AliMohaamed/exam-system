@@ -7,6 +7,7 @@ import {
   ApexXAxis,
   NgApexchartsModule
 } from 'ng-apexcharts';
+import { CommonModule } from '@angular/common';
 
 export type ChartOptions = {
   series: ApexAxisChartSeries;
@@ -20,14 +21,15 @@ export type ChartOptions = {
 @Component({
   selector: 'app-statsticis',
   standalone: true,
-  imports: [NgApexchartsModule],
+  imports: [NgApexchartsModule, CommonModule],
   templateUrl: './statsticis.component.html',
   styleUrls: ['./statsticis.component.css']
 })
 export class StatsticisComponent implements OnInit {
   @Input() label = '';
-  @Input() value = 0;
-  @Input() color = '#008FFB'; // Default blue
+  @Input() value: number | string = 0;
+  @Input() color = '#008FFB';
+  @Input() icon = '';
 
   chartOptions!: ChartOptions;
 
@@ -44,6 +46,9 @@ export class StatsticisComponent implements OnInit {
         height: 100,
         sparkline: {
           enabled: true
+        },
+        toolbar: {
+          show: false
         }
       },
       plotOptions: {
@@ -53,7 +58,16 @@ export class StatsticisComponent implements OnInit {
         }
       },
       xaxis: {
-        categories: []
+        categories: [],
+        labels: {
+          show: false
+        },
+        axisBorder: {
+          show: false
+        },
+        axisTicks: {
+          show: false
+        }
       },
       fill: {
         type: 'gradient',
@@ -70,5 +84,12 @@ export class StatsticisComponent implements OnInit {
       },
       colors: [this.color]
     };
+  }
+
+  getDisplayValue(): string {
+    if (typeof this.value === 'number') {
+      return this.label.toLowerCase().includes('score') ? `${this.value}%` : this.value.toString();
+    }
+    return this.value.toString();
   }
 }

@@ -71,17 +71,26 @@ ngOnInit() {
     this.studentService.getAllStudentData(page).subscribe({
       next: (data: any) => {
         this.isLoading = false;
-        this.allStudents = data.data.students;
-        this.students = [...this.allStudents];
-        this.numberOfStudents = data.data.results;
-        this.totalPages = data.data.totalPages;
-        this.pagesArray = Array.from({ length: this.totalPages }, (_, i) => i + 1);
-        this.currentPage = page;
-        console.log(data.data)
+        if (data.data && data.data.students) {
+          this.allStudents = data.data.students;
+          this.students = [...this.allStudents];
+          this.numberOfStudents = data.data.results;
+          this.totalPages = data.data.totalPages;
+          this.pagesArray = Array.from({ length: this.totalPages }, (_, i) => i + 1);
+          this.currentPage = page;
+          this.noStudentsFound = this.students.length === 0;
+        } else {
+          this.students = [];
+          this.allStudents = [];
+          this.noStudentsFound = true;
+        }
       },
       error: (err) => {
         this.isLoading = false;
         console.error('Error fetching students:', err);
+        this.students = [];
+        this.allStudents = [];
+        this.noStudentsFound = true;
       }
     });
   }

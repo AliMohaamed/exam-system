@@ -66,8 +66,6 @@
   border-color: #ccc;
 }
 
-
-
 .modal-overlay {
   position: fixed;
   top: 0;
@@ -79,7 +77,6 @@
   justify-content: center;
   align-items: center;
   z-index: 1000;
-
 }
 
 .modal-content {
@@ -99,7 +96,7 @@
 
 .model-header p {
   margin-top: 7px;
-  color: rgb(46, 46, 46)
+  color: rgb(46, 46, 46);
 }
 
 .type-Questions {
@@ -107,14 +104,13 @@
   align-items: center;
   gap: 1rem;
   margin-top: 1rem;
-
 }
 
 .type-Questions span {
-  font-size: .9rem;
+  font-size: 0.9rem;
   font-weight: 600;
   background-color: #f0fdf4;
-  padding: 0.3rem .5rem;
+  padding: 0.3rem 0.5rem;
   border-radius: 10px;
 }
 
@@ -133,7 +129,7 @@
 
 .question-item {
   border-radius: 20px;
-  transition: all .6s ease;
+  transition: all 0.6s ease;
   padding: 1.2rem;
 }
 
@@ -156,7 +152,7 @@
 .correct-answer {
   border: 1px solid #bbf7d0;
   border-radius: 10px;
-  padding: .7rem;
+  padding: 0.7rem;
   font-size: 18px;
   font-weight: 600;
   color: #12582a;
@@ -209,9 +205,6 @@
   transform: translateY(-2px) !important;
 }
 
-
-
-
 .editQuestionNgForm {
   position: fixed;
   top: 0;
@@ -233,7 +226,6 @@
   overflow-y: auto;
   max-height: 80vh;
 }
-
 
 .addQuestions {
   position: fixed;
@@ -257,10 +249,9 @@
   max-height: 80vh;
 }
 
-
-
 .container1 {
-  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  font-family: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI",
+    sans-serif;
   /* background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); */
   min-height: 80vh;
   position: relative;
@@ -333,7 +324,6 @@
 }
 
 @keyframes float {
-
   0%,
   100% {
     transform: translateY(100vh) scale(0);
@@ -347,7 +337,7 @@
 .container {
   max-width: 1400px;
   margin: 0 auto;
-  padding: .7rem 2rem 2rem 2rem;
+  padding: 0.7rem 2rem 2rem 2rem;
   position: relative;
   z-index: 1;
 }
@@ -376,13 +366,18 @@
 }
 
 .add-btn::before {
-  content: '';
+  content: "";
   position: absolute;
   top: 0;
   left: -100%;
   width: 100%;
   height: 100%;
-  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(255, 255, 255, 0.3),
+    transparent
+  );
   transition: left 0.5s;
 }
 
@@ -406,14 +401,14 @@
   backdrop-filter: blur(20px);
   border: 1px solid rgba(255, 255, 255, 0.2);
   border-radius: 24px;
-  padding:2rem;
+  padding: 2rem;
   transition: all 0.4s cubic-bezier(0.23, 1, 0.32, 1);
   position: relative;
   overflow: hidden;
 }
 
 .exam-card::before {
-  content: '';
+  content: "";
   position: absolute;
   top: 0;
   left: 0;
@@ -494,7 +489,7 @@
 }
 
 .duration::before {
-  content: '⏱️';
+  content: "⏱️";
   font-size: 1.2rem;
 }
 
@@ -519,7 +514,7 @@
 }
 
 .action-btn::before {
-  content: '';
+  content: "";
   position: absolute;
   top: 50%;
   left: 50%;
@@ -608,11 +603,11 @@
   }
 
   .level {
-    padding: .7rem 4rem;
+    padding: 0.7rem 4rem;
   }
 
   .add-btn {
-    padding: .7rem 1.3rem;
+    padding: 0.7rem 1.3rem;
   }
 }
 
@@ -622,7 +617,6 @@
 }
 
 @keyframes pulse {
-
   0%,
   100% {
     opacity: 1;
@@ -679,4 +673,44 @@
 
 .btn-red:hover {
   background-color: #f5b8bd;
+}
+
+.header-actions {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.search-box {
+  position: relative;
+  width: 300px;
+}
+
+.search-input {
+  width: 100%;
+  padding: 0.75rem 1rem;
+  padding-right: 2.5rem;
+  border: 1px solid #e2e8f0;
+  border-radius: 8px;
+  font-size: 0.875rem;
+  transition: all 0.3s ease;
+}
+
+.search-input:focus {
+  outline: none;
+  border-color: #6366f1;
+  box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.1);
+}
+
+.search-icon {
+  position: absolute;
+  right: 1rem;
+  top: 50%;
+  transform: translateY(-50%);
+  color: #94a3b8;
+  pointer-events: none;
+}
+
+.search-input:focus + .search-icon {
+  color: #6366f1;
 }

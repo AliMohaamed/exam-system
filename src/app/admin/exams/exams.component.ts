@@ -12,6 +12,7 @@ import { Subscription } from 'rxjs';
 import { SearchService } from '../../services/search.service';
 import {LoadingComponent} from '../../shared/loading/loading.component';
 import { ExamCardComponent } from "../students-dashboard/students-details/exam-card/exam-card.component";
+import { ConfirmDialogComponent } from '../../shared/confirm-dialog/confirm-dialog.component';
 
 @Component({
   selector: 'app-exams',
@@ -25,6 +26,7 @@ import { ExamCardComponent } from "../students-dashboard/students-details/exam-c
     ToastAlertComponent,
     LoadingComponent,
     ExamCardComponent,
+    ConfirmDialogComponent
 ],
   templateUrl: './exams.component.html',
   styleUrl: './exams.component.css',
@@ -109,9 +111,25 @@ export class ExamsComponent {
   ngOnInit() {
     this.loadExams(this.currentPage);
     this.searchSub = this.searchService.searchTerm$.subscribe(term => {
-      this.exams = this.allExams.filter(exam =>
-        exam.subject.toLowerCase().includes(term.toLowerCase())
-      );
+      if (term.trim() === '') {
+        this.exams = this.allExams;
+      } else {
+        this.isLoading = true;
+        this.searchService.searchExamsBySubject(term).subscribe({
+          next: (response) => {
+            this.exams = response.data.exams;
+            this.numberOfExam = response.data.total;
+            this.currentPage = response.data.currentPage;
+            this.totalPages = response.data.totalPages;
+            this.isLoading = false;
+          },
+          error: (error) => {
+            console.error('Error searching exams:', error);
+            this.showToastMessage('Error searching exams', 'error');
+            this.isLoading = false;
+          }
+        });
+      }
     });
   }
 
@@ -153,11 +171,40 @@ export class ExamsComponent {
     }
   }
 
+  // Add new properties for confirm dialog
+  showConfirmDialog = false;
+  confirmDialogTitle = '';
+  confirmDialogMessage = '';
+  confirmDialogAction: 'deleteExam' | 'deleteQuestion' | null = null;
+  itemToDelete: string | null = null;
 
   deleteExam(id: string) {
-    const confirmDelete = confirm('Are you sure you want to delete this exam?');
-    if (confirmDelete) {
-      this.examService.deletEexam(id).subscribe({
+    this.confirmDialogTitle = 'Delete Exam';
+    this.confirmDialogMessage = 'Are you sure you want to delete this exam? This action cannot be undone.';
+    this.confirmDialogAction = 'deleteExam';
+    this.itemToDelete = id;
+    this.showConfirmDialog = true;
+  }
+
+  deleteQuestion(questionId: string) {
+    if (!this.selectedExam?._id || !questionId) {
+      console.log('Delete Question Debug:', { examId: this.selectedExam?._id, questionId });
+      this.showToastMessage('Invalid question data', 'error');
+      return;
+    }
+
+    this.confirmDialogTitle = 'Delete Question';
+    this.confirmDialogMessage = 'Are you sure you want to delete this question? This action cannot be undone.';
+    this.confirmDialogAction = 'deleteQuestion';
+    this.itemToDelete = questionId;
+    this.showConfirmDialog = true;
+  }
+
+  onConfirmDialogConfirm() {
+    if (!this.itemToDelete || !this.confirmDialogAction) return;
+
+    if (this.confirmDialogAction === 'deleteExam') {
+      this.examService.deletEexam(this.itemToDelete).subscribe({
         next: (res) => {
           console.log('Exam deleted successfully:', res);
           this.showToastMessage('Exam deleted successfully', 'success');
@@ -168,7 +215,42 @@ export class ExamsComponent {
           this.showToastMessage('Error deleting exam', 'error');
         },
       });
+    } else if (this.confirmDialogAction === 'deleteQuestion') {
+      this.isLoading = true;
+      this.questionService.deleteQuestion(this.selectedExam._id, this.itemToDelete).subscribe({
+        next: () => {
+          // Remove the question from the array
+          this.selectedExam.questions = this.selectedExam.questions.filter(
+            (q: any) => q._id !== this.itemToDelete
+          );
+
+          // Force change detection
+          this.selectedExam = { ...this.selectedExam };
+
+          this.showToastMessage('Question deleted successfully', 'success');
+          this.isLoading = false;
+        },
+        error: (err) => {
+          console.error('Error deleting question:', err);
+          this.isLoading = false;
+          this.showToastMessage('Error deleting question', 'error');
+        }
+      });
     }
+
+    this.closeConfirmDialog();
+  }
+
+  onConfirmDialogCancel() {
+    this.closeConfirmDialog();
+  }
+
+  private closeConfirmDialog() {
+    this.showConfirmDialog = false;
+    this.confirmDialogTitle = '';
+    this.confirmDialogMessage = '';
+    this.confirmDialogAction = null;
+    this.itemToDelete = null;
   }
 
   onEditExam(examData: any) {
@@ -227,11 +309,43 @@ export class ExamsComponent {
 
 
   addQuestion() {
-    let questionData: any = {
+    if (!this.selectedExam?._id) {
+      this.showToastMessage('No exam selected', 'error');
+      return;
+    }
+
+    // Validate required fields
+    if (!this.newQuestion.text || !this.newQuestion.type || !this.newQuestion.points) {
+      this.showToastMessage('Please fill in all required fields', 'error');
+      return;
+    }
+
+    // Validate question type specific fields
+    if (this.newQuestion.type === 'multiple-choice' && (!this.newQuestion.options || this.newQuestion.options.length < 2)) {
+      this.showToastMessage('Multiple choice questions must have at least 2 options', 'error');
+      return;
+    }
+
+    if (this.newQuestion.type === 'multiple-choice' && !this.newQuestion.correctOption) {
+      this.showToastMessage('Please select a correct option', 'error');
+      return;
+    }
+
+    if (this.newQuestion.type === 'fill-blank' && !this.newQuestion.correctText) {
+      this.showToastMessage('Please provide the correct answer', 'error');
+      return;
+    }
+
+    if (this.newQuestion.type === 'true-false' && this.newQuestion.correctAnswer === undefined) {
+      this.showToastMessage('Please select true or false', 'error');
+      return;
+    }
+
+    const questionData: any = {
       questionText: this.newQuestion.text,
       questionType: this.newQuestion.type,
       points: this.newQuestion.points,
-      difficulty: this.newQuestion.difficulty
+      difficulty: this.newQuestion.difficulty || 'medium'
     };
 
     // Handle different question types
@@ -248,19 +362,16 @@ export class ExamsComponent {
         break;
         
       case 'true-false':
-        questionData.correctAnswer = this.newQuestion.correctAnswer;
+        questionData.correctAnswer = this.newQuestion.correctAnswer === 'true';
         break;
     }
 
     this.isLoading = true;
     this.questionService.addQuestion(this.selectedExam._id, questionData).subscribe({
       next: (response) => {
-        // Create a new array reference to trigger change detection
-        const updatedQuestions = this.selectedExam.questions ? [...this.selectedExam.questions] : [];
-        
-        // Build the question object with consistent structure
+        // Ensure we have the correct question data with ID
         const newQuestion = {
-          ...response.data?.question || response,
+          _id: response.data?.question?._id || response._id,
           questionText: this.newQuestion.text,
           text: this.newQuestion.text,
           questionType: this.newQuestion.type,
@@ -272,9 +383,15 @@ export class ExamsComponent {
           correctText: questionData.correctText
         };
 
-        // Add to array and update
-        updatedQuestions.unshift(newQuestion);
-        this.selectedExam.questions = updatedQuestions;
+        // Update the questions array with the new question
+        if (!this.selectedExam.questions) {
+          this.selectedExam.questions = [];
+        }
+        this.selectedExam.questions = [newQuestion, ...this.selectedExam.questions];
+
+        // Force change detection
+        this.selectedExam = { ...this.selectedExam };
+
         this.showToastMessage('Question added successfully', 'success');
         this.resetQuestionForm();
         this.showAddQuestionForm = false;
@@ -292,32 +409,46 @@ export class ExamsComponent {
     this.newQuestion = {
       text: '',
       type: 'multiple-choice',
-      options: [],
-      correctAnswer: false,
-      correctText: '',
       points: 1,
-      difficulty: 'easy',
-      correctOption: false
+      difficulty: 'medium',
+      options: [{ text: '', isCorrect: false }, { text: '', isCorrect: false }],
+      correctOption: '',
+      correctText: '',
+      correctAnswer: undefined
     };
   }
 
   onQuestionTypeChange() {
+    // Reset type-specific fields when question type changes
+    this.newQuestion.correctOption = '';
+    this.newQuestion.correctText = '';
+    this.newQuestion.correctAnswer = undefined;
+    
     if (this.newQuestion.type === 'multiple-choice') {
       this.newQuestion.options = [
         { text: '', isCorrect: false },
-        { text: '', isCorrect: false },
+        { text: '', isCorrect: false }
       ];
-    } else {
-      this.newQuestion.options = [];
     }
   }
 
   addOption() {
+    if (!this.newQuestion.options) {
+      this.newQuestion.options = [];
+    }
     this.newQuestion.options.push({ text: '', isCorrect: false });
   }
 
   removeOption(index: number) {
-    this.newQuestion.options.splice(index, 1);
+    if (this.newQuestion.options && this.newQuestion.options.length > 2) {
+      this.newQuestion.options.splice(index, 1);
+      // If the removed option was the correct one, reset correctOption
+      if (this.newQuestion.correctOption === this.newQuestion.options[index]?.text) {
+        this.newQuestion.correctOption = '';
+      }
+    } else {
+      this.showToastMessage('Question must have at least 2 options', 'error');
+    }
   }
 
 
@@ -327,24 +458,6 @@ export class ExamsComponent {
     this.showEditQuestionForm = true;
   }
 
-  deleteQuestion(questionId: string) {
-    if (confirm('Are you sure you want to delete this question?')) {
-      this.questionService.deleteQuestion(this.selectedExam._id, questionId).subscribe({
-        next: () => {
-          this.selectedExam.questions = this.selectedExam.questions.filter(
-            (q: any) => q._id !== questionId
-          );
-          this.showToastMessage('Question deleted successfully', 'success');
-        },
-        error: (err) => {
-          console.error('Error deleting question:', err);
-          this.showToastMessage('Error deleting question', 'error');
-        }
-      });
-    }
-  }
-
-
   cancelEditQuestion() {
     this.showEditQuestionForm = false;
     this.questionToEdit = null;
@@ -352,62 +465,88 @@ export class ExamsComponent {
   }
   
   saveEditedQuestion() {
-    // if (!this.questionToEdit || this.editQuestionIndex === null) return;
-  
+    if (!this.questionToEdit || !this.questionToEdit._id || this.editQuestionIndex === null) {
+      this.showToastMessage('Invalid question data', 'error');
+      return;
+    }
+
+    // Validate required fields
+    if (!this.questionToEdit.questionText || !this.questionToEdit.questionType || !this.questionToEdit.points) {
+      this.showToastMessage('Please fill in all required fields', 'error');
+      return;
+    }
+
     const questionData: any = {
       questionText: this.questionToEdit.questionText,
       questionType: this.questionToEdit.questionType,
       points: this.questionToEdit.points,
-      difficulty: this.questionToEdit.difficulty
+      difficulty: this.questionToEdit.difficulty || 'medium'
     };
-  
-    // حسب نوع السؤال
+
+    // Handle different question types
     switch (this.questionToEdit.questionType) {
       case 'multiple-choice':
+        if (!this.questionToEdit.options || this.questionToEdit.options.length < 2) {
+          this.showToastMessage('Multiple choice questions must have at least 2 options', 'error');
+          return;
+        }
+        if (!this.questionToEdit.correctOption) {
+          this.showToastMessage('Please select a correct option', 'error');
+          return;
+        }
         questionData.options = this.questionToEdit.options.map((option: any) => ({
           text: option.text,
           isCorrect: option.text === this.questionToEdit.correctOption
         }));
         break;
-  
+
       case 'fill-blank':
+        if (!this.questionToEdit.correctText) {
+          this.showToastMessage('Please provide the correct answer', 'error');
+          return;
+        }
         questionData.correctText = this.questionToEdit.correctText;
         break;
-  
+
       case 'true-false':
-        questionData.correctAnswer = this.questionToEdit.correctAnswer;
+        if (this.questionToEdit.correctAnswer === undefined) {
+          this.showToastMessage('Please select true or false', 'error');
+          return;
+        }
+        questionData.correctAnswer = this.questionToEdit.correctAnswer === 'true';
         break;
     }
-  
+
     this.isLoading = true;
-  
     this.questionService.updateQuestion(this.selectedExam._id, this.questionToEdit._id, questionData).subscribe({
       next: (res) => {
-        // نحاول ناخد النتيجة من ال API، أو نرجع البيانات اللي بعتناها
         const updatedQuestion = {
-          ...res.data?.question || questionData,
-          _id: this.questionToEdit._id, 
-          text: questionData.questionText,
-          type: questionData.questionType,
+          _id: this.questionToEdit._id,
           questionText: questionData.questionText,
+          text: questionData.questionText,
           questionType: questionData.questionType,
+          type: questionData.questionType,
           points: questionData.points,
           difficulty: questionData.difficulty,
           options: questionData.options || [],
           correctAnswer: questionData.correctAnswer,
           correctText: questionData.correctText
         };
-  
-        // تعديل المصفوفة
+
+        // Update the question in the array
         const updatedQuestions = [...this.selectedExam.questions];
         updatedQuestions[this.editQuestionIndex] = updatedQuestion;
         this.selectedExam.questions = updatedQuestions;
+
+        // Force change detection
+        this.selectedExam = { ...this.selectedExam };
+
         this.showToastMessage('Question updated successfully', 'success');
         this.cancelEditQuestion();
         this.isLoading = false;
       },
       error: (err) => {
-        console.error('❌ Error updating question:', err);
+        console.error('Error updating question:', err);
         this.isLoading = false;
         this.showToastMessage('Error updating question', 'error');
       }

@@ -10,6 +10,7 @@ import {
 import { Router } from '@angular/router';
 import { AuthService } from '../auth.service';
 import { ToastAlertComponent } from '../../shared/toast-alert/toast-alert.component';
+import { LoadingComponent } from '../../shared/loading/loading.component';
 @Component({
   selector: 'app-sign-up',
   imports: [
@@ -17,6 +18,7 @@ import { ToastAlertComponent } from '../../shared/toast-alert/toast-alert.compon
     CommonModule,
     HttpClientModule,
     ToastAlertComponent,
+    LoadingComponent
   ],
   templateUrl: './sign-up.component.html',
   styleUrl: './sign-up.component.css',
@@ -27,7 +29,7 @@ export class SignUpComponent {
   toastMessage = '';
   toastType: 'success' | 'error' | 'warning' | 'info' = 'info';
   showToast = false;
-
+  isLoading = false;
 
   showToastMessage(message: string, type: 'success' | 'error' | 'warning' | 'info' = 'info') {
     this.showToast = false;
@@ -100,16 +102,16 @@ export class SignUpComponent {
       this.productForm.markAllAsTouched();
       this.showToastMessage('Please fill all required fields correctly!', 'warning');
       return;
-    }
+    } 
 
     const formValue = this.productForm.value;
 
-    // تحقق من تطابق كلمة المرور
     if (formValue.password !== formValue.ConfirmPassword) {
       this.showToastMessage('Passwords do not match.', 'warning');
       return;
     }
 
+    this.isLoading = true;
     const signupData = {
       name: formValue.fname ?? '',
       email: formValue.email ?? '',
@@ -126,6 +128,7 @@ export class SignUpComponent {
           this.showToastMessage('Check your Email...', 'success');
           this.productForm.reset();
         }
+        this.isLoading = false;
       },
       error: (err) => {
         if (err?.error?.message && err.error.message.toLowerCase().includes('already')) {
@@ -133,7 +136,11 @@ export class SignUpComponent {
         } else {
           this.showToastMessage('Invalid input data or server error.', 'error');
         }
+        this.isLoading = false;
       },
+      complete: () => {
+        this.isLoading = false;
+      }
     });
   }
 

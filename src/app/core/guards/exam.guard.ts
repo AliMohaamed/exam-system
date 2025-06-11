@@ -6,7 +6,7 @@ import { ExamComponent } from '../../exams/exam/exam.component';
   providedIn: 'root'
 })
 export class ExamGuard implements CanDeactivate<ExamComponent> {
-  canDeactivate(component: ExamComponent): boolean {
+  canDeactivate(component: ExamComponent): boolean | Promise<boolean> {
     return component.canDeactivate();
   }
 }

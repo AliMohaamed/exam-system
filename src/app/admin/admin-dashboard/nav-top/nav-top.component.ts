@@ -16,6 +16,15 @@ export class NavTopComponent {
 
   constructor(private searchService: SearchService, private router: Router) { }
 
+  // get role , if student then don't show search, if admin then show admin search
+  role?: string ;
+  ngOnInit() {
+    let user = JSON.parse(localStorage.getItem('user') || '{}');
+    this.role = user?.role;
+    console.log('User :', user);
+    console.log('User role:', this.role);
+  }
+  
 
   onSearchResults() {
     if (this.searchTerm.trim()) {

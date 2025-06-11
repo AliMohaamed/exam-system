@@ -9,7 +9,7 @@ import { appConfig } from './app/app.config';
 
 bootstrapApplication(AppComponent, {
   providers: [
-    provideRouter(routes, withHashLocation()), // Add withHashLocation() for better compatibility
+    provideRouter(routes),
     provideHttpClient(),
     ...(appConfig.providers || [])
   ]

@@ -1,227 +1,133 @@
 @if(showMessage){
 <app-title [text]="'Student deleted successfully!'"></app-title>
-}
-
-@if (isLoading) {
+} @if (isLoading) {
 <app-loading />
-}
-@else if (noStudentsFound && !isLoading) {
-    <app-not-found></app-not-found>
-}
-
-@else{
+} @else if (noStudentsFound && !isLoading) {
+<app-not-found></app-not-found>
+} @else{
 <section class="container cont2 mx-auto">
-    <!-- <h4 class="title mb-4">All Students</h4>
-    <table class="table text-center m-auto shadow-lg rounded-4 overflow-hidden">
-        <thead>
-            <tr>
-                <th scope="col-3" class="pt-5">Name</th>
-                <th scope="col-2" class="pt-5">Level</th>
-                <th scope="col-3" class="pt-5">Exams</th>
-                <th scope="col-2" class="pt-5">Degrees</th>
-                <th scope="col-2" class="pt-5" style="width: 100px; text-align: center;">Actions</th>
-            </tr>
-        </thead>
-        <tbody>
-            @for (student of students; track $index) {
-            <tr>
-                <td class="py-3 col-3">{{student.name}}</td>
-                <td class="py-3 col-2">{{student.level}}</td>
-                <td class="py-3 col-3">
-                    <span class="examsOfStudent">
-                        @if(student.attempts.length>0){
-                        @for (attempt of student.attempts;let last = $last; track $index) {
-                        {{attempt.exam.subject}}
-                        @if (!last) {,}
-                        }
-                        }
-                        @else{
-                        <span class="text-danger">Not tested</span>
-                        }
-                    </span>
-                </td>
-                <td class="py-3 col-2">
-                    <span class="examsOfStudent">
-                        @if(student.attempts.length>0){
-                        @for (attempt of student.attempts;let last = $last; track $index) {
-                        {{ attempt.percentage / 100 | percent:'1.2-2' }}
-                        <span>
-                            @if (!last) {,} </span>
-                        }
-                        }
-                        @else{
-                        <span class="text-danger">Nothing</span>
-                        }
-                    </span>
-                </td>
-                <td class="py-3 col-2 text-center">
-                    <button class="btn btn-sm btn-warning me-2" title="view" [routerLink]="['/students', student._id]">
-                        <i class="bi bi-eye"></i>
-                    </button>
-                    <button class="btn btn-sm btn-primary me-2" title="Edit"
-                        [routerLink]="['/students/edit', student._id]">
-                        <i class="bi bi-pencil"></i>
-                    </button>
-                    <button class="btn btn-sm btn-danger me-2" (click)="deleteStudent(student._id)" title="Delete">
-                        <i class="bi bi-trash"></i>
-                    </button>
-                </td>
-            </tr>
-            }
-        </tbody>
-    </table> -->
-
-<div class="container mt-4">
+  <div class="container mt-4">
     <div class="header">
-        <h1 class="title">All Students</h1>
-        <button class="add-btn" [routerLink]="['/students/edit/0']">
-            ✨ Add New Student
-        </button>
+      <h1 class="title">All Students</h1>
+      <button class="add-btn" [routerLink]="['/students/edit/0']">
+        ✨ Add New Student
+      </button>
     </div>
 
-    <!-- <div class="exam-grid">
-        <div class="exam-card text-light card-title">
-            <div class="card-content d-flex px-4 fs-5 fw-medium" style="color: #f5f8fadb;">
-                <div class="col-2">Name</div>
-                <div class="col-3 ps-2">Levels</div>
-                <div class="col-3" style="margin-left: -10px;">Exams</div>
-                <div class="col-2" style="margin-left: -80px !important;">Degrees</div>
-                <div class="col-2" style="margin-left: 35px;">Actions</div>
-            </div>
-        </div>
+    <div class="table-container">
+      <table>
+        <thead>
+          <tr>
+            <th>Name</th>
+            <th>Levels</th>
+            <th>Exams</th>
+            <th>Degrees</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          @for (student of students; track $index) {
+          <tr>
+            <td class="name-cell">{{ student.name }}</td>
+            <td>
+              <span
+                class="level-badge"
+                [ngClass]="getLevelClass(student.level)"
+                >{{ student.level }}</span
+              >
+            </td>
+            <td class="exams-cell">
+              @if(student.attempts.length>0){ @for (attempt of
+              student.attempts;let last = $last; track $index) {
+              {{ attempt.exam?.subject }}
+              @if (!last) {,} } } @else{
+              <span class="ps-5" style="color: #f0a4a9">Not tested</span>
+              }
+            </td>
+            <td class="degrees-cell">
+              @if(student.attempts.length>0){ @for (attempt of
+              student.attempts;let last = $last; track $index) {
+              {{ attempt.percentage / 100 | percent : "1.2-2" }}
+              <span> @if (!last) {,} </span>
+              } } @else{
+              <span class="ms-4" style="color: #f0a4a9">Nothing</span>
+              }
+            </td>
+            <td class="actions-cell">
+              <div class="action-buttons">
+                <button
+                  [routerLink]="['/students', student._id]"
+                  class="btn btn-icon btn-blue"
+                  title="view"
+                >
+                  <i class="bi bi-eye"></i>
+                </button>
+                <button
+                  [routerLink]="['/students/edit', student._id]"
+                  class="btn btn-icon btn-purple"
+                  title="Edit"
+                >
+                  <i class="bi bi-pencil"></i>
+                </button>
+                <button
+                  (click)="deleteStudent(student._id)"
+                  class="btn btn-icon btn-red"
+                  title="Delete"
+                >
+                  <i class="bi bi-trash"></i>
+                </button>
+              </div>
+            </td>
+          </tr>
+          }
+        </tbody>
+      </table>
+    </div>
+  </div>
 
-        @for (student of students; track $index) {
-        <div class="exam-card text-light">
-            <div class="card-content d-flex px-4 card-des">
-                <div class="col-2 name">{{student.name}}</div>
-                <div class="col-2 examsOfStudent">{{student.level}}</div>
-                <div class="col-3 examsOfStudent">@if(student.attempts.length>0){
-                    @for (attempt of student.attempts;let last = $last; track $index) {
-                    {{attempt.exam.subject}}
-                    @if (!last) {,}
-                    }
-                    }
-                    @else{
-                    <span class="ps-5" style="color: #f0a4a9">Not tested</span>
-                    }
-                </div>
-                <div class="col-2 ps-4 examsOfStudent">
-                    @if(student.attempts.length>0){
-                    @for (attempt of student.attempts;let last = $last; track $index) {
-                    {{ attempt.percentage / 100 | percent:'1.2-2' }}
-                    <span>
-                        @if (!last) {,} </span>
-                    }
-                    }
-                    @else{
-                    <span class="ms-4" style="color: #f0a4a9">Nothing</span>
-                    }
-                </div>
-                <div class="col-3">
-                    <div class="actions ps-5">
-                        <button class="btn btn-icon btn-blue " title="view" [routerLink]="['/students', student._id]">
-                            <i class="bi bi-eye"></i>
-                        </button>
-                        <button class="btn btn-icon btn-purple" title="Edit"
-                            [routerLink]="['/students/edit', student._id]">
-                            <i class="bi bi-pencil"></i>
-                        </button>
-                        <button class="btn btn-icon btn-red" (click)="deleteStudent(student._id)" title="Delete">
-                            <i class="bi bi-trash"></i>
-                        </button>
-                    </div>
-                </div>
-            </div>
-        </div>
-        }
-    </div> -->
-
-        
-        <div class="table-container">
-            <table>
-                <thead>
-                    <tr>
-                        <th>Name</th>
-                        <th>Levels</th>
-                        <th>Exams</th>
-                        <th>Degrees</th>
-                        <th>Actions</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    
-                    @for (student of students; track $index) {
-                        <tr>
-                        <td class="name-cell">{{student.name}}</td>
-                        <td><span class="level-badge" [ngClass]="getLevelClass(student.level)">{{student.level}}</span></td>
-                        <td class="exams-cell">@if(student.attempts.length>0){
-                    @for (attempt of student.attempts;let last = $last; track $index) {
-                    {{attempt.exam.subject}}
-                    @if (!last) {,}
-                    }
-                    }
-                    @else{
-                    <span class="ps-5" style="color: #f0a4a9">Not tested</span>
-                    }</td>
-                        <td class="degrees-cell">@if(student.attempts.length>0){
-                    @for (attempt of student.attempts;let last = $last; track $index) {
-                    {{ attempt.percentage / 100 | percent:'1.2-2' }}
-                    <span>
-                        @if (!last) {,} </span>
-                    }
-                    }
-                    @else{
-                    <span class="ms-4" style="color: #f0a4a9">Nothing</span>
-                    }</td>
-                        <td class="actions-cell">
-                            <div class="action-buttons">
-                                <button [routerLink]="['/students', student._id]" class="btn btn-icon btn-blue " title="view"><i class="bi bi-eye"></i></button>
-                                <button [routerLink]="['/students/edit', student._id]" class="btn btn-icon btn-purple" title="Edit"> <i class="bi bi-pencil"></i></button>
-                                <button (click)="deleteStudent(student._id)" class="btn btn-icon btn-red"  title="Delete"><i class="bi bi-trash"></i></button>
-                            </div>
-                        </td>
-                    </tr>
-                    }
-
-                </tbody>
-            </table>
-        </div>
-
-
-
-</div>
-
-    <!-- <button class="m-4 add-student">
+  <!-- <button class="m-4 add-student">
         <i class="bi bi-plus fs-5 text-light"></i>
         <span class="ms-2" [routerLink]="['/students/edit/0']">Add new student</span>
     </button> -->
 
-    <!-- pagination-->
-    <nav class="d-flex justify-content-center my-4">
-        <ul class="pagination gap-2">
-            <!-- Previous -->
-            <li class="page-item" [class.disabled]="currentPage === 1">
-                <button class="page-link px-4 py-2" (click)="changePage(currentPage - 1)">
-                    ← Prev
-                </button>
-            </li>
+  <!-- pagination-->
+  <nav class="d-flex justify-content-center my-4">
+    <ul class="pagination gap-2">
+      <!-- Previous -->
+      <li class="page-item" [class.disabled]="currentPage === 1">
+        <button
+          class="page-link px-4 py-2"
+          (click)="changePage(currentPage - 1)"
+        >
+          ← Prev
+        </button>
+      </li>
 
-            <!-- Page Numbers -->
-            @for (page of pagesArray; track $index){
-            <li class="page-item" [class.active]="currentPage === page">
-                <button class="page-link px-3 py-2" (click)="changePage(page)" [ngClass]="{'bg-primary text-white border-0 rounded-3': currentPage === page,'border rounded-3': currentPage !== page
-        }">
-                    {{ page }}
-                </button>
-            </li>
-            }
-            <!-- Next -->
-            <li class="page-item" [class.disabled]="currentPage === totalPages">
-                <button class="page-link px-4 py-2" (click)="changePage(currentPage + 1)">
-                    Next →
-                </button>
-            </li>
-        </ul>
-    </nav>
+      <!-- Page Numbers -->
+      @for (page of pagesArray; track $index){
+      <li class="page-item" [class.active]="currentPage === page">
+        <button
+          class="page-link px-3 py-2"
+          (click)="changePage(page)"
+          [ngClass]="{
+            'bg-primary text-white border-0 rounded-3': currentPage === page,
+            'border rounded-3': currentPage !== page
+          }"
+        >
+          {{ page }}
+        </button>
+      </li>
+      }
+      <!-- Next -->
+      <li class="page-item" [class.disabled]="currentPage === totalPages">
+        <button
+          class="page-link px-4 py-2"
+          (click)="changePage(currentPage + 1)"
+        >
+          Next →
+        </button>
+      </li>
+    </ul>
+  </nav>
 </section>
 }

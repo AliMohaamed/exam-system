@@ -21,11 +21,9 @@ import { ExamGuard } from './core/guards/exam.guard';
 import { StudentExamsComponent } from './student/dashboard/student-exams/student-exams.component';
 import { AuthGuard } from './core/guards/auth.guard';
 import { RoleGuard } from './core/guards/role.guard';
-
+import { PageNotFoundComponent } from './shared/page-not-found/page-not-found.component';
 
 export const routes: Routes = [
-  { path: '', redirectTo: '/auth/login', pathMatch: 'full' },
-
   {
     path: '',
     component: MainLayoutComponent,
@@ -39,7 +37,6 @@ export const routes: Routes = [
       { path: 'students/:id', component: StudentsDetailsComponent },
       { path: 'students/edit/:id', component: StudentFormComponent },
       { path: 'reports', component: ReportsComponent},
-      // TODO: Add routes like /reports, /payment, etc.
     ]
   },
   {
@@ -64,9 +61,8 @@ export const routes: Routes = [
       {path: 'student-dashboard', component: StudentDashboardComponent},
       {path: 'exams/:id', component: ExamComponent, canDeactivate: [ExamGuard]},
       {path: 'student-exams', component: StudentExamsComponent},
-      {path: 'student-details', component: StudentDetailsComponent}  // Make sure this uses the correct component
+      {path: 'student-details', component: StudentDetailsComponent}
     ]
   },
-
-  { path: '**', redirectTo: '' }
+  { path: '**', component: PageNotFoundComponent }
 ];

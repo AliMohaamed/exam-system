@@ -1,78 +1,102 @@
 <div class="container1">
-    <div class="otp-card">
-        <div class="otp-content">
-            <h1>You ‘ve Got Email</h1>
-            <p class="welcome-text">We have sent the OTP verification code to<br>
-                your email address check your email and enter<br> the code below.
-            </p>
+  <div class="otp-card">
+    <div class="otp-content">
+      <h1>You ‘ve Got Email</h1>
+      <p class="welcome-text">
+        We have sent the OTP verification code to<br />
+        your email address check your email and enter<br />
+        the code below.
+      </p>
 
-            <form [formGroup]="otpForm" (ngSubmit)="onSubmit()">
-                <div class="otp-inputs">
-                    <input type="text"
-                        formControlName="digit1"
-                        maxlength="1"
-                        (input)="onDigitInput($event, digit2)"
-                        (keydown)="onKeyDown($event, digit1, null)"
-                        #digit1>
-                    <input type="text"
-                        formControlName="digit2"
-                        maxlength="1"
-                        (input)="onDigitInput($event, digit3)"
-                        (keydown)="onKeyDown($event, digit2, digit1)"
-                        #digit2>
-                    <input type="text"
-                        formControlName="digit3"
-                        maxlength="1"
-                        (input)="onDigitInput($event, digit4)"
-                        (keydown)="onKeyDown($event, digit3, digit2)"
-                        #digit3>
-                    <input type="text"
-                        formControlName="digit4"
-                        maxlength="1"
-                        (input)="onDigitInput($event, digit5)"
-                        (keydown)="onKeyDown($event, digit4, digit3)"
-                        #digit4>
-                    <input type="text"
-                        formControlName="digit5"
-                        maxlength="1"
-                        (input)="onDigitInput($event, digit6)"
-                        (keydown)="onKeyDown($event, digit5, digit4)"
-                        #digit5>
-                    <input type="text"
-                        formControlName="digit6"
-                        maxlength="1"
-                        (input)="onDigitInput($event, null)"
-                        (keydown)="onKeyDown($event, digit6, digit5)"
-                        #digit6>
-                </div>
+      <form [formGroup]="otpForm" (ngSubmit)="onSubmit()">
+        <div class="otp-inputs">
+          <input
+            type="text"
+            formControlName="digit1"
+            maxlength="1"
+            (input)="onDigitInput($event, digit2)"
+            (keydown)="onKeyDown($event, digit1, null)"
+            #digit1
+          />
+          <input
+            type="text"
+            formControlName="digit2"
+            maxlength="1"
+            (input)="onDigitInput($event, digit3)"
+            (keydown)="onKeyDown($event, digit2, digit1)"
+            #digit2
+          />
+          <input
+            type="text"
+            formControlName="digit3"
+            maxlength="1"
+            (input)="onDigitInput($event, digit4)"
+            (keydown)="onKeyDown($event, digit3, digit2)"
+            #digit3
+          />
+          <input
+            type="text"
+            formControlName="digit4"
+            maxlength="1"
+            (input)="onDigitInput($event, digit5)"
+            (keydown)="onKeyDown($event, digit4, digit3)"
+            #digit4
+          />
+          <input
+            type="text"
+            formControlName="digit5"
+            maxlength="1"
+            (input)="onDigitInput($event, digit6)"
+            (keydown)="onKeyDown($event, digit5, digit4)"
+            #digit5
+          />
+          <input
+            type="text"
+            formControlName="digit6"
+            maxlength="1"
+            (input)="onDigitInput($event, null)"
+            (keydown)="onKeyDown($event, digit6, digit5)"
+            #digit6
+          />
+        </div>
 
-                <p class="codeExpire" *ngIf="showTimer">The code expired in {{formattedTime}}</p>
+        <p class="codeExpire" *ngIf="showTimer">
+          The code expired in {{ formattedTime }}
+        </p>
 
-                <!-- <div class="error-message"
+        <!-- <div class="error-message"
                     *ngIf="otpForm.invalid && otpForm.touched">
                     Please enter all 6 digits
                 </div> -->
 
-                <button type="submit" class="verify-btn"
-                    [disabled]="otpForm.invalid || isSubmitting">
-                    {{ isSubmitting ? 'Verifying...' : 'Verify OTP' }}
-                </button>
-            </form>
+        <button
+          type="submit"
+          class="verify-btn"
+          [disabled]="otpForm.invalid || isSubmitting"
+        >
+          {{ isSubmitting ? "Verifying..." : "Verify OTP" }}
+        </button>
+      </form>
 
-            <div class="resend-section">
-                <p *ngIf="!showTimer">Didn't receive the code? <a (click)="resendCode()" class="resend-link">Resend</a></p>
-            </div>
+      <div class="resend-section">
+        <p *ngIf="!showTimer">
+          Didn't receive the code?
+          <a (click)="resendCode()" class="resend-link">Resend</a>
+        </p>
+      </div>
 
-            <div class="register-link">
-                <p> <a (click)="loginNow()">Back to Sign in</a></p>
-            </div>
-        </div>
+      <div class="register-link">
+        <p><a (click)="loginNow()">Back to Sign in</a></p>
+      </div>
     </div>
+  </div>
 </div>
 
 <app-toast-alert
-    *ngIf="showToast"
-    [message]="toastMessage"
-    [type]="toastType"
-    [duration]="3000">
+  *ngIf="showToast"
+  [message]="toastMessage"
+  [type]="toastType"
+  [duration]="3000"
+  style="position: fixed; top: 20px; right: 20px; z-index: 9999"
+>
 </app-toast-alert>

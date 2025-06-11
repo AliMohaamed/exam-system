@@ -1,14 +1,16 @@
 import { Component } from '@angular/core';
 import { Router, RouterModule } from '@angular/router';
 import { HideSidebarOnClickDirective } from '../../../shared/directives/hide-sidebar-on-click.directive';
+import { ConfirmDialogComponent } from '../../../shared/confirm-dialog/confirm-dialog.component';
 
 @Component({
   selector: 'app-sidebar',
-  imports: [RouterModule, HideSidebarOnClickDirective],
+  imports: [RouterModule, HideSidebarOnClickDirective, ConfirmDialogComponent],
   templateUrl: './sidebar.component.html',
   styleUrl: './sidebar.component.css'
 })
 export class SidebarComponent {
+  showConfirmDialog = false;
 
   constructor(private router: Router) { }
 
@@ -20,9 +22,22 @@ export class SidebarComponent {
     { icon: "bi bi-paypal", text: "Payment" },
   ];
 
+  showLogoutConfirmation() {
+    this.showConfirmDialog = true;
+  }
+
+  onLogoutConfirm() {
+    this.showConfirmDialog = false;
+    this.logout();
+  }
+
+  onLogoutCancel() {
+    this.showConfirmDialog = false;
+  }
 
   logout() {
     localStorage.removeItem('token');
+    localStorage.removeItem('user');
     this.router.navigate(['/auth/login']);
   }
 }

@@ -34,7 +34,7 @@ export class ExamService {
   // Add exam
   AddNewExam(examData: {
     subject: string;
-    description: string;
+    description: string | undefined;
     level: string;
     duration: number;
   }): Observable<any> {

@@ -71,7 +71,7 @@
             #duration="ngModel"
             required
             min="1"
-            [class.is-invalid]="duration.invalid && (duration.dirty || duration.touched)">
+            >
           <div class="invalid-feedback" *ngIf="duration.invalid && (duration.dirty || duration.touched)">
             <div *ngIf="duration.errors?.['required']">Duration is required</div>
             <div *ngIf="duration.errors?.['min']">Duration must be greater than 0</div>

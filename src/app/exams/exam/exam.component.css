@@ -444,8 +444,6 @@ button[type="submit"],
 .stat-icon {
   position: relative;
   font-size: 1.5rem;
-  width: 48px;
-  height: 48px;
   display: flex;
   align-items: center;
   justify-content: center;

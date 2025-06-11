@@ -1,9 +1,22 @@
-<div class="card">
-    <div class="header">
-        <span class="label">{{ label }}</span>
-        <span class="value">{{ value }}</span>
+<div class="stat-card">
+  <div class="stat-header">
+    <div class="stat-info">
+      @if (icon) {
+      <i class="fas {{ icon }}"></i>
+      }
+      <span class="label">{{ label }}</span>
     </div>
-    <apx-chart [series]="chartOptions.series" [chart]="chartOptions.chart" [plotOptions]="chartOptions.plotOptions"
-        [xaxis]="chartOptions.xaxis" [fill]="chartOptions.fill" [colors]="chartOptions.colors">
+    <span class="value">{{ getDisplayValue() }}</span>
+  </div>
+  <div class="chart-container">
+    <apx-chart
+      [series]="chartOptions.series"
+      [chart]="chartOptions.chart"
+      [plotOptions]="chartOptions.plotOptions"
+      [xaxis]="chartOptions.xaxis"
+      [fill]="chartOptions.fill"
+      [colors]="chartOptions.colors"
+    >
     </apx-chart>
+  </div>
 </div>

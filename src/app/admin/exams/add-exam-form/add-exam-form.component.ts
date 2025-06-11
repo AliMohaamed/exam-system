@@ -25,10 +25,10 @@ export class AddExamFormComponent {
   constructor(private examService: ExamService) {}
 
   onSubmit() {
-    if (this.newExam.subject && this.newExam.description && this.newExam.level && this.newExam.duration) {
+    if (this.newExam.subject  && this.newExam.level && this.newExam.duration) {
       const examData = {
         subject: this.newExam.subject,
-        description: this.newExam.description,
+        description: this.newExam.description || undefined,
         level: this.newExam.level,
         duration: this.newExam.duration
       };

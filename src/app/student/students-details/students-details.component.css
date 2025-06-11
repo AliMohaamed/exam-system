@@ -1,0 +1,53 @@
+/* Container styles */
+.container-fluid {
+  max-width: 1400px;
+  margin: 0 auto;
+}
+
+/* Responsive padding adjustments */
+@media (max-width: 768px) {
+  .container-fluid {
+    padding-left: 1rem !important;
+    padding-right: 1rem !important;
+  }
+}
+
+/* Card spacing and alignment */
+.row {
+  margin: 0;
+}
+
+/* Ensure proper spacing between cards on mobile */
+@media (max-width: 768px) {
+  .col-12 {
+    margin-bottom: 1rem;
+  }
+}
+
+/* Adjust heading size for different screens */
+h3 {
+  font-size: 1.5rem;
+  margin-bottom: 1.5rem;
+}
+
+@media (max-width: 576px) {
+  h3 {
+    font-size: 1.25rem;
+    margin-bottom: 1rem;
+  }
+}
+
+/* Ensure proper spacing for the no attempts message */
+.text-center {
+  padding: 2rem 1rem;
+}
+
+@media (max-width: 576px) {
+  .text-center {
+    padding: 1.5rem 1rem;
+  }
+
+  .text-center .fs-1 {
+    font-size: 2.5rem !important;
+  }
+}

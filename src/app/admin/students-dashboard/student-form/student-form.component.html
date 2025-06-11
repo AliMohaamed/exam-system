@@ -1,80 +1,164 @@
 @if(isLoading&&idFromRoute!=='0'){
-    <app-loading/>
-}
-@else {
-    @if(showMessage&&idFromRoute==='0'){
+<app-loading />
+} @else { @if(showMessage&&idFromRoute==='0'){
 <app-title [text]="'Student added successfully!'"></app-title>
 }@else if((showMessage&&idFromRoute!=='0')){
 <app-title [text]="'Student updated successfully!'"></app-title>
 }
 
-<section class="mx-5 d-flex align-items-center justify-content-center" style="height: 80vh;">
-    <div class="form container mx-auto p-4 rounded-2">
-    <h4 class="mb-4 mt-2 text-center">@if (idFromRoute!=='0') {
-        Update Student Data
-        }
-        @else {
-        Add New Student
-        }
-    </h4>
+<section class="form-container">
+  <div class="form-card">
+    <div class="form-header">
+      <h4>
+        @if (idFromRoute!=='0') { Update Student Data }@else { Add New Student }
+      </h4>
+    </div>
 
-    <form [formGroup]="studentForm" (ngSubmit)="submitForm()" class="d-flex flex-column">
-        <!-- Name -->
-        <label for="name">Name</label>
-        <input id="name" formControlName="name" class="mb-2 p-2 rounded-2" type="text">
-        <div [hidden]="!(studentForm.get('name')?.touched && studentForm.get('name')?.invalid)">
-            <small [hidden]="!studentForm.get('name')?.errors?.['required']">Name is required.</small>
-            <small [hidden]="!studentForm.get('name')?.errors?.['minlength']">Minimum 3 characters.</small>
+    <form
+      [formGroup]="studentForm"
+      (ngSubmit)="submitForm()"
+      class="form-content"
+    >
+      <!-- Name -->
+      <div class="form-group">
+        <label for="name">
+          <i class="fas fa-user"></i>
+          Name
+        </label>
+        <input
+          id="name"
+          formControlName="name"
+          type="text"
+          placeholder="Enter student name"
+        />
+        <div
+          class="error-message"
+          [hidden]="
+            !(
+              studentForm.get('name')?.touched &&
+              studentForm.get('name')?.invalid
+            )
+          "
+        >
+          <small [hidden]="!studentForm.get('name')?.errors?.['required']"
+            >Name is required.</small
+          >
+          <small [hidden]="!studentForm.get('name')?.errors?.['minlength']"
+            >Minimum 3 characters.</small
+          >
         </div>
+      </div>
 
-        <!-- Email -->
-        <label for="email">Email</label>
-        <input id="email" formControlName="email" class="mb-2 p-2 rounded-2" type="email">
-        <div class="text-danger mb-2"
-            [hidden]="!(studentForm.get('email')?.touched && studentForm.get('email')?.invalid)">
-            <small [hidden]="!studentForm.get('email')?.errors?.['required']">Email is required.</small>
-            <small [hidden]="!studentForm.get('email')?.errors?.['pattern']">Invalid email.</small>
+      <!-- Email -->
+      <div class="form-group">
+        <label for="email">
+          <i class="fas fa-envelope"></i>
+          Email
+        </label>
+        <input
+          id="email"
+          formControlName="email"
+          type="email"
+          placeholder="Enter student email"
+        />
+        <div
+          class="error-message"
+          [hidden]="
+            !(
+              studentForm.get('email')?.touched &&
+              studentForm.get('email')?.invalid
+            )
+          "
+        >
+          <small [hidden]="!studentForm.get('email')?.errors?.['required']"
+            >Email is required.</small
+          >
+          <small [hidden]="!studentForm.get('email')?.errors?.['pattern']"
+            >Invalid email format.</small
+          >
         </div>
+      </div>
 
-        <!-- Password -->
-        <label for="password">Password</label>
-        <input id="password" formControlName="password" class="mb-2 p-2 rounded-2" type="password">
-        <div class="text-danger mb-2"
-            [hidden]="!(studentForm.get('password')?.touched && studentForm.get('password')?.invalid)">
-            <small [hidden]="!studentForm.get('password')?.errors?.['required']">Password is required.</small>
-            <small [hidden]="!studentForm.get('password')?.errors?.['pattern']">Must be more than 7 characters contain
-                letters and numbers & one
-                of !&#64;#$%^&</small>
+      <!-- Password -->
+      <div class="form-group">
+        <label for="password">
+          <i class="fas fa-lock"></i>
+          Password
+        </label>
+        <input
+          id="password"
+          formControlName="password"
+          type="password"
+          placeholder="Enter password"
+        />
+        <div
+          class="error-message"
+          [hidden]="
+            !(
+              studentForm.get('password')?.touched &&
+              studentForm.get('password')?.invalid
+            )
+          "
+        >
+          <small [hidden]="!studentForm.get('password')?.errors?.['required']"
+            >Password is required.</small
+          >
+          <small [hidden]="!studentForm.get('password')?.errors?.['pattern']"
+            >Must be more than 7 characters contain letters and numbers & one of
+            !#$%^&</small
+          >
         </div>
+      </div>
 
-        <!-- Level -->
-        <label for="level">Level</label>
-        <select id="level" formControlName="level" class="mb-3 mt-2 p-2 rounded-2 form-select">
-            <option value="" disabled hidden>Choose the level</option>
-            <option value="beginner">Beginner</option>
-            <option value="intermediate">Intermediate</option>
-            <option value="advanced">Advanced</option>
+      <!-- Level -->
+      <div class="form-group">
+        <label for="level">
+          <i class="fas fa-graduation-cap"></i>
+          Level
+        </label>
+        <select id="level" formControlName="level" class="form-select">
+          <option value="" disabled hidden>Choose the level</option>
+          <option value="beginner">Beginner</option>
+          <option value="intermediate">Intermediate</option>
+          <option value="advanced">Advanced</option>
         </select>
-        <div class="text-danger mb-2"
-            [hidden]="!(studentForm.get('level')?.touched && studentForm.get('level')?.invalid)">
-            <small>Level is required.</small>
+        <div
+          class="error-message"
+          [hidden]="
+            !(
+              studentForm.get('level')?.touched &&
+              studentForm.get('level')?.invalid
+            )
+          "
+        >
+          <small>Level is required.</small>
         </div>
+      </div>
 
-        <!-- Buttons -->
-        <div class="buttons d-flex justify-content-end mt-4">
-            <button type="button" class="py-2 border-0 rounded-2 me-3 fw-medium" [routerLink]="['/students']">Cancel</button>
-            <button type="submit" [disabled]="studentForm.invalid"
-                class="add py-2 border-0 rounded-2 text-light fw-medium">
-                @if (idFromRoute!=='0') {
-                Update
-                }
-                @else {
-                Add
-                }
-            </button>
-        </div>
-
+      <!-- Buttons -->
+      <div class="form-actions">
+        <button
+          type="button"
+          class="btn btn-cancel"
+          [routerLink]="['/students']"
+        >
+          <i class="fas fa-times"></i>
+          Cancel
+        </button>
+        <button
+          type="submit"
+          [disabled]="studentForm.invalid"
+          class="btn btn-submit"
+        >
+          <i
+            class="fas"
+            [class.fa-plus]="idFromRoute === '0'"
+            [class.fa-save]="idFromRoute !== '0'"
+          ></i>
+          {{ idFromRoute === "0" ? "Add" : "Update" }}
+        </button>
+      </div>
     </form>
-</div>
+  </div>
 </section>
 }

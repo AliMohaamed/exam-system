@@ -9,6 +9,7 @@ export class SearchService {
 
   baseUrl: string = "https://exam-app-expressjs.vercel.app/api/v1/admin/exams/attempts"
   base2: string = "https://exam-app-expressjs.vercel.app/api/v1/student"
+  examUrl: string = "https://exam-app-expressjs.vercel.app/api/v1/exam"
   constructor(private http: HttpClient) { }
 
   private searchTermSubject = new BehaviorSubject<string>('');
@@ -33,6 +34,11 @@ export class SearchService {
 
   searchStudents(query: string): Observable<any> {
     const url = `${this.base2}?q=${encodeURIComponent(query)}`;
+    return this.http.get(url, { headers: this.getHeaders() });
+  }
+
+  searchExamsBySubject(subject: string): Observable<any> {
+    const url = `${this.examUrl}?subject=${encodeURIComponent(subject)}`;
     return this.http.get(url, { headers: this.getHeaders() });
   }
 }
