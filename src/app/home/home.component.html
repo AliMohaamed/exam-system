@@ -1,0 +1,321 @@
+<!-- Navbar -->
+<nav class="navbar">
+  <div class="navbar-container">
+    <div class="navbar-brand">
+      <a routerLink="/">
+        <img src="Logo.svg" alt="Testera Logo" class="navbar-logo"
+      /></a>
+    </div>
+
+    <div class="navbar-links">
+      <a *ngFor="let link of navLinks" [href]="link.path" class="nav-link">{{
+        link.name
+      }}</a>
+    </div>
+
+    <div class="navbar-buttons">
+      @if (user) {
+      <div class="user-info">
+
+        <span class="user-name">Welcome, {{ user.name }}</span>
+        @if(user.role === 'admin') {
+        <a routerLink="/admin-dashboard" class="btn-login">Admin Dashboard</a>
+        }@else if(user.role === 'student') {
+        <a routerLink="/student-details" class="btn-login">Student Dashboard</a>
+        }
+      </div>
+      }@else {
+
+      <a routerLink="/auth/login" class="btn-login">Login</a>
+      <a routerLink="/auth/register" class="btn-register">Get Started</a>
+      }
+    </div>
+  </div>
+</nav>
+
+<!-- Hero Section -->
+<section class="hero-section">
+  <div class="hero-content">
+    <div class="hero-text">
+      <h1 class="hero-title">
+        <span class="gradient-text">Transform</span> Your Learning Experience
+      </h1>
+      <p class="hero-subtitle">
+        Experience the future of online examinations with our cutting-edge
+        platform. Secure, efficient, and designed for success.
+      </p>
+      <div class="hero-buttons">
+        <a routerLink="/auth/register" class="btn-primary">
+          Start Free Trial
+          <i class="bi bi-arrow-right"></i>
+        </a>
+        <a href="#features" class="btn-secondary">
+          Learn More
+          <i class="bi bi-chevron-down"></i>
+        </a>
+      </div>
+    </div>
+
+    <div class="hero-image">
+      <div class="hero-shapes">
+        <div class="shape shape-1"></div>
+        <div class="shape shape-2"></div>
+        <div class="shape shape-3"></div>
+      </div>
+      <img
+        src="https://img.freepik.com/free-vector/online-test-concept-illustration_114360-5596.jpg"
+        alt="Online Exam Illustration"
+        class="hero-illustration"
+      />
+      <div class="hero-stats">
+        <div class="stat-item">
+          <span class="stat-number">98%</span>
+          <span class="stat-label">Success Rate</span>
+        </div>
+        <div class="stat-item">
+          <span class="stat-number">10K+</span>
+          <span class="stat-label">Active Users</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="hero-wave">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 320">
+      <path
+        fill="#ffffff"
+        fill-opacity="1"
+        d="M0,96L48,112C96,128,192,160,288,160C384,160,480,128,576,122.7C672,117,768,139,864,149.3C960,160,1056,160,1152,138.7C1248,117,1344,75,1392,53.3L1440,32L1440,320L1392,320C1344,320,1248,320,1152,320C1056,320,960,320,864,320C768,320,672,320,576,320C480,320,384,320,288,320C192,320,96,320,48,320L0,320Z"
+      ></path>
+    </svg>
+  </div>
+</section>
+
+<!-- Stats Section -->
+<section class="stats-section">
+  <div class="stats-container">
+    <div class="stat-card" *ngFor="let stat of stats">
+      <i [class]="stat.icon"></i>
+      <h3 class="stat-number">{{ stat.number }}</h3>
+      <p class="stat-label">{{ stat.label }}</p>
+    </div>
+  </div>
+</section>
+
+<!-- Features Section -->
+<section id="features" class="features-section">
+  <h2 class="section-title">Key Features</h2>
+  <div class="features-grid">
+    <div class="feature-card" *ngFor="let feature of features">
+      <div class="feature-icon">
+        <i [class]="feature.icon"></i>
+      </div>
+      <h3 class="feature-title">{{ feature.title }}</h3>
+      <p class="feature-description">{{ feature.description }}</p>
+    </div>
+  </div>
+</section>
+
+<!-- Testimonials Section -->
+<section class="testimonials-section">
+  <h2 class="section-title">What Our Users Say</h2>
+  <div class="testimonials-grid">
+    <div class="testimonial-card" *ngFor="let testimonial of testimonials">
+      <div class="testimonial-content">
+        <img
+          [src]="testimonial.image"
+          [alt]="testimonial.name"
+          class="testimonial-image"
+        />
+        <p class="testimonial-text">{{ testimonial.text }}</p>
+        <div class="testimonial-author">
+          <h4>{{ testimonial.name }}</h4>
+          <p>{{ testimonial.role }}</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Core Values Section -->
+<section id="values" class="values-section">
+  <h2 class="section-title">Our Core Values</h2>
+  <div class="values-grid">
+    <div class="value-card" *ngFor="let value of coreValues">
+      <div class="value-icon">
+        <i [class]="value.icon"></i>
+      </div>
+      <h3 class="value-title">{{ value.title }}</h3>
+      <p class="value-description">{{ value.description }}</p>
+    </div>
+  </div>
+</section>
+
+<!-- Team Section -->
+<section id="team" class="team-section">
+  <h2 class="section-title">Meet Our Team</h2>
+  <p class="section-subtitle">The passionate people behind Testera's success</p>
+  <div class="team-grid">
+    <div class="team-card" *ngFor="let member of teamMembers">
+      <div class="team-image">
+        <img [src]="member.image" [alt]="member.name" />
+        <div class="team-social">
+          <a [href]="member.social.linkedin" class="social-link"
+            ><i class="bi bi-linkedin"></i
+          ></a>
+          <a [href]="member.social.twitter" class="social-link"
+            ><i class="bi bi-twitter"></i
+          ></a>
+          <a [href]="member.social.email" class="social-link"
+            ><i class="bi bi-envelope"></i
+          ></a>
+        </div>
+      </div>
+      <div class="team-info">
+        <h3 class="team-name">{{ member.name }}</h3>
+        <p class="team-role">{{ member.role }}</p>
+        <p class="team-bio">{{ member.bio }}</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Contact Section -->
+<section id="contact" class="contact-section">
+  <div class="contact-container">
+    <div class="contact-info">
+      <h2 class="section-title">Get in Touch</h2>
+      <p class="contact-description">
+        Have questions? We'd love to hear from you. Send us a message and we'll
+        respond as soon as possible.
+      </p>
+
+      <div class="contact-details">
+        <div class="contact-item">
+          <i class="bi bi-geo-alt"></i>
+          <div>
+            <h3>Address</h3>
+            <p>{{ contactInfo.address }}</p>
+          </div>
+        </div>
+
+        <div class="contact-item">
+          <i class="bi bi-telephone"></i>
+          <div>
+            <h3>Phone</h3>
+            <p>{{ contactInfo.phone }}</p>
+          </div>
+        </div>
+
+        <div class="contact-item">
+          <i class="bi bi-envelope"></i>
+          <div>
+            <h3>Email</h3>
+            <p>{{ contactInfo.email }}</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="contact-social">
+        <a [href]="contactInfo.social.facebook" class="social-link"
+          ><i class="bi bi-facebook"></i
+        ></a>
+        <a [href]="contactInfo.social.twitter" class="social-link"
+          ><i class="bi bi-twitter"></i
+        ></a>
+        <a [href]="contactInfo.social.linkedin" class="social-link"
+          ><i class="bi bi-linkedin"></i
+        ></a>
+        <a [href]="contactInfo.social.instagram" class="social-link"
+          ><i class="bi bi-instagram"></i
+        ></a>
+      </div>
+    </div>
+
+    <div class="contact-form">
+      <form class="form">
+        <div class="form-group">
+          <label for="name">Name</label>
+          <input type="text" id="name" placeholder="Your name" />
+        </div>
+
+        <div class="form-group">
+          <label for="email">Email</label>
+          <input type="email" id="email" placeholder="Your email" />
+        </div>
+
+        <div class="form-group">
+          <label for="subject">Subject</label>
+          <input type="text" id="subject" placeholder="Subject" />
+        </div>
+
+        <div class="form-group">
+          <label for="message">Message</label>
+          <textarea id="message" rows="5" placeholder="Your message"></textarea>
+        </div>
+
+        <button type="submit" class="btn-primary btn">Send Message</button>
+      </form>
+    </div>
+  </div>
+</section>
+
+<!-- CTA Section -->
+<section class="cta-section">
+  <div class="cta-content">
+    <h2>Ready to Start Your Journey?</h2>
+    <p>
+      Join thousands of students who trust our platform for their examinations
+    </p>
+    <a routerLink="/auth/register" class="btn-primary">Sign Up Now</a>
+  </div>
+</section>
+
+<!-- Footer -->
+<footer class="footer">
+  <div class="footer-content">
+    <div class="footer-brand">
+      <h3>Testera</h3>
+      <p>Empowering education through technology</p>
+      <div class="social-links">
+        <a href="#" class="social-link"><i class="bi bi-facebook"></i></a>
+        <a href="#" class="social-link"><i class="bi bi-twitter"></i></a>
+        <a href="#" class="social-link"><i class="bi bi-linkedin"></i></a>
+        <a href="#" class="social-link"><i class="bi bi-instagram"></i></a>
+      </div>
+    </div>
+
+    <div class="footer-links">
+      <div class="footer-column">
+        <h4>Company</h4>
+        <ul>
+          <li *ngFor="let link of footerLinks.company">
+            <a [href]="link.link">{{ link.name }}</a>
+          </li>
+        </ul>
+      </div>
+
+      <div class="footer-column">
+        <h4>Resources</h4>
+        <ul>
+          <li *ngFor="let link of footerLinks.resources">
+            <a [href]="link.link">{{ link.name }}</a>
+          </li>
+        </ul>
+      </div>
+
+      <div class="footer-column">
+        <h4>Legal</h4>
+        <ul>
+          <li *ngFor="let link of footerLinks.legal">
+            <a [href]="link.link">{{ link.name }}</a>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <div class="footer-bottom">
+    <p>&copy; 2024 Testera. All rights reserved.</p>
+  </div>
+</footer>

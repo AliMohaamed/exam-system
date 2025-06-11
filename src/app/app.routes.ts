@@ -22,8 +22,10 @@ import { StudentExamsComponent } from './student/dashboard/student-exams/student
 import { AuthGuard } from './core/guards/auth.guard';
 import { RoleGuard } from './core/guards/role.guard';
 import { PageNotFoundComponent } from './shared/page-not-found/page-not-found.component';
+import { HomeComponent } from './home/home.component';
 
 export const routes: Routes = [
+  { path: '', component: HomeComponent },
   {
     path: '',
     component: MainLayoutComponent,
