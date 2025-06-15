@@ -5,8 +5,8 @@
 } @else if (noStudentsFound && !isLoading) {
 <app-not-found></app-not-found>
 } @else{
-<section class="container cont2 mx-auto">
-  <div class="container mt-4">
+<section class="cont2 mx-auto">
+  <div class="mt-4">
     <div class="header">
       <h1 class="title">All Students</h1>
       <button class="add-btn" [routerLink]="['/students/edit/0']">
@@ -14,81 +14,81 @@
       </button>
     </div>
 
-    <div class="table-container">
-      <table>
-        <thead>
-          <tr>
-            <th>Name</th>
-            <th>Levels</th>
-            <th>Exams</th>
-            <th>Degrees</th>
-            <th>Actions</th>
-          </tr>
-        </thead>
-        <tbody>
-          @for (student of students; track $index) {
-          <tr>
-            <td class="name-cell">{{ student.name }}</td>
-            <td>
-              <span
-                class="level-badge"
-                [ngClass]="getLevelClass(student.level)"
-                >{{ student.level }}</span
-              >
-            </td>
-            <td class="exams-cell">
-              @if(student.attempts.length>0){ @for (attempt of
-              student.attempts;let last = $last; track $index) {
-              {{ attempt.exam?.subject }}
-              @if (!last) {,} } } @else{
-              <span class="ps-5" style="color: #f0a4a9">Not tested</span>
-              }
-            </td>
-            <td class="degrees-cell">
-              @if(student.attempts.length>0){ @for (attempt of
-              student.attempts;let last = $last; track $index) {
-              {{ attempt.percentage / 100 | percent : "1.2-2" }}
-              <span> @if (!last) {,} </span>
-              } } @else{
-              <span class="ms-4" style="color: #f0a4a9">Nothing</span>
-              }
-            </td>
-            <td class="actions-cell">
-              <div class="action-buttons">
-                <button
-                  [routerLink]="['/students', student._id]"
-                  class="btn btn-icon btn-blue"
-                  title="view"
-                >
-                  <i class="bi bi-eye"></i>
-                </button>
-                <button
-                  [routerLink]="['/students/edit', student._id]"
-                  class="btn btn-icon btn-purple"
-                  title="Edit"
-                >
-                  <i class="bi bi-pencil"></i>
-                </button>
-                <button
-                  (click)="deleteStudent(student._id)"
-                  class="btn btn-icon btn-red"
-                  title="Delete"
-                >
-                  <i class="bi bi-trash"></i>
-                </button>
+    <div class="row g-3">
+      @for (student of students; track $index) {
+      <div class="col-12">
+        <div class="card">
+          <div class="card-body">
+            <div class="row align-items-center">
+              <!-- Name Column -->
+              <div class="col-12 col-md-3 mb-3 mb-md-0">
+                <h5 class="card-tit mb-0">{{ student.name }}</h5>
               </div>
-            </td>
-          </tr>
-          }
-        </tbody>
-      </table>
+
+              <!-- Level Column -->
+              <div class="col-12 col-md-2 mb-3 mb-md-0">
+                <span class="level-badge" [ngClass]="getLevelClass(student.level)">
+                  {{ student.level }}
+                </span>
+              </div>
+
+              <!-- Exams Column -->
+              <div class="col-12 col-md-3 mb-3 mb-md-0">
+                @if(student.attempts.length>0){ 
+                  @for (attempt of student.attempts;let last = $last; track $index) {
+                    <span class="car-sub">{{ attempt.exam?.subject }}</span>
+                    @if (!last) {,} 
+                  } 
+                } @else{
+                  <span class="text-muted">Not tested</span>
+                }
+              </div>
+
+              <!-- Degrees Column -->
+              <div class="col-12 col-md-2 mb-3 mb-md-0">
+                @if(student.attempts.length>0){ 
+                  @for (attempt of student.attempts;let last = $last; track $index) {
+                    <span class="card-att">{{ attempt.percentage / 100 | percent : "1.2-2" }}</span>
+                    @if (!last) {,} 
+                  } 
+                } @else{
+                  <span class="text-muted">Nothing</span>
+                }
+              </div>
+
+              <!-- Actions Column -->
+              <div class="col-12 col-md-2" style="display: flex; align-items: center; justify-content: center;">
+                <div class="d-flex gap-2 justify-content-md-end">
+                  <button
+                    [routerLink]="['/students', student._id]"
+                    class="btn btn-sm btn-outline-primary"
+                    title="view"
+                  >
+                    <i class="bi bi-eye"></i>
+                  </button>
+                  <button
+                    [routerLink]="['/students/edit', student._id]"
+                    class="btn btn-sm btn-outline-success"
+                    title="Edit"
+                  >
+                    <i class="bi bi-pencil"></i>
+                  </button>
+                  <button
+                    (click)="deleteStudent(student._id)"
+                    class="btn btn-sm btn-outline-danger"
+                    title="Delete"
+                  >
+                    <i class="bi bi-trash"></i>
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      }
     </div>
   </div>
-
-  <!-- <button class="m-4 add-student">
-        <i class="bi bi-plus fs-5 text-light"></i>
-        <span class="ms-2" [routerLink]="['/students/edit/0']">Add new student</span>
-    </button> -->
 
   <!-- pagination-->
   <nav class="d-flex justify-content-center my-4">

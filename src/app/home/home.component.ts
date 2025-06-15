@@ -96,21 +96,21 @@ export class HomeComponent {
       }
     },
     {
-      name: 'Emily Rodriguez',
-      role: 'Student Success Manager',
-      image: 'https://randomuser.me/api/portraits/women/3.jpg',
-      bio: 'Dedicated to ensuring student success and satisfaction',
+      name: 'Abdelrahim Fathy',
+      role: 'Software Engineer',
+      image: './assets/abdo.jpg',
+      bio: 'Pioneering the future of education through innovative technology',
       social: {
         linkedin: '#',
         twitter: '#',
-        email: 'mailto:emily@testera.com'
+        email: 'abofathe1230@gmail.com'
       }
     },
     {
-      name: 'David Kim',
+      name: 'Maryam Mohamed',
       role: 'Security Specialist',
-      image: 'https://randomuser.me/api/portraits/men/4.jpg',
-      bio: 'Expert in maintaining platform security and integrity',
+      image: './assets/123.jpg',
+      bio: 'Empowering education with breakthrough technological solutions',
       social: {
         linkedin: '#',
         twitter: '#',

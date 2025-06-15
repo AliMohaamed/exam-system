@@ -6,131 +6,111 @@
 }
 @else{
 <section class="container con my-5">
-    <div class="d-flex justify-content-between flex-wrap gap-2">
-        <div style="width: 24%;">
-            <app-small-card icon="layout-text-window-reverse" label="Total Attempts" [value]="attempts+'/'+data"
-                [customStyle]="{ backgroundColor: '#f9fafb',padding:'10px 25px',fontSize:'14px'}"
-                customClass="fw-medium mt-3" customClass2="fw-medium"
-                [customStyle2]="{fontSize:'19px',marginTop:'15px'}">
-            </app-small-card>
+    <!-- Stats Cards -->
+    <div class="stats-container">
+        <div class="stat-card">
+            <div class="stat-icon">
+                <i class="bi bi-layout-text-window-reverse"></i>
+            </div>
+            <div class="stat-content">
+                <h3 class="stat-value">{{attempts}}/{{data}}</h3>
+                <p class="stat-label">Total Attempts</p>
+            </div>
         </div>
-        <div style="width: 24%;">
-            <app-small-card icon="star-fill" label="Average Scores" [value]="avgScore/100 |percent:'1.0-2'"
-                [customStyle]="{ backgroundColor: '#f9fafb',padding:'10px 25px',fontSize:'14px'}"
-                customClass="fw-medium mt-3" customClass2="fw-medium"
-                [customStyle2]="{fontSize:'19px',marginTop:'15px'}">
-            </app-small-card>
+        <div class="stat-card">
+            <div class="stat-icon">
+                <i class="bi bi-star-fill"></i>
+            </div>
+            <div class="stat-content">
+                <h3 class="stat-value">{{avgScore/100 |percent:'1.0-2'}}</h3>
+                <p class="stat-label">Average Scores</p>
+            </div>
         </div>
-        <div style="width: 24%;">
-            <app-small-card icon="people-fill" label="Student Numbers" [value]="totalStudents"
-                [customStyle]="{ backgroundColor: '#f9fafb',padding:'10px 25px',fontSize:'14px'}"
-                customClass="fw-medium mt-3" customClass2="fw-medium"
-                [customStyle2]="{fontSize:'19px',marginTop:'15px'}">
-            </app-small-card>
+        <div class="stat-card">
+            <div class="stat-icon">
+                <i class="bi bi-people-fill"></i>
+            </div>
+            <div class="stat-content">
+                <h3 class="stat-value">{{totalStudents}}</h3>
+                <p class="stat-label">Student Numbers</p>
+            </div>
         </div>
-        <div style="width: 24%;">
-            <app-small-card icon="journal-text" label="Exams Numbers" [value]="totalExams"
-                [customStyle]="{ backgroundColor: '#f9fafb',padding:'10px 25px',fontSize:'14px'}"
-                customClass="fw-medium mt-3" customClass2="fw-medium"
-                [customStyle2]="{fontSize:'19px',marginTop:'15px'}">
-            </app-small-card>
+        <div class="stat-card">
+            <div class="stat-icon">
+                <i class="bi bi-journal-text"></i>
+            </div>
+            <div class="stat-content">
+                <h3 class="stat-value">{{totalExams}}</h3>
+                <p class="stat-label">Exams Numbers</p>
+            </div>
         </div>
     </div>
 
-    <div class="container  mt-4">
-        <div class="d-flex justify-content-between align-items-center my-3">
-            <div class="header">
+    <!-- Main Content -->
+    <div class="content-container">
+        <div class="content-header">
+            <div class="header-left">
                 <h1 class="title">All Attempts</h1>
             </div>
-            <button class="add-btn" (click)="downloadExcel()">
-                <i class="bi bi-download"></i> Download
+            <button class="download-btn" (click)="downloadExcel()">
+                <i class="bi bi-download"></i>
+                <span>Download Report</span>
             </button>
         </div>
-        <!-- <div class="exam-grid mx-auto">
-            <div class="exam-card text-light card-title">
-                <div class="card-content d-flex px-4 fs-5 fw-medium" style="color: #f5f8fadb;width: 95%;">
-                    <div class="col-2">Name</div>
-                    <div class="col-3 ps-2">Subject</div>
-                    <div class="col-3 ps-4">Date&Time</div>
-                    <div class="col-2">Percentage</div>
-                    <div class="col-2">Status</div>
-                </div>
-            </div>
 
+        <!-- Attempts List -->
+        <div class="attempts-list">
             @for (attempt of Results; track $index) {
-            <div class="exam-card text-light">
-                <div class="card-content d-flex px-4 card-des" style="width: 95%;">
-                    <div class="col-2 name">{{attempt.student.name}}</div>
-                    <div class="col-3 examsOfStudent">{{attempt.exam.subject}}</div>
-                    <div class="col-3 date examsOfStudent">{{ attempt.startTime | date:'medium' }}</div>
-                    <div class="col-2 ps-4">{{attempt.percentage/100 | percent:'1.0-1' }}</div>
-                    <div class="col-2 pe-4">
-                        <span class="success" *ngIf="attempt.isPassed">Success</span>
-                        <span class="fail" *ngIf="!attempt.isPassed">Fail</span>
+            <div class="attempt-card">
+                <div class="attempt-header">
+                    <div class="student-info">
+                        <div class="student-avatar">
+                            <i class="bi bi-person-circle"></i>
+                        </div>
+                        <div class="student-details">
+                            <h3 class="student-name">{{attempt.student.name}}</h3>
+                            <span class="subject-badge">{{attempt.exam.subject}}</span>
+                        </div>
+                    </div>
+                    <div class="attempt-status" [ngClass]="{'passed': attempt.isPassed, 'failed': !attempt.isPassed}">
+                        <i class="bi" [ngClass]="{'bi-check-circle-fill': attempt.isPassed, 'bi-x-circle-fill': !attempt.isPassed}"></i>
+                        <span>{{attempt.isPassed ? 'Success' : 'Failed'}}</span>
+                    </div>
+                </div>
+                <div class="attempt-details">
+                    <div class="detail-item">
+                        <i class="bi bi-calendar3"></i>
+                        <span>{{ attempt.startTime | date:'medium' }}</span>
+                    </div>
+                    <div class="detail-item">
+                        <i class="bi bi-percent"></i>
+                        <span>{{attempt.percentage/100 | percent:'1.0-1' }}</span>
                     </div>
                 </div>
             </div>
             }
-        </div> -->
-
-        <div class="table-container">
-            <table>
-                <thead>
-                    <tr>
-                        <th>Name</th>
-                        <th>Subject</th>
-                        <th>Date&Time</th>
-                        <th>Percentage</th>
-                        <th>Status</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    
-                    @for (attempt of Results; track $index) {
-                        <tr>
-                        <td class="name-cell">{{attempt.student.name}}</td>
-                        <td><span class="level-badge">{{attempt.exam.subject}}</span></td>
-                        <td class="exams-cell">{{ attempt.startTime | date:'medium' }}</td>
-                        <td class="degrees-cell">{{attempt.percentage/100 | percent:'1.0-1' }}</td>
-                        <td class="actions-cell">
-                            <div class="action-buttons">
-                                <span class="success" *ngIf="attempt.isPassed">Success</span>
-                                <span class="fail" *ngIf="!attempt.isPassed">Fail</span>
-                            </div>
-                        </td>
-                    </tr>
-                    }
-                </tbody>
-            </table>
         </div>
-    </div>
 
-    <!-- pagination-->
-    <nav class="d-flex justify-content-center my-4">
-        <ul class="pagination gap-2">
-            <!-- Previous -->
-            <li class="page-item" [class.disabled]="currentPage === 1">
-                <button class="page-link px-4 py-2" (click)="changePage(currentPage - 1)">
-                    ← Prev
-                </button>
-            </li>
-
-            <!-- Page Numbers -->
-            @for (page of pagesArray; track $index){
-            <li class="page-item" [class.active]="currentPage === page">
-                <button class="page-link px-3 py-2" (click)="changePage(page)" [ngClass]="{'bg-primary text-white border-0 rounded-3': currentPage === page,'border rounded-3': currentPage !== page
-        }">
+        <!-- Pagination -->
+        <div class="pagination-container">
+            <button class="pagination-btn" [disabled]="currentPage === 1" (click)="changePage(currentPage - 1)">
+                <i class="bi bi-chevron-left"></i>
+                Previous
+            </button>
+            <div class="page-numbers">
+                @for (page of pagesArray; track $index){
+                <button class="page-number" 
+                        [class.active]="currentPage === page"
+                        (click)="changePage(page)">
                     {{ page }}
                 </button>
-            </li>
-            }
-            <!-- Next -->
-            <li class="page-item" [class.disabled]="currentPage === totalPages">
-                <button class="page-link px-4 py-2" (click)="changePage(currentPage + 1)">
-                    Next →
-                </button>
-            </li>
-        </ul>
-    </nav>
+                }
+            </div>
+            <button class="pagination-btn" [disabled]="currentPage === totalPages" (click)="changePage(currentPage + 1)">
+                Next
+                <i class="bi bi-chevron-right"></i>
+            </button>
+        </div>
+    </div>
 </section>
 }

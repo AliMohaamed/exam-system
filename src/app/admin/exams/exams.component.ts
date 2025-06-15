@@ -219,14 +219,8 @@ export class ExamsComponent {
       this.isLoading = true;
       this.questionService.deleteQuestion(this.selectedExam._id, this.itemToDelete).subscribe({
         next: () => {
-          // Remove the question from the array
-          this.selectedExam.questions = this.selectedExam.questions.filter(
-            (q: any) => q._id !== this.itemToDelete
-          );
-
-          // Force change detection
-          this.selectedExam = { ...this.selectedExam };
-
+          // Refresh the questions list
+          this.refreshQuestions();
           this.showToastMessage('Question deleted successfully', 'success');
           this.isLoading = false;
         },
@@ -369,29 +363,8 @@ export class ExamsComponent {
     this.isLoading = true;
     this.questionService.addQuestion(this.selectedExam._id, questionData).subscribe({
       next: (response) => {
-        // Ensure we have the correct question data with ID
-        const newQuestion = {
-          _id: response.data?.question?._id || response._id,
-          questionText: this.newQuestion.text,
-          text: this.newQuestion.text,
-          questionType: this.newQuestion.type,
-          type: this.newQuestion.type,
-          points: this.newQuestion.points,
-          difficulty: this.newQuestion.difficulty,
-          options: questionData.options || [],
-          correctAnswer: questionData.correctAnswer,
-          correctText: questionData.correctText
-        };
-
-        // Update the questions array with the new question
-        if (!this.selectedExam.questions) {
-          this.selectedExam.questions = [];
-        }
-        this.selectedExam.questions = [newQuestion, ...this.selectedExam.questions];
-
-        // Force change detection
-        this.selectedExam = { ...this.selectedExam };
-
+        // Refresh the questions list
+        this.refreshQuestions();
         this.showToastMessage('Question added successfully', 'success');
         this.resetQuestionForm();
         this.showAddQuestionForm = false;
@@ -401,6 +374,27 @@ export class ExamsComponent {
         console.error('Error adding question:', err);
         this.isLoading = false;
         this.showToastMessage('Error adding question', 'error');
+      }
+    });
+  }
+
+  // Add new method to refresh questions
+  private refreshQuestions() {
+    if (!this.selectedExam?._id) return;
+
+    this.isLoading = true;
+    this.questionService.getExamQuestions(this.selectedExam._id, 1).subscribe({
+      next: (res) => {
+        this.selectedExam.questions = res.data.questions;
+        this.allQuestions = res.data.questions;
+        this.totalPages = Math.ceil(res.data.total / this.questionsPerPage);
+        this.currentPage = 1;
+        this.isLoading = false;
+      },
+      error: (err) => {
+        console.error('Error refreshing questions:', err);
+        this.isLoading = false;
+        this.showToastMessage('Error refreshing questions', 'error');
       }
     });
   }
@@ -520,27 +514,8 @@ export class ExamsComponent {
     this.isLoading = true;
     this.questionService.updateQuestion(this.selectedExam._id, this.questionToEdit._id, questionData).subscribe({
       next: (res) => {
-        const updatedQuestion = {
-          _id: this.questionToEdit._id,
-          questionText: questionData.questionText,
-          text: questionData.questionText,
-          questionType: questionData.questionType,
-          type: questionData.questionType,
-          points: questionData.points,
-          difficulty: questionData.difficulty,
-          options: questionData.options || [],
-          correctAnswer: questionData.correctAnswer,
-          correctText: questionData.correctText
-        };
-
-        // Update the question in the array
-        const updatedQuestions = [...this.selectedExam.questions];
-        updatedQuestions[this.editQuestionIndex] = updatedQuestion;
-        this.selectedExam.questions = updatedQuestions;
-
-        // Force change detection
-        this.selectedExam = { ...this.selectedExam };
-
+        // Refresh the questions list
+        this.refreshQuestions();
         this.showToastMessage('Question updated successfully', 'success');
         this.cancelEditQuestion();
         this.isLoading = false;
